@@ -13,6 +13,7 @@ The system focuses on automating job discovery by combining CV analysis, job sea
 * Analyse a candidate’s CV to determine suitable job roles
 * Search for relevant job listings across multiple platforms
 * Filter results to include only employers licensed to sponsor visas
+* Enable filtering by location and salary above a certain threshold (£60k by default)
 * Present results in a clear, structured format
 
 ---
@@ -38,6 +39,7 @@ The application will search for jobs across the following platforms:
 * LinkedIn
 * Indeed
 * Reed
+* NHS - https://www.nhsjobs.com/
 
 ---
 
