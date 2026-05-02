@@ -1,9 +1,12 @@
 import csv
 import io
+import logging
 import os
 
 import requests
 from rapidfuzz import process, fuzz
+
+logger = logging.getLogger(__name__)
 
 _DEFAULT_URL = os.environ.get(
     "SPONSOR_CSV_URL",
@@ -30,7 +33,13 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
             csv_text = f.read()
 
     reader = csv.DictReader(io.StringIO(csv_text))
-    return [row["Organisation Name"] for row in reader if row.get("Route") == "Worker"]
+    names = [row["Organisation Name"] for row in reader if row.get("Route") == "Worker"]
+    if not names:
+        logger.warning(
+            "Sponsor CSV parsed but returned 0 Worker-route entries — "
+            "check the CSV URL or column headers"
+        )
+    return names
 
 
 def filter_jobs(jobs: list[dict], sponsor_names: list[str], threshold: int = 85) -> list[dict]:

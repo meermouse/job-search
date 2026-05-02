@@ -68,3 +68,9 @@ def test_analyse_cv_raises_on_api_error(mocker):
 
     with pytest.raises(Exception, match="API unavailable"):
         analyse_cv("Some CV text")
+
+
+def test_analyse_cv_raises_when_api_key_missing(mocker):
+    mocker.patch.dict("os.environ", {}, clear=True)
+    with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY is not set"):
+        analyse_cv("Some CV text")

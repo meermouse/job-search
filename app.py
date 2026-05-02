@@ -4,6 +4,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import re as _re
+
+
+def _min_salary_value(salary_str: str) -> int:
+    """Extract the first number from a salary string, or 0 if none found."""
+    nums = _re.findall(r"[\d,]+", salary_str)
+    if not nums:
+        return 0
+    return int(nums[0].replace(",", ""))
+
+
 import cv_parser
 import sponsor_filter
 from searchers import search_all_streaming
@@ -135,6 +146,11 @@ if "filtered_jobs" in st.session_state:
             displayed = [
                 j for j in displayed
                 if loc_filter.lower() in j.get("location", "").lower()
+            ]
+        if salary_filter:
+            displayed = [
+                j for j in displayed
+                if _min_salary_value(j.get("salary", "")) >= salary_filter
             ]
 
         df = pd.DataFrame(
