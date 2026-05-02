@@ -1,7 +1,9 @@
 import csv
 import io
 import os
+
 import requests
+from rapidfuzz import process, fuzz
 
 _DEFAULT_URL = os.environ.get(
     "SPONSOR_CSV_URL",
@@ -29,9 +31,6 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
 
     reader = csv.DictReader(io.StringIO(csv_text))
     return [row["Organisation Name"] for row in reader if row.get("Route") == "Worker"]
-
-
-from rapidfuzz import process, fuzz
 
 
 def filter_jobs(jobs: list[dict], sponsor_names: list[str], threshold: int = 85) -> list[dict]:
