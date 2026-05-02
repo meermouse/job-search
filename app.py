@@ -61,3 +61,48 @@ if "cv_analysis" in st.session_state:
         st.session_state.pop("all_jobs", None)
         st.session_state.pop("filtered_jobs", None)
         st.rerun()
+
+# --- State 2: Searching ---
+if "search_params" in st.session_state and "filtered_jobs" not in st.session_state:
+    params = st.session_state.search_params
+
+    with st.spinner("Loading sponsor register..."):
+        try:
+            sponsor_names = sponsor_filter.load_sponsor_names()
+        except RuntimeError as e:
+            st.error(str(e))
+            st.stop()
+
+    st.subheader("Searching platforms...")
+    cols = st.columns(3)
+    status_placeholders = {
+        "LinkedIn + Indeed": cols[0].empty(),
+        "Reed": cols[1].empty(),
+        "NHS Jobs": cols[2].empty(),
+    }
+    for name, ph in status_placeholders.items():
+        ph.info(f"⏳ {name}")
+
+    all_jobs: list[dict] = []
+
+    for platform, jobs, error in search_all_streaming(
+        params["queries"], params["location"], params["min_salary"]
+    ):
+        ph = status_placeholders[platform]
+        if error:
+            ph.warning(f"⚠️ {platform} — error")
+        else:
+            ph.success(f"✅ {platform} — {len(jobs)} results")
+        all_jobs.extend(jobs)
+
+    # Deduplicate by URL
+    seen_urls: set[str] = set()
+    deduped: list[dict] = []
+    for job in all_jobs:
+        if job["url"] and job["url"] not in seen_urls:
+            seen_urls.add(job["url"])
+            deduped.append(job)
+
+    st.session_state.all_jobs = deduped
+    st.session_state.filtered_jobs = sponsor_filter.filter_jobs(deduped, sponsor_names)
+    st.rerun()
