@@ -106,3 +106,60 @@ if "search_params" in st.session_state and "filtered_jobs" not in st.session_sta
     st.session_state.all_jobs = deduped
     st.session_state.filtered_jobs = sponsor_filter.filter_jobs(deduped, sponsor_names)
     st.rerun()
+
+# --- State 3: Results ---
+if "filtered_jobs" in st.session_state:
+    import pandas as pd
+
+    filtered = st.session_state.filtered_jobs
+    raw_count = len(st.session_state.get("all_jobs", []))
+
+    if not filtered:
+        st.warning(
+            f"{raw_count} job(s) found across all platforms — "
+            "0 from licensed Worker-route sponsors. "
+            "Try broadening your search queries or location."
+        )
+    else:
+        st.success(f"{len(filtered)} role(s) from licensed Worker-route sponsors")
+
+        with st.sidebar:
+            st.header("Filter results")
+            loc_filter = st.text_input("Location contains", value="")
+            salary_filter = st.number_input(
+                "Minimum salary (£)", value=0, step=5000, min_value=0
+            )
+
+        displayed = filtered
+        if loc_filter:
+            displayed = [
+                j for j in displayed
+                if loc_filter.lower() in j.get("location", "").lower()
+            ]
+
+        df = pd.DataFrame(
+            [
+                {
+                    "Title": j["title"],
+                    "Company": j["sponsor_name"],
+                    "Location": j["location"],
+                    "Salary": j["salary"],
+                    "Description": j["description"],
+                    "Source": j["source"],
+                    "Link": j["url"],
+                }
+                for j in displayed
+            ]
+        )
+
+        st.dataframe(
+            df,
+            column_config={"Link": st.column_config.LinkColumn("Link")},
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        if st.button("New search"):
+            for key in ["cv_analysis", "all_jobs", "filtered_jobs", "search_params", "file_id"]:
+                st.session_state.pop(key, None)
+            st.rerun()
