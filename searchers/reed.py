@@ -7,7 +7,10 @@ _BASE_URL = "https://www.reed.co.uk/api/1.0/search"
 
 
 def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
-    api_key = os.environ["REED_API_KEY"]
+    api_key = os.environ.get("REED_API_KEY")
+    if not api_key:
+        logger.warning("Reed search skipped: REED_API_KEY is not set")
+        return []
     jobs = []
     for query in queries:
         try:
@@ -26,7 +29,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
             for r in response.json().get("results", []):
                 min_s = r.get("minimumSalary")
                 max_s = r.get("maximumSalary")
-                salary = f"£{min_s:,.0f}–£{max_s:,.0f}" if min_s and max_s else ""
+                salary = f"£{min_s:,.0f}–£{max_s:,.0f}" if min_s is not None and max_s is not None else ""
                 jobs.append({
                     "title": r.get("jobTitle", ""),
                     "company": r.get("employerName", ""),

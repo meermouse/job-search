@@ -29,6 +29,8 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
                 if not title_el or not link_el:
                     continue
                 href = link_el.get("href", "")
+                if not href:
+                    continue
                 url = href if href.startswith("http") else _NHS_HOST + href
                 if url in seen_urls:
                     continue
