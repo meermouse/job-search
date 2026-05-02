@@ -42,6 +42,7 @@ def test_extract_text_unsupported_format():
 
 
 def test_analyse_cv_returns_structured_data(mocker):
+    mocker.patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"})
     expected = {
         "job_titles": ["Data Engineer", "Backend Developer"],
         "skills": ["Python", "SQL", "AWS"],
@@ -60,6 +61,7 @@ def test_analyse_cv_returns_structured_data(mocker):
 
 
 def test_analyse_cv_raises_on_api_error(mocker):
+    mocker.patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"})
     mock_client = MagicMock()
     mock_client.messages.create.side_effect = Exception("API unavailable")
     mocker.patch("cv_parser.anthropic.Anthropic", return_value=mock_client)

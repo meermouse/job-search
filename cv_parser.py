@@ -32,7 +32,7 @@ CV:
 
 
 def analyse_cv(text: str) -> dict:
-    client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     msg = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=1024,
