@@ -20,10 +20,9 @@ app.py                  ← Streamlit UI entry point
 cv_parser.py            ← CV text extraction + Claude API analysis
 searchers/
   __init__.py
-  adzuna.py             ← Adzuna API client (aggregates multiple boards)
+  jobspy.py             ← JobSpy client (LinkedIn + Indeed)
   reed.py               ← Reed API client
   nhs_jobs.py           ← NHS Jobs scraper (requests + BeautifulSoup)
-  linkedin.py           ← LinkedIn scraper via Playwright (best-effort)
   runner.py             ← ThreadPoolExecutor, concurrent search + deduplication
 sponsor_filter.py       ← Gov.uk CSV download/cache + fuzzy employer matching
 requirements.txt
@@ -76,16 +75,17 @@ requirements.txt
   "salary": str,        # raw string, may be empty
   "description": str,   # brief snippet
   "url": str,
-  "source": str         # "Adzuna" | "Reed" | "NHS Jobs" | "LinkedIn"
+  "source": str         # "LinkedIn" | "Indeed" | "Reed" | "NHS Jobs"
 }
 ```
 
-### `searchers/adzuna.py`
+### `searchers/jobspy.py`
 
-- Uses the [Adzuna API](https://developer.adzuna.com/) (free tier, requires App ID + API key)
-- Searches UK jobs with each query string, location, and salary floor
-- Aggregates results from many boards (Totaljobs, CV-Library, Guardian Jobs, company career pages, etc.)
-- **Does not include LinkedIn listings** — LinkedIn is handled separately
+- Uses the [JobSpy](https://github.com/Bunsly/JobSpy) library to scrape **LinkedIn** and **Indeed** concurrently
+- No API key required — JobSpy handles scraping and anti-bot measures internally
+- Returns results as a pandas DataFrame; normalised to the standard job dict before returning
+- If scraping is blocked on either platform, logs a warning and returns results from whichever platforms succeeded
+- LinkedIn/Indeed ToS technically prohibit scraping; treat as best-effort, same as NHS Jobs
 
 ### `searchers/reed.py`
 
@@ -128,9 +128,9 @@ requirements.txt
 
 ### State 2 — Searching
 
-- Four `st.status` blocks, one per platform, updating as threads complete:
-  - e.g. `Adzuna ✓ — 34 results` / `Reed ✓ — 18 results` / `NHS Jobs ✓ — 5 results` / `LinkedIn (experimental) ⚠ blocked`
-- Results appear in the table incrementally as each platform finishes
+- Three `st.status` blocks, one per searcher, updating as threads complete:
+  - e.g. `LinkedIn + Indeed ✓ — 41 results` / `Reed ✓ — 18 results` / `NHS Jobs ✓ — 5 results`
+- Results appear in the table incrementally as each searcher finishes
 
 ### State 3 — Results
 
@@ -148,9 +148,9 @@ requirements.txt
 | Claude API error | Surface error before searching; do not proceed |
 | Sponsor CSV fetch fails, no cache | Surface error before searching; do not proceed |
 | Sponsor CSV fetch fails, cache exists | Use cached copy, show warning |
-| Adzuna / Reed API error | Show warning in that platform's status block; continue with other results |
+| JobSpy scrape blocked (LinkedIn/Indeed) | Show warning in status block with which platforms failed; continue with other results |
+| Reed API error | Show warning in that platform's status block; continue with other results |
 | NHS Jobs scrape error | Show warning in that platform's status block; continue |
-| LinkedIn blocked / login wall | Show `"LinkedIn (experimental) ⚠ blocked"` in status block; continue |
 | No results after sponsor filtering | Show explanatory message with raw result count |
 
 ---
@@ -161,8 +161,6 @@ All API keys stored in a `.env` file (not committed). Required variables:
 
 ```
 ANTHROPIC_API_KEY=
-ADZUNA_APP_ID=
-ADZUNA_APP_KEY=
 REED_API_KEY=
 SPONSOR_CSV_URL=https://www.gov.uk/csv-preview/69f47183ab602a88957eefa6/2026-05-01_-_Worker_and_Temporary_Worker.csv
 ```
@@ -173,14 +171,14 @@ SPONSOR_CSV_URL=https://www.gov.uk/csv-preview/69f47183ab602a88957eefa6/2026-05-
 
 - Unit tests for `cv_parser.py` (mock Claude API responses)
 - Unit tests for `sponsor_filter.py` (CSV fixture file + known company names, including fuzzy match edge cases)
-- Unit tests for each searcher (mock HTTP responses / mock Playwright)
+- Unit tests for each searcher (mock HTTP responses / mock JobSpy)
 - No live API calls in tests
 
 ---
 
 ## Known Limitations
 
-- LinkedIn coverage is best-effort and may return no results if blocked
+- LinkedIn and Indeed coverage via JobSpy is best-effort — scraping may be blocked; no API key required but ToS apply
 - Employer name fuzzy matching may produce false positives or false negatives at the margin; matched sponsor name is shown so Jie can verify
 - Not all licensed sponsors actively offer sponsorship for every role — the filter is a necessary but not sufficient condition
 - NHS Jobs scraper may break if the site structure changes
