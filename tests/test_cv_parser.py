@@ -1,6 +1,7 @@
+import json
 import pytest
-from unittest.mock import MagicMock, patch
-from cv_parser import extract_text
+from unittest.mock import MagicMock
+from cv_parser import extract_text, analyse_cv
 
 
 def test_extract_text_txt():
@@ -38,3 +39,30 @@ def test_extract_text_docx(mocker):
 def test_extract_text_unsupported_format():
     with pytest.raises(ValueError, match="Unsupported file type"):
         extract_text(b"data", "cv.odt")
+
+
+def test_analyse_cv_returns_structured_data(mocker):
+    expected = {
+        "job_titles": ["Data Engineer", "Backend Developer"],
+        "skills": ["Python", "SQL", "AWS"],
+        "search_queries": ["Data Engineer Bristol", "Backend Developer Python Bristol"],
+    }
+    mock_message = MagicMock()
+    mock_message.content = [MagicMock(text=json.dumps(expected))]
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = mock_message
+    mocker.patch("cv_parser.anthropic.Anthropic", return_value=mock_client)
+
+    result = analyse_cv("John Smith, Software Engineer with 5 years Python experience.")
+    assert result["job_titles"] == ["Data Engineer", "Backend Developer"]
+    assert "Python" in result["skills"]
+    assert len(result["search_queries"]) == 2
+
+
+def test_analyse_cv_raises_on_api_error(mocker):
+    mock_client = MagicMock()
+    mock_client.messages.create.side_effect = Exception("API unavailable")
+    mocker.patch("cv_parser.anthropic.Anthropic", return_value=mock_client)
+
+    with pytest.raises(Exception, match="API unavailable"):
+        analyse_cv("Some CV text")
