@@ -29,3 +29,20 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
 
     reader = csv.DictReader(io.StringIO(csv_text))
     return [row["Organisation Name"] for row in reader if row.get("Route") == "Worker"]
+
+
+from rapidfuzz import process, fuzz
+
+
+def filter_jobs(jobs: list[dict], sponsor_names: list[str], threshold: int = 85) -> list[dict]:
+    """Return jobs whose company fuzzy-matches a Worker-route sponsor, adding sponsor_name field."""
+    result = []
+    for job in jobs:
+        match = process.extractOne(
+            job["company"],
+            sponsor_names,
+            scorer=fuzz.token_sort_ratio,
+        )
+        if match and match[1] >= threshold:
+            result.append({**job, "sponsor_name": match[0]})
+    return result

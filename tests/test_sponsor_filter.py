@@ -42,3 +42,80 @@ def test_load_sponsor_names_raises_when_no_cache(mocker, tmp_path):
 
     with pytest.raises(RuntimeError, match="Failed to download sponsor CSV"):
         load_sponsor_names("https://example.com/sponsors.csv", cache_path=missing_cache)
+
+
+from sponsor_filter import filter_jobs
+
+SPONSOR_NAMES = ["NHS Bristol Trust", "Acme Technologies Ltd", "Big Data Corp"]
+
+SAMPLE_JOBS = [
+    {
+        "title": "Data Engineer",
+        "company": "Acme Technologies",  # close but not exact
+        "location": "London",
+        "salary": "£65,000",
+        "description": "Great role",
+        "url": "https://example.com/1",
+        "source": "LinkedIn",
+    },
+    {
+        "title": "Nurse",
+        "company": "NHS Bristol Trust",  # exact match
+        "location": "Bristol",
+        "salary": "£35,000",
+        "description": "Ward nurse",
+        "url": "https://example.com/2",
+        "source": "NHS Jobs",
+    },
+    {
+        "title": "Barista",
+        "company": "Coffee Shop Ltd",  # no match
+        "location": "Bristol",
+        "salary": "£22,000",
+        "description": "Coffee",
+        "url": "https://example.com/3",
+        "source": "Reed",
+    },
+]
+
+
+def test_filter_jobs_passes_fuzzy_match():
+    result = filter_jobs(SAMPLE_JOBS, SPONSOR_NAMES)
+    urls = [j["url"] for j in result]
+    assert "https://example.com/1" in urls  # Acme Technologies ~= Acme Technologies Ltd
+
+
+def test_filter_jobs_passes_exact_match():
+    result = filter_jobs(SAMPLE_JOBS, SPONSOR_NAMES)
+    urls = [j["url"] for j in result]
+    assert "https://example.com/2" in urls
+
+
+def test_filter_jobs_blocks_non_sponsor():
+    result = filter_jobs(SAMPLE_JOBS, SPONSOR_NAMES)
+    urls = [j["url"] for j in result]
+    assert "https://example.com/3" not in urls  # Coffee Shop Ltd not a sponsor
+
+
+def test_filter_jobs_adds_sponsor_name():
+    result = filter_jobs(SAMPLE_JOBS, SPONSOR_NAMES)
+    acme_job = next(j for j in result if j["url"] == "https://example.com/1")
+    assert acme_job["sponsor_name"] == "Acme Technologies Ltd"
+
+
+def test_filter_jobs_empty_input():
+    assert filter_jobs([], SPONSOR_NAMES) == []
+
+
+def test_filter_jobs_respects_threshold():
+    # "Xyz Corp" won't match anything at 85% threshold
+    jobs = [{
+        "title": "CEO",
+        "company": "Xyz Corp",
+        "location": "London",
+        "salary": "",
+        "description": "",
+        "url": "https://example.com/4",
+        "source": "Reed",
+    }]
+    assert filter_jobs(jobs, SPONSOR_NAMES, threshold=85) == []
