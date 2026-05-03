@@ -109,6 +109,24 @@ def _search_form(key_prefix: str, initial_queries: list[str]) -> None:
         use_reed = st.checkbox("Reed", value=True, key=f"{key_prefix}_reed")
         use_nhs = st.checkbox("NHS Jobs", value=True, key=f"{key_prefix}_nhs")
 
+        st.divider()
+        st.caption("Debugging")
+        if st.button("Fetch sponsor list", key=f"{key_prefix}_sponsor_fetch"):
+            with st.spinner("Downloading sponsor list..."):
+                try:
+                    names = sponsor_filter.load_sponsor_names()
+                    st.session_state["_sponsor_dl_text"] = "\n".join(sorted(names))
+                except Exception as e:
+                    st.error(f"Failed to load sponsor list: {e}")
+        if "_sponsor_dl_text" in st.session_state:
+            st.download_button(
+                "📥 Download sponsor list (.txt)",
+                data=st.session_state["_sponsor_dl_text"],
+                file_name="visa_sponsors.txt",
+                mime="text/plain",
+                key=f"{key_prefix}_sponsor_dl",
+            )
+
     platforms = {
         "LinkedIn + Indeed": use_linkedin,
         "Reed": use_reed,
