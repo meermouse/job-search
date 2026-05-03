@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 _DEFAULT_URL = os.environ.get(
     "SPONSOR_CSV_URL",
-    "https://www.gov.uk/csv-preview/69f47183ab602a88957eefa6/2026-05-01_-_Worker_and_Temporary_Worker.csv",
+    "https://assets.publishing.service.gov.uk/media/69f47183ab602a88957eefa6/2026-05-01_-_Worker_and_Temporary_Worker.csv",
 )
 _CACHE_PATH = "sponsor_cache.csv"
 
@@ -21,9 +21,12 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
         response = requests.get(csv_url, timeout=30)
         response.raise_for_status()
         csv_text = response.text
+        print(f"[DEBUG] sponsor HTTP status={response.status_code} content-type={response.headers.get('Content-Type')} len={len(csv_text)}")
+        print(f"[DEBUG] sponsor response preview: {repr(csv_text[:300])}")
         with open(cache_path, "w", encoding="utf-8") as f:
             f.write(csv_text)
-    except Exception:
+    except Exception as exc:
+        print(f"[DEBUG] sponsor HTTP failed: {exc}")
         if not os.path.exists(cache_path):
             raise RuntimeError(
                 "Failed to download sponsor CSV and no local cache found. "
@@ -33,7 +36,12 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
             csv_text = f.read()
 
     reader = csv.DictReader(io.StringIO(csv_text))
-    names = [row["Organisation Name"] for row in reader if row.get("Route") == "Worker"]
+    print(f"[DEBUG] sponsor CSV columns: {reader.fieldnames}")
+    names = [
+        row["Organisation Name"] for row in reader
+        if "Worker" in row.get("Route", "") and "Temporary" not in row.get("Route", "")
+    ]
+    print(f"[DEBUG] sponsor names found: {len(names)}, sample: {names[:3]}")
     if not names:
         logger.warning(
             "Sponsor CSV parsed but returned 0 Worker-route entries — "
