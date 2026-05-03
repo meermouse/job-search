@@ -21,6 +21,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
                 site_name=["linkedin", "indeed"],
                 search_term=query,
                 location=location,
+                distance=100,
                 results_wanted=50,
                 country_indeed="UK",
             )

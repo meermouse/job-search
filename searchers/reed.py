@@ -20,6 +20,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
                 params={
                     "keywords": query,
                     "locationName": location,
+                    "distancefromLocation": 100,
                     "minimumSalary": min_salary,
                     "resultsToTake": 100,
                 },

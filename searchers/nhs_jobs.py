@@ -14,7 +14,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
         try:
             response = requests.get(
                 _BASE_URL,
-                params={"keyword": query, "location": location, "distance": 15, "language": "en"},
+                params={"keyword": query, "location": location, "distance": 100, "language": "en"},
                 headers={"User-Agent": "Mozilla/5.0"},
                 timeout=30,
             )
