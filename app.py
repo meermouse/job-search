@@ -85,6 +85,49 @@ def _animated_spinner(message: str):
         ph.empty()
 
 
+def _search_form(key_prefix: str, initial_queries: list[str]) -> None:
+    queries_text = st.text_area(
+        "Search queries (one per line)",
+        value="\n".join(initial_queries),
+        height=120,
+        placeholder="e.g. Software Engineer\nData Scientist remote UK",
+        key=f"{key_prefix}_queries",
+    )
+    queries = [q.strip() for q in queries_text.splitlines() if q.strip()]
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        location = st.text_input("Location", value="Bristol", key=f"{key_prefix}_location")
+    with col2:
+        distance = st.number_input("Distance (miles)", value=50, step=10, min_value=1, max_value=500, key=f"{key_prefix}_distance")
+    with col3:
+        min_salary = st.number_input("Minimum salary (£)", value=60000, step=5000, min_value=0, key=f"{key_prefix}_salary")
+
+    with st.expander("⚙️ Advanced"):
+        st.caption("Select which platforms to search")
+        use_linkedin = st.checkbox("LinkedIn + Indeed", value=True, key=f"{key_prefix}_li")
+        use_reed = st.checkbox("Reed", value=True, key=f"{key_prefix}_reed")
+        use_nhs = st.checkbox("NHS Jobs", value=True, key=f"{key_prefix}_nhs")
+
+    platforms = {
+        "LinkedIn + Indeed": use_linkedin,
+        "Reed": use_reed,
+        "NHS Jobs": use_nhs,
+    }
+
+    if st.button("Search", type="primary", disabled=not queries or not any(platforms.values()), key=f"{key_prefix}_search"):
+        st.session_state.search_params = {
+            "queries": queries,
+            "location": location,
+            "distance": int(distance),
+            "min_salary": int(min_salary),
+            "platforms": platforms,
+        }
+        st.session_state.pop("all_jobs", None)
+        st.session_state.pop("filtered_jobs", None)
+        st.rerun()
+
+
 def _min_salary_value(salary_str: str) -> int:
     """Extract the first number from a salary string, or 0 if none found."""
     nums = _re.findall(r"[\d,]+", salary_str)
@@ -101,71 +144,38 @@ st.set_page_config(page_title="Jie's Job Search", layout="wide")
 st.title("Jie's Job Search")
 st.caption("Finds UK roles from licensed Skilled Worker visa sponsors only.")
 
-# --- State 1: CV Upload ---
-uploaded_file = st.file_uploader("Upload your CV", type=["pdf", "docx", "txt"])
+# --- State 1: Input ---
+tab_cv, tab_manual = st.tabs(["📄 Upload CV", "✏️ Search manually"])
 
-if uploaded_file:
-    file_id = f"{uploaded_file.name}_{uploaded_file.size}"
-    if st.session_state.get("file_id") != file_id:
-        st.session_state.file_id = file_id
-        st.session_state.pop("cv_analysis", None)
-        st.session_state.pop("all_jobs", None)
-        st.session_state.pop("filtered_jobs", None)
+with tab_cv:
+    uploaded_file = st.file_uploader("Upload your CV", type=["pdf", "docx", "txt"])
 
-    if "cv_analysis" not in st.session_state:
-        with _animated_spinner("Analysing your CV"):
-            try:
-                text = cv_parser.extract_text(uploaded_file.read(), uploaded_file.name)
-                st.session_state.cv_analysis = cv_parser.analyse_cv(text)
-            except Exception as e:
-                st.error(f"CV analysis failed: {e}")
-                st.stop()
+    if uploaded_file:
+        file_id = f"{uploaded_file.name}_{uploaded_file.size}"
+        if st.session_state.get("file_id") != file_id:
+            st.session_state.file_id = file_id
+            st.session_state.pop("cv_analysis", None)
+            st.session_state.pop("all_jobs", None)
+            st.session_state.pop("filtered_jobs", None)
 
-if "cv_analysis" in st.session_state:
-    analysis = st.session_state.cv_analysis
+        if "cv_analysis" not in st.session_state:
+            with _animated_spinner("Analysing your CV"):
+                try:
+                    text = cv_parser.extract_text(uploaded_file.read(), uploaded_file.name)
+                    st.session_state.cv_analysis = cv_parser.analyse_cv(text)
+                except Exception as e:
+                    st.error(f"CV analysis failed: {e}")
+                    st.stop()
 
-    with st.expander("Extracted from CV", expanded=True):
-        st.write("**Job titles:**", ", ".join(analysis.get("job_titles", [])))
-        st.write("**Skills:**", ", ".join(analysis.get("skills", [])))
+    if "cv_analysis" in st.session_state:
+        analysis = st.session_state.cv_analysis
+        with st.expander("Extracted from CV", expanded=True):
+            st.write("**Job titles:**", ", ".join(analysis.get("job_titles", [])))
+            st.write("**Skills:**", ", ".join(analysis.get("skills", [])))
+        _search_form("cv", analysis.get("search_queries", []))
 
-    queries_text = st.text_area(
-        "Search queries (one per line — edit as needed before searching)",
-        value="\n".join(analysis.get("search_queries", [])),
-        height=120,
-    )
-    queries = [q.strip() for q in queries_text.splitlines() if q.strip()]
-
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        location = st.text_input("Location", value="Bristol")
-    with col2:
-        distance = st.number_input("Distance (miles)", value=50, step=10, min_value=1, max_value=500)
-    with col3:
-        min_salary = st.number_input("Minimum salary (£)", value=60000, step=5000, min_value=0)
-
-    with st.expander("⚙️ Advanced"):
-        st.caption("Select which platforms to search")
-        use_linkedin = st.checkbox("LinkedIn + Indeed", value=True)
-        use_reed = st.checkbox("Reed", value=True)
-        use_nhs = st.checkbox("NHS Jobs", value=True)
-
-    platforms = {
-        "LinkedIn + Indeed": use_linkedin,
-        "Reed": use_reed,
-        "NHS Jobs": use_nhs,
-    }
-
-    if st.button("Search", type="primary", disabled=not queries or not any(platforms.values())):
-        st.session_state.search_params = {
-            "queries": queries,
-            "location": location,
-            "distance": int(distance),
-            "min_salary": int(min_salary),
-            "platforms": platforms,
-        }
-        st.session_state.pop("all_jobs", None)
-        st.session_state.pop("filtered_jobs", None)
-        st.rerun()
+with tab_manual:
+    _search_form("manual", [])
 
 # --- State 2: Searching ---
 if "search_params" in st.session_state and "filtered_jobs" not in st.session_state:
