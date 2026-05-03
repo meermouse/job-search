@@ -6,3 +6,5 @@ __pycache__/
 *.egg-info/
 sponsor_cache.csv
 .superpowers/
+.claude/settings.local.json
+bash.exe.stackdump

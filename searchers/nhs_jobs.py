@@ -7,14 +7,14 @@ _BASE_URL = "https://www.jobs.nhs.uk/candidate/search/results"
 _NHS_HOST = "https://www.jobs.nhs.uk"
 
 
-def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
+def search(queries: list[str], location: str, min_salary: int, distance: int = 50) -> list[dict]:
     jobs = []
     seen_urls: set[str] = set()
     for query in queries:
         try:
             response = requests.get(
                 _BASE_URL,
-                params={"keyword": query, "location": location, "distance": 100, "language": "en"},
+                params={"keyword": query, "location": location, "distance": distance, "language": "en"},
                 headers={"User-Agent": "Mozilla/5.0"},
                 timeout=30,
             )

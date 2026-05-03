@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 _BASE_URL = "https://www.reed.co.uk/api/1.0/search"
 
 
-def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
+def search(queries: list[str], location: str, min_salary: int, distance: int = 50) -> list[dict]:
     api_key = os.environ.get("REED_API_KEY")
     if not api_key:
         logger.warning("Reed search skipped: REED_API_KEY is not set")
@@ -20,7 +20,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
                 params={
                     "keywords": query,
                     "locationName": location,
-                    "distancefromLocation": 100,
+                    "distancefromLocation": distance,
                     "minimumSalary": min_salary,
                     "resultsToTake": 100,
                 },

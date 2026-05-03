@@ -10,6 +10,7 @@ def search_all_streaming(
     queries: list[str],
     location: str,
     min_salary: int,
+    distance: int = 50,
 ) -> Generator[tuple[str, list[dict], str | None], None, None]:
     """Yields (platform_name, jobs, error_msg) as each platform's search completes."""
     searchers = {
@@ -19,7 +20,7 @@ def search_all_streaming(
     }
     with ThreadPoolExecutor(max_workers=len(searchers)) as executor:
         futures = {
-            executor.submit(fn, queries, location, min_salary): name
+            executor.submit(fn, queries, location, min_salary, distance): name
             for name, fn in searchers.items()
         }
         for future in as_completed(futures):

@@ -13,7 +13,7 @@ def _salary_str(row) -> str:
     return ""
 
 
-def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
+def search(queries: list[str], location: str, min_salary: int, distance: int = 50) -> list[dict]:
     jobs = []
     for query in queries:
         try:
@@ -21,7 +21,7 @@ def search(queries: list[str], location: str, min_salary: int) -> list[dict]:
                 site_name=["linkedin", "indeed"],
                 search_term=query,
                 location=location,
-                distance=100,
+                distance=distance,
                 results_wanted=50,
                 country_indeed="UK",
             )

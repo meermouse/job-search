@@ -135,16 +135,19 @@ if "cv_analysis" in st.session_state:
     )
     queries = [q.strip() for q in queries_text.splitlines() if q.strip()]
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         location = st.text_input("Location", value="Bristol")
     with col2:
+        distance = st.number_input("Distance (miles)", value=50, step=10, min_value=1, max_value=500)
+    with col3:
         min_salary = st.number_input("Minimum salary (£)", value=60000, step=5000, min_value=0)
 
     if st.button("Search", type="primary", disabled=not queries):
         st.session_state.search_params = {
             "queries": queries,
             "location": location,
+            "distance": int(distance),
             "min_salary": int(min_salary),
         }
         st.session_state.pop("all_jobs", None)
@@ -175,7 +178,7 @@ if "search_params" in st.session_state and "filtered_jobs" not in st.session_sta
         all_jobs: list[dict] = []
 
         for platform, jobs, error in search_all_streaming(
-            params["queries"], params["location"], params["min_salary"]
+            params["queries"], params["location"], params["min_salary"], params["distance"]
         ):
             ph = status_placeholders[platform]
             if error:
