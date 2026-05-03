@@ -1,10 +1,88 @@
 import os
+from contextlib import contextmanager
 import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
 
 import re as _re
+
+
+@contextmanager
+def _animated_spinner(message: str):
+    ph = st.empty()
+    ph.markdown(
+        f"""
+        <style>
+        @keyframes jjs-bob {{
+            0%, 100% {{ transform: translateY(0px); }}
+            50%       {{ transform: translateY(-10px); }}
+        }}
+        @keyframes jjs-swing {{
+            0%, 100% {{ transform: rotate(-30deg); }}
+            50%       {{ transform: rotate(30deg); }}
+        }}
+        @keyframes jjs-blink {{
+            0%, 80%, 100% {{ opacity: 0.15; transform: scale(0.8); }}
+            40%           {{ opacity: 1;    transform: scale(1);   }}
+        }}
+        .jjs-wrap {{
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 22px;
+            background: linear-gradient(135deg, #fff0f6, #f0f4ff);
+            border-radius: 16px;
+            border: 1.5px solid #f0c0d8;
+            margin: 10px 0;
+            width: fit-content;
+        }}
+        .jjs-girl {{
+            font-size: 52px;
+            display: inline-block;
+            animation: jjs-bob 1.3s ease-in-out infinite;
+        }}
+        .jjs-glass {{
+            font-size: 38px;
+            display: inline-block;
+            transform-origin: 80% 20%;
+            animation: jjs-swing 1s ease-in-out infinite;
+        }}
+        .jjs-label {{
+            font-size: 15px;
+            font-weight: 500;
+            color: #a04070;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }}
+        .jjs-dot {{
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #e080b0;
+            animation: jjs-blink 1.4s infinite;
+        }}
+        .jjs-dot:nth-child(2) {{ animation-delay: 0.2s; }}
+        .jjs-dot:nth-child(3) {{ animation-delay: 0.4s; }}
+        </style>
+        <div class="jjs-wrap">
+            <span class="jjs-girl">👧</span>
+            <span class="jjs-glass">🔍</span>
+            <span class="jjs-label">
+                {message}
+                <span class="jjs-dot"></span>
+                <span class="jjs-dot"></span>
+                <span class="jjs-dot"></span>
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    try:
+        yield
+    finally:
+        ph.empty()
 
 
 def _min_salary_value(salary_str: str) -> int:
@@ -35,7 +113,7 @@ if uploaded_file:
         st.session_state.pop("filtered_jobs", None)
 
     if "cv_analysis" not in st.session_state:
-        with st.spinner("Analysing CV with Claude..."):
+        with _animated_spinner("Analysing your CV"):
             try:
                 text = cv_parser.extract_text(uploaded_file.read(), uploaded_file.name)
                 st.session_state.cv_analysis = cv_parser.analyse_cv(text)
@@ -77,45 +155,45 @@ if "cv_analysis" in st.session_state:
 if "search_params" in st.session_state and "filtered_jobs" not in st.session_state:
     params = st.session_state.search_params
 
-    with st.spinner("Loading sponsor register..."):
+    with _animated_spinner("Looking for your perfect role"):
         try:
             sponsor_names = sponsor_filter.load_sponsor_names()
         except RuntimeError as e:
             st.error(str(e))
             st.stop()
 
-    st.subheader("Searching platforms...")
-    cols = st.columns(3)
-    status_placeholders = {
-        "LinkedIn + Indeed": cols[0].empty(),
-        "Reed": cols[1].empty(),
-        "NHS Jobs": cols[2].empty(),
-    }
-    for name, ph in status_placeholders.items():
-        ph.info(f"⏳ {name}")
+        st.subheader("Searching platforms...")
+        cols = st.columns(3)
+        status_placeholders = {
+            "LinkedIn + Indeed": cols[0].empty(),
+            "Reed": cols[1].empty(),
+            "NHS Jobs": cols[2].empty(),
+        }
+        for name, ph in status_placeholders.items():
+            ph.info(f"⏳ {name}")
 
-    all_jobs: list[dict] = []
+        all_jobs: list[dict] = []
 
-    for platform, jobs, error in search_all_streaming(
-        params["queries"], params["location"], params["min_salary"]
-    ):
-        ph = status_placeholders[platform]
-        if error:
-            ph.warning(f"⚠️ {platform} — error")
-        else:
-            ph.success(f"✅ {platform} — {len(jobs)} results")
-        all_jobs.extend(jobs)
+        for platform, jobs, error in search_all_streaming(
+            params["queries"], params["location"], params["min_salary"]
+        ):
+            ph = status_placeholders[platform]
+            if error:
+                ph.warning(f"⚠️ {platform} — error")
+            else:
+                ph.success(f"✅ {platform} — {len(jobs)} results")
+            all_jobs.extend(jobs)
 
-    # Deduplicate by URL
-    seen_urls: set[str] = set()
-    deduped: list[dict] = []
-    for job in all_jobs:
-        if job["url"] and job["url"] not in seen_urls:
-            seen_urls.add(job["url"])
-            deduped.append(job)
+        seen_urls: set[str] = set()
+        deduped: list[dict] = []
+        for job in all_jobs:
+            if job["url"] and job["url"] not in seen_urls:
+                seen_urls.add(job["url"])
+                deduped.append(job)
 
-    st.session_state.all_jobs = deduped
-    st.session_state.filtered_jobs = sponsor_filter.filter_jobs(deduped, sponsor_names)
+        st.session_state.all_jobs = deduped
+        st.session_state.filtered_jobs = sponsor_filter.filter_jobs(deduped, sponsor_names)
+
     st.rerun()
 
 # --- State 3: Results ---
