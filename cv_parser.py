@@ -42,4 +42,8 @@ def analyse_cv(text: str) -> dict:
         system=_SYSTEM,
         messages=[{"role": "user", "content": _PROMPT.format(cv_text=text)}],
     )
-    return json.loads(msg.content[0].text)
+    raw = msg.content[0].text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[-1]
+        raw = raw.rsplit("```", 1)[0].strip()
+    return json.loads(raw)
