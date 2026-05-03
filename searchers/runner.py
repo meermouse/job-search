@@ -11,12 +11,17 @@ def search_all_streaming(
     location: str,
     min_salary: int,
     distance: int = 50,
+    platforms: dict[str, bool] | None = None,
 ) -> Generator[tuple[str, list[dict], str | None], None, None]:
     """Yields (platform_name, jobs, error_msg) as each platform's search completes."""
-    searchers = {
+    all_searchers = {
         "LinkedIn + Indeed": jobspy_searcher.search,
         "Reed": reed.search,
         "NHS Jobs": nhs_jobs.search,
+    }
+    searchers = {
+        name: fn for name, fn in all_searchers.items()
+        if platforms is None or name in platforms
     }
     with ThreadPoolExecutor(max_workers=len(searchers)) as executor:
         futures = {

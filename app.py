@@ -143,12 +143,25 @@ if "cv_analysis" in st.session_state:
     with col3:
         min_salary = st.number_input("Minimum salary (£)", value=60000, step=5000, min_value=0)
 
-    if st.button("Search", type="primary", disabled=not queries):
+    with st.expander("⚙️ Advanced"):
+        st.caption("Select which platforms to search")
+        use_linkedin = st.checkbox("LinkedIn + Indeed", value=True)
+        use_reed = st.checkbox("Reed", value=True)
+        use_nhs = st.checkbox("NHS Jobs", value=True)
+
+    platforms = {
+        "LinkedIn + Indeed": use_linkedin,
+        "Reed": use_reed,
+        "NHS Jobs": use_nhs,
+    }
+
+    if st.button("Search", type="primary", disabled=not queries or not any(platforms.values())):
         st.session_state.search_params = {
             "queries": queries,
             "location": location,
             "distance": int(distance),
             "min_salary": int(min_salary),
+            "platforms": platforms,
         }
         st.session_state.pop("all_jobs", None)
         st.session_state.pop("filtered_jobs", None)
@@ -165,12 +178,19 @@ if "search_params" in st.session_state and "filtered_jobs" not in st.session_sta
             st.error(str(e))
             st.stop()
 
+        enabled_platforms = {
+            name: enabled
+            for name, enabled in params.get("platforms", {
+                "LinkedIn + Indeed": True, "Reed": True, "NHS Jobs": True,
+            }).items()
+            if enabled
+        }
+
         st.subheader("Searching platforms...")
-        cols = st.columns(3)
+        cols = st.columns(len(enabled_platforms))
         status_placeholders = {
-            "LinkedIn + Indeed": cols[0].empty(),
-            "Reed": cols[1].empty(),
-            "NHS Jobs": cols[2].empty(),
+            name: col.empty()
+            for name, col in zip(enabled_platforms, cols)
         }
         for name, ph in status_placeholders.items():
             ph.info(f"⏳ {name}")
@@ -178,7 +198,8 @@ if "search_params" in st.session_state and "filtered_jobs" not in st.session_sta
         all_jobs: list[dict] = []
 
         for platform, jobs, error in search_all_streaming(
-            params["queries"], params["location"], params["min_salary"], params["distance"]
+            params["queries"], params["location"], params["min_salary"],
+            params["distance"], enabled_platforms,
         ):
             ph = status_placeholders[platform]
             if error:
