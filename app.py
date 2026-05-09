@@ -86,9 +86,12 @@ def _animated_spinner(message: str):
 
 
 def _search_form(key_prefix: str, initial_queries: list[str]) -> None:
+    chat_queries = st.session_state.get("_chat_queries", [])
+    effective_queries = chat_queries if chat_queries else initial_queries
+
     queries_text = st.text_area(
         "Search queries (one per line)",
-        value="\n".join(initial_queries),
+        value="\n".join(effective_queries),
         height=120,
         placeholder="e.g. Software Engineer\nData Scientist remote UK",
         key=f"{key_prefix}_queries",
@@ -97,11 +100,25 @@ def _search_form(key_prefix: str, initial_queries: list[str]) -> None:
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        location = st.text_input("Location", value="Bristol", key=f"{key_prefix}_location")
+        location = st.text_input(
+            "Location",
+            value=st.session_state.get("_chat_location", "Bristol"),
+            key=f"{key_prefix}_location",
+        )
     with col2:
-        distance = st.number_input("Distance (miles)", value=50, step=10, min_value=1, max_value=500, key=f"{key_prefix}_distance")
+        distance = st.number_input(
+            "Distance (miles)",
+            value=st.session_state.get("_chat_distance", 50),
+            step=10, min_value=1, max_value=500,
+            key=f"{key_prefix}_distance",
+        )
     with col3:
-        min_salary = st.number_input("Minimum salary (£)", value=60000, step=5000, min_value=0, key=f"{key_prefix}_salary")
+        min_salary = st.number_input(
+            "Minimum salary (£)",
+            value=st.session_state.get("_chat_salary", 60000),
+            step=5000, min_value=0,
+            key=f"{key_prefix}_salary",
+        )
 
     with st.expander("⚙️ Advanced"):
         st.caption("Select which platforms to search")
