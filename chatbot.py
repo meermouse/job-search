@@ -60,7 +60,9 @@ def _parse_actions(text: str) -> list[dict]:
 
 
 def _strip_actions(text: str) -> str:
-    return _ACTION_RE.sub("", text).strip()
+    cleaned = _ACTION_RE.sub("", text)
+    cleaned = re.sub(r"  +", " ", cleaned)
+    return cleaned.strip()
 
 
 def get_response(
@@ -73,7 +75,10 @@ def get_response(
         raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
 
     client = anthropic.Anthropic(api_key=api_key)
-    messages = history[-20:] + [{"role": "user", "content": message}]
+    trimmed = history[-20:]
+    if trimmed and trimmed[0]["role"] != "user":
+        trimmed = trimmed[1:]
+    messages = trimmed + [{"role": "user", "content": message}]
 
     response = client.messages.create(
         model="claude-sonnet-4-6",
@@ -92,7 +97,9 @@ def apply_actions(actions: list[dict], session_state: dict) -> bool:
         t = action["type"]
         p = action.get("params", "")
         if t == "set_queries":
-            session_state["_chat_queries"] = [q.strip() for q in p.split("|") if q.strip()]
+            parsed = [q.strip() for q in p.split("|") if q.strip()]
+            if parsed:
+                session_state["_chat_queries"] = parsed
         elif t == "set_location":
             session_state["_chat_location"] = p.strip()
         elif t == "set_distance":

@@ -175,3 +175,36 @@ def test_apply_actions_multiple_in_one_reply():
     assert state["_chat_queries"] == ["Python Dev"]
     assert state["_chat_location"] == "Manchester"
     assert state["_chat_distance"] == 30
+
+
+@patch("chatbot.anthropic.Anthropic")
+def test_get_response_no_double_spaces_after_strip(mock_cls):
+    mock_cls.return_value.messages.create.return_value = _mock_claude(
+        "I'll set that up [ACTION:set_location:London] for you now."
+    )
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "key"}):
+        reply, _ = chatbot.get_response("go to London", [], None)
+    assert "  " not in reply
+    assert reply == "I'll set that up for you now."
+
+
+def test_apply_actions_set_queries_all_blank_ignored():
+    state = {}
+    chatbot.apply_actions([{"type": "set_queries", "params": "| |  "}], state)
+    assert "_chat_queries" not in state
+
+
+@patch("chatbot.anthropic.Anthropic")
+def test_get_response_history_window_starts_with_user(mock_cls):
+    mock_client = mock_cls.return_value
+    mock_client.messages.create.return_value = _mock_claude("OK")
+    # 21 messages: indices 0-20, starting with user (0), so history[-20:] = indices 1-20
+    # Index 1 is "assistant" — the window would start on assistant without the fix
+    history = [
+        {"role": "user" if i % 2 == 0 else "assistant", "content": f"msg {i}"}
+        for i in range(21)
+    ]
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "key"}):
+        chatbot.get_response("new", history, None)
+    messages = mock_client.messages.create.call_args.kwargs["messages"]
+    assert messages[0]["role"] == "user"
