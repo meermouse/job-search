@@ -170,7 +170,7 @@ def _process_chat_message() -> None:
     try:
         payload = json.loads(raw)
         message_text = payload.get("text", "")
-    except (json.JSONDecodeError, KeyError, AttributeError):
+    except (json.JSONDecodeError, KeyError, AttributeError, TypeError):
         message_text = raw
 
     if not message_text:
