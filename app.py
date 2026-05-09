@@ -154,6 +154,11 @@ def _min_salary_value(salary_str: str) -> int:
     return int(nums[0].replace(",", ""))
 
 
+import json
+import chatbot
+import chat_widget
+
+
 def _process_chat_message() -> None:
     """Read incoming chat message from hidden input, call Claude, apply actions."""
     raw = st.session_state.get("_chat_input", "")
@@ -165,7 +170,7 @@ def _process_chat_message() -> None:
     try:
         payload = json.loads(raw)
         message_text = payload.get("text", "")
-    except (json.JSONDecodeError, KeyError):
+    except (json.JSONDecodeError, KeyError, AttributeError):
         message_text = raw
 
     if not message_text:
@@ -200,16 +205,16 @@ def _process_chat_message() -> None:
     history.append({"role": "assistant", "content": reply})
     st.session_state["_chat_history"] = history
 
-    should_trigger = chatbot.apply_actions(actions, st.session_state)
+    try:
+        should_trigger = chatbot.apply_actions(actions, st.session_state)
+    except Exception:
+        should_trigger = False
 
     st.session_state["_chat_reply"] = reply
     st.session_state["_chat_trigger_search"] = should_trigger
     st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
 
 
-import json
-import chatbot
-import chat_widget
 import cv_parser
 import sponsor_filter
 from searchers import search_all_streaming
