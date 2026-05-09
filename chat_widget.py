@@ -87,8 +87,14 @@ _JS = """
 (function () {
   var STORAGE_KEY = 'job_search_chat_history';
   var MAX_STORED = 50;
-  var lastProcessedCounter = -1;
   var waiting = false;
+
+  function getLastProcessed() {
+    return parseInt(sessionStorage.getItem('jjs_last_counter') || '-1', 10);
+  }
+  function setLastProcessed(n) {
+    sessionStorage.setItem('jjs_last_counter', String(n));
+  }
 
   function loadHistory() {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -162,8 +168,8 @@ _JS = """
 
   function processReplyDiv(div) {
     var counter = parseInt(div.id.replace('chat-reply-', ''), 10);
-    if (isNaN(counter) || counter <= lastProcessedCounter) return;
-    lastProcessedCounter = counter;
+    if (isNaN(counter) || counter <= getLastProcessed()) return;
+    setLastProcessed(counter);
 
     var replyText = div.textContent.trim();
     if (replyText) {
@@ -185,7 +191,10 @@ _JS = """
     // Check existing divs (in case reply was rendered before observer set up)
     document.querySelectorAll('[id^="chat-reply-"]').forEach(processReplyDiv);
 
-    var observer = new MutationObserver(function (mutations) {
+    if (window._jjsObserver) {
+      window._jjsObserver.disconnect();
+    }
+    window._jjsObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         m.addedNodes.forEach(function (node) {
           if (node.nodeType === 1) {
@@ -197,18 +206,14 @@ _JS = """
         });
       });
     });
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-
-  function restoreHistory() {
-    loadHistory().forEach(function (msg) { appendMsg(msg.role, msg.content); });
+    window._jjsObserver.observe(document.body, { childList: true, subtree: true });
   }
 
   function init() {
-    restoreHistory();
+    var history = loadHistory();
+    history.forEach(function (msg) { appendMsg(msg.role, msg.content); });
     watchForReplies();
-    // Auto-open if user was mid-conversation
-    if (loadHistory().length > 0) {
+    if (history.length > 0) {
       var panel = document.getElementById('jjs-chat-panel');
       if (panel) panel.classList.remove('jjs-hidden');
     }
