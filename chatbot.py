@@ -42,15 +42,50 @@ The user has uploaded a CV. Here is the extracted analysis:
   Suggested search queries: {search_queries}
 """
 
+_RESULTS_SECTION = """
+The most recent search returned {total} total jobs, {sponsored} from licensed Skilled Worker visa sponsors.
+The sponsored results (up to 20 shown) are:
 
-def _build_system_prompt(cv_analysis: dict | None) -> str:
-    if not cv_analysis:
-        return _SYSTEM_BASE
-    return _SYSTEM_BASE + _CV_SECTION.format(
-        job_titles=", ".join(cv_analysis.get("job_titles", [])),
-        skills=", ".join(cv_analysis.get("skills", [])),
-        search_queries=", ".join(cv_analysis.get("search_queries", [])),
-    )
+{listings}
+"""
+
+_MAX_RESULTS = 20
+
+
+def _format_results(jobs: list[dict]) -> str:
+    lines = []
+    for i, j in enumerate(jobs[:_MAX_RESULTS], 1):
+        parts = [f"{i}. {j.get('title', 'Unknown')} at {j.get('company', 'Unknown')}"]
+        if j.get("location"):
+            parts.append(f"  Location: {j['location']}")
+        if j.get("salary"):
+            parts.append(f"  Salary: {j['salary']}")
+        if j.get("url"):
+            parts.append(f"  URL: {j['url']}")
+        lines.append("\n".join(parts))
+    return "\n\n".join(lines)
+
+
+def _build_system_prompt(
+    cv_analysis: dict | None,
+    search_results: dict | None = None,
+) -> str:
+    prompt = _SYSTEM_BASE
+    if cv_analysis:
+        prompt += _CV_SECTION.format(
+            job_titles=", ".join(cv_analysis.get("job_titles", [])),
+            skills=", ".join(cv_analysis.get("skills", [])),
+            search_queries=", ".join(cv_analysis.get("search_queries", [])),
+        )
+    if search_results:
+        filtered = search_results.get("filtered", [])
+        all_jobs = search_results.get("all", [])
+        prompt += _RESULTS_SECTION.format(
+            total=len(all_jobs),
+            sponsored=len(filtered),
+            listings=_format_results(filtered) if filtered else "No sponsored results found.",
+        )
+    return prompt
 
 
 _ACTION_RE = re.compile(r"\[ACTION:([^\]]+)\]")
@@ -77,6 +112,7 @@ def get_response(
     message: str,
     history: list[dict],
     cv_analysis: dict | None,
+    search_results: dict | None = None,
 ) -> tuple[str, list[dict]]:
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
@@ -91,7 +127,7 @@ def get_response(
     response = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=1024,
-        system=_build_system_prompt(cv_analysis),
+        system=_build_system_prompt(cv_analysis, search_results),
         messages=messages,
     )
     raw = response.content[0].text

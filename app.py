@@ -195,8 +195,12 @@ def _auto_ack_cv() -> None:
             f"Use set_queries to pre-populate the search with the suggested queries.]"
         )
         history = st.session_state.get("_chat_history", [])
+        search_results = {
+            "filtered": st.session_state.get("filtered_jobs", []),
+            "all": st.session_state.get("all_jobs", []),
+        } if st.session_state.get("filtered_jobs") is not None else None
         try:
-            reply, actions = chatbot.get_response(trigger, history, analysis)
+            reply, actions = chatbot.get_response(trigger, history, analysis, search_results)
         except Exception:
             reply = f"I've analysed your CV! I can see experience as {titles}. Ready to search for matching roles?"
             actions = []
@@ -238,8 +242,9 @@ def _auto_ack_search() -> None:
             f"Briefly summarise and suggest next steps.]"
         )
         st.session_state.pop("_chat_loading", None)
+        search_results = {"filtered": filtered, "all": all_jobs}
         try:
-            reply, actions = chatbot.get_response(trigger, history, cv_analysis)
+            reply, actions = chatbot.get_response(trigger, history, cv_analysis, search_results)
         except Exception:
             reply = (
                 f"Search complete! Found {len(filtered)} sponsored roles "
@@ -307,8 +312,12 @@ user_msg = st.chat_input("Ask me anything...")
 if user_msg:
     history = st.session_state.get("_chat_history", [])
     cv_analysis = st.session_state.get("cv_analysis")
+    search_results = {
+        "filtered": st.session_state.get("filtered_jobs", []),
+        "all": st.session_state.get("all_jobs", []),
+    } if st.session_state.get("filtered_jobs") is not None else None
     try:
-        reply, actions = chatbot.get_response(user_msg, history, cv_analysis)
+        reply, actions = chatbot.get_response(user_msg, history, cv_analysis, search_results)
     except Exception as e:
         reply = f"Sorry, I couldn't reach the assistant right now. ({e})"
         actions = []
