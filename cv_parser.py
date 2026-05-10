@@ -23,9 +23,17 @@ _SYSTEM = "You extract structured job search data from CVs. Return only valid JS
 
 _PROMPT = """\
 Analyse this CV and return a JSON object with exactly these keys:
-- "job_titles": list of 3-5 suitable UK job titles based on experience
-- "skills": list of key technical and professional skills
-- "search_queries": list of 3-5 search strings for UK job boards
+- "job_titles": list of 2-3 most suitable UK job titles, ordered by fit
+- "skills": list of up to 8 most distinctive technical and professional skills
+- "search_queries": list of exactly 2-3 search strings for UK job boards
+
+Rules for search_queries:
+- Each query must be a specific, targeted phrase a recruiter would use, e.g. "Senior Data Engineer dbt" or "Clinical Pharmacist NHS"
+- Combine the primary job title with the single most differentiating skill or sector
+- Do NOT use generic single words like "Engineer" or "Manager" alone
+- Do NOT repeat the same role with minor wording changes
+- Prefer shorter phrases (2-4 words) that job boards handle well
+- Order from most to least specific
 
 CV:
 {cv_text}"""
