@@ -1,6 +1,9 @@
 import streamlit as st
 import streamlit.components.v1 as _components
 
+# Only CSS lives here — all HTML is created by JS and appended to document.body
+# so the panel sits OUTSIDE Streamlit's app container and is unaffected by its
+# loading overlay / opacity changes.
 _CSS = """
 <style>
 #jjs-toggle { display: none; }
@@ -10,7 +13,7 @@ _CSS = """
   background: #5060cc; color: white; font-size: 24px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  z-index: 9999; display: flex; align-items: center; justify-content: center;
+  z-index: 999999; display: flex; align-items: center; justify-content: center;
   user-select: none;
 }
 #jjs-chat-panel {
@@ -20,15 +23,14 @@ _CSS = """
   box-shadow: 0 8px 32px rgba(0,0,0,0.15);
   border: 1px solid #e0e4f0;
   flex-direction: column;
-  z-index: 9998; overflow: hidden;
+  z-index: 999998; overflow: hidden;
   display: none;
 }
-#jjs-toggle:checked ~ #jjs-chat-panel { display: flex; }
+body.jjs-chat-open #jjs-chat-panel { display: flex; }
 #jjs-chat-header {
   background: #5060cc; color: white;
   padding: 12px 16px; font-weight: 600; font-size: 14px;
-  flex-shrink: 0;
-  display: flex; align-items: center;
+  flex-shrink: 0; display: flex; align-items: center;
 }
 #jjs-clear-btn {
   margin-left: auto; background: none; border: none;
@@ -36,10 +38,26 @@ _CSS = """
   font-size: 17px; padding: 3px 7px; border-radius: 6px; line-height: 1;
 }
 #jjs-clear-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+#jjs-chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.jjs-msg {
+  max-width: 85%; padding: 8px 12px; border-radius: 8px;
+  font-size: 18px; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+}
+.jjs-msg.user {
+  background: #5060cc; color: white;
+  align-self: flex-end; border-bottom-right-radius: 2px;
+}
+.jjs-msg.assistant {
+  background: #f0f2ff; color: #222;
+  align-self: flex-start; border-bottom-left-radius: 2px;
+}
 /* Confirmation modal */
 #jjs-modal-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.45); z-index: 99999;
+  background: rgba(0,0,0,0.45); z-index: 9999999;
   align-items: center; justify-content: center;
 }
 #jjs-modal-overlay.jjs-open { display: flex; }
@@ -59,79 +77,39 @@ _CSS = """
 #jjs-modal-confirm { background: #d63031; color: white; }
 #jjs-modal-cancel:hover  { background: #ddd; }
 #jjs-modal-confirm:hover { background: #b71c1c; }
-#jjs-chat-messages {
-  flex: 1; overflow-y: auto; padding: 12px;
-  display: flex; flex-direction: column; gap: 8px;
+/* Typing indicator */
+#jjs-typing { align-self: flex-start; padding: 10px 14px; }
+@keyframes jjs-blink {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.75); }
+  40%           { opacity: 1;   transform: scale(1); }
 }
-.jjs-msg {
-  max-width: 85%; padding: 8px 12px; border-radius: 8px;
-  font-size: 18px; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
+.jjs-dot {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  background: #8892cc; margin: 0 3px;
+  animation: jjs-blink 1.4s infinite;
 }
-.jjs-msg.user {
-  background: #5060cc; color: white;
-  align-self: flex-end; border-bottom-right-radius: 2px;
-}
-.jjs-msg.assistant {
-  background: #f0f2ff; color: #222;
-  align-self: flex-start; border-bottom-left-radius: 2px;
-}
+.jjs-dot:nth-child(2) { animation-delay: 0.2s; }
+.jjs-dot:nth-child(3) { animation-delay: 0.4s; }
 
-/* Reposition st.chat_input into the floating panel when open.
-   Target both the sticky footer wrapper (stBottom) and the widget itself. */
-body:has(#jjs-toggle:checked) [data-testid="stBottom"],
-body:has(#jjs-toggle:checked) [data-testid="stChatInput"] {
+/* Dock st.chat_input at the panel bottom when open */
+body.jjs-chat-open [data-testid="stBottom"],
+body.jjs-chat-open [data-testid="stChatInput"] {
   position: fixed !important;
-  bottom: 92px !important;
-  right: 24px !important;
-  left: auto !important;
-  width: 680px !important;
-  z-index: 10001 !important;
+  bottom: 92px !important; right: 24px !important; left: auto !important;
+  width: 680px !important; z-index: 999999 !important;
   border-radius: 0 0 12px 12px !important;
   border-top: 1px solid #e0e4f0 !important;
-  background: white !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  pointer-events: auto !important;
-  max-width: none !important;
+  background: white !important; box-shadow: none !important;
+  margin: 0 !important; padding: 0 !important;
+  pointer-events: auto !important; max-width: none !important;
 }
-body:has(#jjs-toggle:checked) [data-testid="stBottom"] *,
-body:has(#jjs-toggle:checked) [data-testid="stChatInput"] * {
-  pointer-events: auto !important;
-}
-/* Hide when panel is closed */
-body:not(:has(#jjs-toggle:checked)) [data-testid="stBottom"],
-body:not(:has(#jjs-toggle:checked)) [data-testid="stChatInput"] {
-  display: none !important;
-}
+body.jjs-chat-open [data-testid="stBottom"] *,
+body.jjs-chat-open [data-testid="stChatInput"] * { pointer-events: auto !important; }
+body:not(.jjs-chat-open) [data-testid="stBottom"],
+body:not(.jjs-chat-open) [data-testid="stChatInput"] { display: none !important; }
 </style>
 """
 
-_HTML = """
-<input type="checkbox" id="jjs-toggle">
-<label for="jjs-toggle" id="jjs-chat-btn" title="Job Search Assistant">💬</label>
-<div id="jjs-chat-panel">
-  <div id="jjs-chat-header">
-    <span>💬 Job Search Assistant</span>
-    <button id="jjs-clear-btn" title="Clear chat history">🗑</button>
-  </div>
-  <div id="jjs-chat-messages"></div>
-</div>
-
-<div id="jjs-modal-overlay">
-  <div id="jjs-modal-box">
-    <h3>Clear chat history?</h3>
-    <p>All messages will be deleted and the page will reload to start a fresh session.</p>
-    <div class="jjs-modal-btns">
-      <button id="jjs-modal-cancel">Cancel</button>
-      <button id="jjs-modal-confirm">Clear</button>
-    </div>
-  </div>
-</div>
-"""
-
-# Runs in a same-origin iframe; appends new messages to the parent panel.
-# Sending is handled natively by st.chat_input() — no JS needed for that.
 _JS_TEMPLATE = """
 <script>
 window.addEventListener('load', function () {{
@@ -152,7 +130,6 @@ window.addEventListener('load', function () {{
   function setLastProcessed(n) {{
     parentWin.sessionStorage.setItem('jjs_last_counter', String(n));
   }}
-
   function loadHistory() {{
     try {{ return JSON.parse(parentWin.localStorage.getItem(STORAGE_KEY) || '[]'); }}
     catch (e) {{ return []; }}
@@ -160,6 +137,22 @@ window.addEventListener('load', function () {{
   function saveHistory(h) {{
     try {{ parentWin.localStorage.setItem(STORAGE_KEY, JSON.stringify(h.slice(-MAX_STORED))); }}
     catch (e) {{}}
+  }}
+
+  function showTypingIndicator() {{
+    if (doc.getElementById('jjs-typing')) return;
+    var box = doc.getElementById('jjs-chat-messages');
+    if (!box) return;
+    var el = doc.createElement('div');
+    el.id = 'jjs-typing'; el.className = 'jjs-msg assistant';
+    el.innerHTML = '<span class="jjs-dot"></span><span class="jjs-dot"></span><span class="jjs-dot"></span>';
+    box.appendChild(el);
+    box.scrollTop = box.scrollHeight;
+  }}
+
+  function removeTypingIndicator() {{
+    var el = doc.getElementById('jjs-typing');
+    if (el) el.parentNode.removeChild(el);
   }}
 
   function appendMsg(role, text) {{
@@ -201,30 +194,116 @@ window.addEventListener('load', function () {{
     parentWin._jjsObserver.observe(doc.body, {{ childList: true, subtree: true }});
   }}
 
-  // Pending reply from Python this rerun
+  // Create all panel DOM elements and append directly to document.body so they
+  // live outside Streamlit's app container and are immune to its loading overlay.
+  function createChatUI() {{
+    if (doc.getElementById('jjs-chat-panel')) return;
+
+    var toggle = doc.createElement('input');
+    toggle.type = 'checkbox'; toggle.id = 'jjs-toggle'; toggle.style.display = 'none';
+    doc.body.appendChild(toggle);
+
+    var btn = doc.createElement('label');
+    btn.setAttribute('for', 'jjs-toggle');
+    btn.id = 'jjs-chat-btn'; btn.title = 'Job Search Assistant'; btn.textContent = '💬';
+    doc.body.appendChild(btn);
+
+    var panel = doc.createElement('div');
+    panel.id = 'jjs-chat-panel';
+
+    var header = doc.createElement('div');
+    header.id = 'jjs-chat-header';
+    var title = doc.createElement('span');
+    title.textContent = '💬 Job Search Assistant';
+    var clearBtn = doc.createElement('button');
+    clearBtn.id = 'jjs-clear-btn'; clearBtn.title = 'Clear chat history';
+    clearBtn.textContent = '🗑';
+    header.appendChild(title); header.appendChild(clearBtn);
+
+    var messages = doc.createElement('div');
+    messages.id = 'jjs-chat-messages';
+
+    panel.appendChild(header); panel.appendChild(messages);
+    doc.body.appendChild(panel);
+
+    var overlay = doc.createElement('div');
+    overlay.id = 'jjs-modal-overlay';
+    var box = doc.createElement('div');
+    box.id = 'jjs-modal-box';
+    box.innerHTML = '<h3>Clear chat history?</h3>'
+      + '<p>All messages will be deleted and the page will reload for a fresh session.</p>'
+      + '<div class="jjs-modal-btns">'
+      + '<button id="jjs-modal-cancel">Cancel</button>'
+      + '<button id="jjs-modal-confirm">Clear</button>'
+      + '</div>';
+    overlay.appendChild(box);
+    doc.body.appendChild(overlay);
+
+    // Persistent submit listener — fires before Streamlit's rerun so we can
+    // show the user message + typing indicator immediately.
+    doc.addEventListener('submit', function (e) {{
+      var el = e.target;
+      while (el) {{
+        if (el.getAttribute && el.getAttribute('data-testid') === 'stChatInput') break;
+        el = el.parentElement;
+      }}
+      if (!el) return;
+      var input = e.target.querySelector('input, textarea');
+      if (!input || !input.value.trim()) return;
+      var text = input.value.trim();
+      var msgBox = doc.getElementById('jjs-chat-messages');
+      var alreadyShown = false;
+      if (msgBox) {{
+        for (var i = 0; i < msgBox.children.length; i++) {{
+          if (msgBox.children[i].classList.contains('user') && msgBox.children[i].textContent === text) {{
+            alreadyShown = true; break;
+          }}
+        }}
+      }}
+      if (!alreadyShown) {{
+        appendMsg('user', text);
+        var h = loadHistory();
+        h.push({{ role: 'user', content: text, timestamp: Date.now() }});
+        saveHistory(h);
+      }}
+      showTypingIndicator();
+    }});
+  }}
+
   var PENDING_REPLY = {pending_reply_js};
   var PENDING_USER_MSG = {pending_user_msg_js};
 
   function init() {{
+    // Remove any typing indicator left from the previous submission
+    removeTypingIndicator();
+
     // Restore history only if messages box is empty
     var box = doc.getElementById('jjs-chat-messages');
     if (box && box.children.length === 0) {{
       loadHistory().forEach(function (msg) {{ appendMsg(msg.role, msg.content); }});
     }}
 
-    // Auto-open if there is history
-    if (loadHistory().length > 0) {{
-      var toggle = doc.getElementById('jjs-toggle');
-      if (toggle && !toggle.checked) toggle.checked = true;
+    // Sync body.jjs-chat-open with the toggle; auto-open if there is history
+    var toggle = doc.getElementById('jjs-toggle');
+    if (toggle) {{
+      if (loadHistory().length > 0 && !toggle.checked) toggle.checked = true;
+      doc.body.classList.toggle('jjs-chat-open', toggle.checked);
+      toggle.addEventListener('change', function () {{
+        doc.body.classList.toggle('jjs-chat-open', toggle.checked);
+      }});
     }}
 
-    // Append user message optimistically (already saved to history by Python)
+    // Append user message if not already visible (submit listener may have added it)
     if (PENDING_USER_MSG) {{
       var box2 = doc.getElementById('jjs-chat-messages');
-      // Only append if not already shown (history restore above may have shown it)
+      var alreadyShown = false;
       if (box2) {{
-        var last = box2.lastElementChild;
-        if (!last || last.textContent !== PENDING_USER_MSG) {{
+        for (var i = 0; i < box2.children.length; i++) {{
+          if (box2.children[i].classList.contains('user') && box2.children[i].textContent === PENDING_USER_MSG) {{
+            alreadyShown = true; break;
+          }}
+        }}
+        if (!alreadyShown) {{
           appendMsg('user', PENDING_USER_MSG);
           var h = loadHistory();
           var alreadySaved = h.length && h[h.length-1].content === PENDING_USER_MSG && h[h.length-1].role === 'user';
@@ -251,18 +330,18 @@ window.addEventListener('load', function () {{
     watchForReplies();
 
     // Clear button + confirmation modal
-    var clearBtn = doc.getElementById('jjs-clear-btn');
-    var overlay  = doc.getElementById('jjs-modal-overlay');
-    var cancelBtn  = doc.getElementById('jjs-modal-cancel');
+    var clearBtn  = doc.getElementById('jjs-clear-btn');
+    var overlay   = doc.getElementById('jjs-modal-overlay');
+    var cancelBtn = doc.getElementById('jjs-modal-cancel');
     var confirmBtn = doc.getElementById('jjs-modal-confirm');
 
     function showModal() {{ if (overlay) overlay.classList.add('jjs-open'); }}
     function hideModal() {{ if (overlay) overlay.classList.remove('jjs-open'); }}
 
-    if (clearBtn)  clearBtn.onclick  = function(e) {{ e.stopPropagation(); showModal(); }};
-    if (cancelBtn) cancelBtn.onclick = hideModal;
-    if (overlay)   overlay.onclick   = function(e) {{ if (e.target === overlay) hideModal(); }};
-    if (confirmBtn) confirmBtn.onclick = function() {{
+    if (clearBtn)   clearBtn.onclick   = function (e) {{ e.stopPropagation(); showModal(); }};
+    if (cancelBtn)  cancelBtn.onclick  = hideModal;
+    if (overlay)    overlay.onclick    = function (e) {{ if (e.target === overlay) hideModal(); }};
+    if (confirmBtn) confirmBtn.onclick = function () {{
       hideModal();
       parentWin.localStorage.removeItem(STORAGE_KEY);
       parentWin.sessionStorage.removeItem('jjs_last_counter');
@@ -271,6 +350,7 @@ window.addEventListener('load', function () {{
   }}
 
   function tryInit() {{
+    createChatUI();
     if (doc.getElementById('jjs-chat-messages')) {{ init(); }}
     else {{ setTimeout(tryInit, 50); }}
   }}
@@ -287,7 +367,7 @@ def render_chat_widget(
     pending_user_msg: str | None = None,
 ) -> None:
     import json
-    st.markdown(_CSS + _HTML, unsafe_allow_html=True)
+    st.markdown(_CSS, unsafe_allow_html=True)
 
     pending_reply_js = json.dumps(pending_reply) if pending_reply is not None else "null"
     pending_user_msg_js = json.dumps(pending_user_msg) if pending_user_msg is not None else "null"
