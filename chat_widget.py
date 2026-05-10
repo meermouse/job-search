@@ -283,16 +283,6 @@ window.addEventListener('load', function () {{
       loadHistory().forEach(function (msg) {{ appendMsg(msg.role, msg.content); }});
     }}
 
-    // Sync body.jjs-chat-open with the toggle; auto-open if there is history
-    var toggle = doc.getElementById('jjs-toggle');
-    if (toggle) {{
-      if (loadHistory().length > 0 && !toggle.checked) toggle.checked = true;
-      doc.body.classList.toggle('jjs-chat-open', toggle.checked);
-      toggle.addEventListener('change', function () {{
-        doc.body.classList.toggle('jjs-chat-open', toggle.checked);
-      }});
-    }}
-
     // Append user message if not already visible (submit listener may have added it)
     if (PENDING_USER_MSG) {{
       var box2 = doc.getElementById('jjs-chat-messages');
@@ -325,6 +315,17 @@ window.addEventListener('load', function () {{
         saveHistory(h2);
         appendMsg('assistant', PENDING_REPLY);
       }}
+    }}
+
+    // Sync body.jjs-chat-open with the toggle AFTER content is saved to localStorage,
+    // so the auto-open check sees the new message even on the first bot-initiated reply.
+    var toggle = doc.getElementById('jjs-toggle');
+    if (toggle) {{
+      if (loadHistory().length > 0 && !toggle.checked) toggle.checked = true;
+      doc.body.classList.toggle('jjs-chat-open', toggle.checked);
+      toggle.addEventListener('change', function () {{
+        doc.body.classList.toggle('jjs-chat-open', toggle.checked);
+      }});
     }}
 
     watchForReplies();
