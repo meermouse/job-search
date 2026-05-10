@@ -171,30 +171,35 @@ def _min_salary_value(salary_str: str) -> int:
     return int(nums[0].replace(",", ""))
 
 
-import json
 import chatbot
 import chat_widget
 
 
-def _process_chat_message() -> None:
-    """Read incoming chat message from hidden input, call Claude, apply actions."""
-    raw = st.session_state.get("_chat_input", "")
-    if not raw or raw == st.session_state.get("_chat_last_seen", ""):
-        return
+import cv_parser
+import sponsor_filter
+from searchers import search_all_streaming
 
-    st.session_state["_chat_last_seen"] = raw
+st.set_page_config(page_title="Jie's Job Search", layout="wide")
+st.title("Jie's Job Search")
+st.caption("Finds UK roles from licensed Skilled Worker visa sponsors only.")
 
+user_msg = st.chat_input("Ask me anything...")
+if user_msg:
+    history = st.session_state.get("_chat_history", [])
+    cv_analysis = st.session_state.get("cv_analysis")
     try:
-        payload = json.loads(raw)
-        message_text = payload.get("text", "")
-    except (json.JSONDecodeError, KeyError, AttributeError, TypeError):
-        message_text = raw
-
-    if not message_text:
-        return
-
-    # Special command fired by JS after showing a trigger_search reply
-    if message_text == "__TRIGGER_SEARCH__":
+        reply, actions = chatbot.get_response(user_msg, history, cv_analysis)
+    except Exception as e:
+        reply = f"Sorry, I couldn't reach the assistant right now. ({e})"
+        actions = []
+    history.append({"role": "user", "content": user_msg})
+    history.append({"role": "assistant", "content": reply})
+    st.session_state["_chat_history"] = history
+    try:
+        should_trigger = chatbot.apply_actions(actions, st.session_state)
+    except Exception:
+        should_trigger = False
+    if should_trigger:
         queries = st.session_state.get("_chat_queries", [])
         if queries:
             st.session_state.search_params = {
@@ -206,55 +211,18 @@ def _process_chat_message() -> None:
             }
             st.session_state.pop("all_jobs", None)
             st.session_state.pop("filtered_jobs", None)
-        return
-
-    # Normal chat message — call Claude
-    history = st.session_state.get("_chat_history", [])
-    cv_analysis = st.session_state.get("cv_analysis")
-
-    try:
-        reply, actions = chatbot.get_response(message_text, history, cv_analysis)
-    except Exception as e:
-        reply = f"Sorry, I couldn't reach the assistant right now. ({e})"
-        actions = []
-
-    history.append({"role": "user", "content": message_text})
-    history.append({"role": "assistant", "content": reply})
-    st.session_state["_chat_history"] = history
-
-    try:
-        should_trigger = chatbot.apply_actions(actions, st.session_state)
-    except Exception:
-        should_trigger = False
-
     st.session_state["_chat_reply"] = reply
-    st.session_state["_chat_trigger_search"] = should_trigger
     st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
+    st.session_state["_pending_user_msg"] = user_msg
 
-
-import cv_parser
-import sponsor_filter
-from searchers import search_all_streaming
-
-st.set_page_config(page_title="Jie's Job Search", layout="wide")
-st.title("Jie's Job Search")
-st.caption("Finds UK roles from licensed Skilled Worker visa sponsors only.")
-
-# Hidden input: JS writes user messages here to trigger a Streamlit rerun
-st.text_input("", key="_chat_input", label_visibility="collapsed", placeholder="__chat_hidden__")
-
-# Process any incoming message before rendering the rest of the page
-_process_chat_message()
-
-# Render the chat widget (reply div must be in DOM before the search block can call st.rerun())
+# Render the chat widget
 chat_widget.render_chat_widget(
     pending_reply=st.session_state.get("_chat_reply"),
     message_counter=st.session_state.get("_chat_counter", 0),
-    trigger_search=st.session_state.get("_chat_trigger_search", False),
+    pending_user_msg=st.session_state.pop("_pending_user_msg", None),
 )
 # Clear reply after rendering so it isn't re-shown on subsequent reruns
 st.session_state.pop("_chat_reply", None)
-st.session_state.pop("_chat_trigger_search", None)
 
 # --- State 1: Input ---
 tab_cv, tab_manual = st.tabs(["📄 Upload CV", "✏️ Search manually"])
