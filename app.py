@@ -205,7 +205,7 @@ def _auto_ack_cv() -> None:
         st.session_state["_chat_history"] = history
         try:
             chatbot.apply_actions(actions, st.session_state)
-            _clear_form_widget_state(actions)
+            _sync_form_from_actions(actions)
         except Exception:
             pass
         st.session_state["_chat_reply"] = reply
@@ -264,19 +264,35 @@ def _auto_ack_search() -> None:
     st.session_state["_chat_loading"] = True
 
 
-def _clear_form_widget_state(actions: list[dict]) -> None:
-    """Delete cached form-widget values so they re-initialise from chatbot-updated session state."""
-    touched = {a["type"] for a in actions}
-    field_map = {
-        "set_queries":  "queries",
-        "set_location": "location",
-        "set_distance": "distance",
-        "set_salary":   "salary",
-    }
-    for action_type, suffix in field_map.items():
-        if action_type in touched:
-            for prefix in ("cv", "manual"):
-                st.session_state.pop(f"{prefix}_{suffix}", None)
+def _sync_form_from_actions(actions: list[dict]) -> None:
+    """Write chatbot action values directly into form widget keys so both tabs update."""
+    for action in actions:
+        t = action["type"]
+        p = action.get("params", "")
+        if t == "set_queries":
+            val = "\n".join(q.strip() for q in p.split("|") if q.strip())
+            if val:
+                st.session_state["cv_queries"] = val
+                st.session_state["manual_queries"] = val
+        elif t == "set_location":
+            loc = p.strip()
+            if loc:
+                st.session_state["cv_location"] = loc
+                st.session_state["manual_location"] = loc
+        elif t == "set_distance":
+            try:
+                dist = int(p.strip())
+                st.session_state["cv_distance"] = dist
+                st.session_state["manual_distance"] = dist
+            except ValueError:
+                pass
+        elif t == "set_salary":
+            try:
+                sal = int(p.strip())
+                st.session_state["cv_salary"] = sal
+                st.session_state["manual_salary"] = sal
+            except ValueError:
+                pass
 
 
 import cv_parser
@@ -301,7 +317,7 @@ if user_msg:
     st.session_state["_chat_history"] = history
     try:
         should_trigger = chatbot.apply_actions(actions, st.session_state)
-        _clear_form_widget_state(actions)
+        _sync_form_from_actions(actions)
     except Exception:
         should_trigger = False
     if should_trigger:
