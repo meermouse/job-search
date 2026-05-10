@@ -15,7 +15,7 @@ _CSS = """
 }
 #jjs-chat-panel {
   position: fixed; bottom: 92px; right: 24px;
-  width: 340px; height: 420px;
+  width: 680px; height: 840px;
   background: white; border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.15);
   border: 1px solid #e0e4f0;
@@ -35,7 +35,7 @@ _CSS = """
 }
 .jjs-msg {
   max-width: 85%; padding: 8px 12px; border-radius: 8px;
-  font-size: 13px; line-height: 1.4; white-space: pre-wrap; word-break: break-word;
+  font-size: 18px; line-height: 1.5; white-space: pre-wrap; word-break: break-word;
 }
 .jjs-msg.user {
   background: #5060cc; color: white;
@@ -54,7 +54,7 @@ body:has(#jjs-toggle:checked) [data-testid="stChatInput"] {
   bottom: 92px !important;
   right: 24px !important;
   left: auto !important;
-  width: 340px !important;
+  width: 680px !important;
   z-index: 10001 !important;
   border-radius: 0 0 12px 12px !important;
   border-top: 1px solid #e0e4f0 !important;
