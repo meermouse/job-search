@@ -177,75 +177,91 @@ import chat_widget
 
 
 def _auto_ack_cv() -> None:
-    """Called at the top of a rerun to acknowledge a freshly analysed CV."""
+    """Two-pass CV acknowledgement: Pass 1 shows typing indicator, Pass 2 calls Claude."""
+    # Pass 2: compute and store the reply
+    if st.session_state.pop("_cv_ack_in_progress", False):
+        analysis = st.session_state.get("cv_analysis")
+        st.session_state.pop("_chat_loading", None)
+        if not analysis:
+            return
+        titles  = ", ".join(analysis.get("job_titles", [])) or "various roles"
+        skills  = ", ".join(analysis.get("skills", [])[:6]) or "various skills"
+        queries = ", ".join(analysis.get("search_queries", [])) or "related roles"
+        trigger = (
+            f"[System: User just uploaded their CV. "
+            f"Extracted — job titles: {titles}; skills: {skills}; "
+            f"suggested search queries: {queries}. "
+            f"Acknowledge the upload, briefly summarise what you found, and suggest next steps. "
+            f"Use set_queries to pre-populate the search with the suggested queries.]"
+        )
+        history = st.session_state.get("_chat_history", [])
+        try:
+            reply, actions = chatbot.get_response(trigger, history, analysis)
+        except Exception:
+            reply = f"I've analysed your CV! I can see experience as {titles}. Ready to search for matching roles?"
+            actions = []
+        history.append({"role": "user", "content": trigger})
+        history.append({"role": "assistant", "content": reply})
+        st.session_state["_chat_history"] = history
+        try:
+            chatbot.apply_actions(actions, st.session_state)
+            _clear_form_widget_state(actions)
+        except Exception:
+            pass
+        st.session_state["_chat_reply"] = reply
+        st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
+        return
+
+    # Pass 1: set loading flag so the widget shows a typing indicator, then rerun
     if not st.session_state.pop("_new_cv_to_ack", False):
         return
-    analysis = st.session_state.get("cv_analysis")
-    if not analysis:
-        return
-    titles   = ", ".join(analysis.get("job_titles", [])) or "various roles"
-    skills   = ", ".join(analysis.get("skills", [])[:6]) or "various skills"
-    queries  = ", ".join(analysis.get("search_queries", [])) or "related roles"
-    trigger  = (
-        f"[System: User just uploaded their CV. "
-        f"Extracted — job titles: {titles}; skills: {skills}; "
-        f"suggested search queries: {queries}. "
-        f"Acknowledge the upload, briefly summarise what you found, and suggest next steps. "
-        f"Use set_queries to pre-populate the search with the suggested queries.]"
-    )
-    history = st.session_state.get("_chat_history", [])
-    try:
-        reply, actions = chatbot.get_response(trigger, history, analysis)
-    except Exception as e:
-        reply = f"I've analysed your CV! I can see experience as {titles}. Ready to search for matching roles?"
-        actions = []
-    history.append({"role": "user", "content": trigger})
-    history.append({"role": "assistant", "content": reply})
-    st.session_state["_chat_history"] = history
-    try:
-        chatbot.apply_actions(actions, st.session_state)
-        _clear_form_widget_state(actions)
-    except Exception:
-        pass
-    st.session_state["_chat_reply"] = reply
-    st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
+    st.session_state["_cv_ack_in_progress"] = True
+    st.session_state["_chat_loading"] = True
 
 
 def _auto_ack_search() -> None:
-    """Called at the top of a rerun to acknowledge freshly completed search results."""
+    """Two-pass search acknowledgement: Pass 1 shows typing indicator, Pass 2 calls Claude."""
+    # Pass 2: compute and store the reply
+    if st.session_state.pop("_search_ack_in_progress", False):
+        filtered    = st.session_state.get("filtered_jobs", [])
+        all_jobs    = st.session_state.get("all_jobs", [])
+        params      = st.session_state.get("search_params", {})
+        history     = st.session_state.get("_chat_history", [])
+        cv_analysis = st.session_state.get("cv_analysis")
+        location    = params.get("location", "unknown")
+        distance    = params.get("distance", 0)
+        queries     = ", ".join(params.get("queries", [])) or "the specified terms"
+        trigger     = (
+            f"[System: Search completed. "
+            f"Queries: {queries}. Location: {location} within {distance} miles. "
+            f"Results: {len(all_jobs)} total jobs, {len(filtered)} from licensed Skilled Worker visa sponsors. "
+            f"Briefly summarise and suggest next steps.]"
+        )
+        st.session_state.pop("_chat_loading", None)
+        try:
+            reply, actions = chatbot.get_response(trigger, history, cv_analysis)
+        except Exception:
+            reply = (
+                f"Search complete! Found {len(filtered)} sponsored roles "
+                f"out of {len(all_jobs)} total near {location}."
+            )
+            actions = []
+        history.append({"role": "user", "content": trigger})
+        history.append({"role": "assistant", "content": reply})
+        st.session_state["_chat_history"] = history
+        try:
+            chatbot.apply_actions(actions, st.session_state)
+        except Exception:
+            pass
+        st.session_state["_chat_reply"] = reply
+        st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
+        return
+
+    # Pass 1: set loading flag so the widget shows a typing indicator, then rerun
     if not st.session_state.pop("_new_search_to_ack", False):
         return
-    filtered  = st.session_state.get("filtered_jobs", [])
-    all_jobs  = st.session_state.get("all_jobs", [])
-    params    = st.session_state.get("search_params", {})
-    history   = st.session_state.get("_chat_history", [])
-    cv_analysis = st.session_state.get("cv_analysis")
-    location  = params.get("location", "unknown")
-    distance  = params.get("distance", 0)
-    queries   = ", ".join(params.get("queries", [])) or "the specified terms"
-    trigger   = (
-        f"[System: Search completed. "
-        f"Queries: {queries}. Location: {location} within {distance} miles. "
-        f"Results: {len(all_jobs)} total jobs, {len(filtered)} from licensed Skilled Worker visa sponsors. "
-        f"Briefly summarise and suggest next steps.]"
-    )
-    try:
-        reply, actions = chatbot.get_response(trigger, history, cv_analysis)
-    except Exception as e:
-        reply = (
-            f"Search complete! Found {len(filtered)} sponsored roles "
-            f"out of {len(all_jobs)} total near {location}."
-        )
-        actions = []
-    history.append({"role": "user", "content": trigger})
-    history.append({"role": "assistant", "content": reply})
-    st.session_state["_chat_history"] = history
-    try:
-        chatbot.apply_actions(actions, st.session_state)
-    except Exception:
-        pass
-    st.session_state["_chat_reply"] = reply
-    st.session_state["_chat_counter"] = st.session_state.get("_chat_counter", 0) + 1
+    st.session_state["_search_ack_in_progress"] = True
+    st.session_state["_chat_loading"] = True
 
 
 def _clear_form_widget_state(actions: list[dict]) -> None:
@@ -314,9 +330,13 @@ chat_widget.render_chat_widget(
     pending_reply=st.session_state.get("_chat_reply"),
     message_counter=st.session_state.get("_chat_counter", 0),
     pending_user_msg=st.session_state.pop("_pending_user_msg", None),
+    is_loading=st.session_state.get("_chat_loading", False),
 )
 # Clear reply after rendering so it isn't re-shown on subsequent reruns
 st.session_state.pop("_chat_reply", None)
+# If an auto-ack pass 1 just ran, trigger pass 2 immediately
+if st.session_state.get("_cv_ack_in_progress") or st.session_state.get("_search_ack_in_progress"):
+    st.rerun()
 
 # --- State 1: Input ---
 tab_cv, tab_manual = st.tabs(["📄 Upload CV", "✏️ Search manually"])

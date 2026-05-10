@@ -77,7 +77,7 @@ body.jjs-chat-open #jjs-chat-panel { display: flex; }
 #jjs-modal-confirm { background: #d63031; color: white; }
 #jjs-modal-cancel:hover  { background: #ddd; }
 #jjs-modal-confirm:hover { background: #b71c1c; }
-/* Typing indicator */
+/* Typing indicator (manual messages) */
 #jjs-typing { align-self: flex-start; padding: 10px 14px; }
 @keyframes jjs-blink {
   0%, 80%, 100% { opacity: 0.2; transform: scale(0.75); }
@@ -90,6 +90,20 @@ body.jjs-chat-open #jjs-chat-panel { display: flex; }
 }
 .jjs-dot:nth-child(2) { animation-delay: 0.2s; }
 .jjs-dot:nth-child(3) { animation-delay: 0.4s; }
+/* Thinking state: animated border + small header spinner */
+@keyframes jjs-spin { to { transform: rotate(360deg); } }
+#jjs-chat-panel.jjs-thinking {
+  border-color: #5060cc;
+  box-shadow: 0 0 0 3px rgba(80,96,204,0.18), 0 8px 32px rgba(0,0,0,0.15);
+}
+#jjs-header-spinner {
+  display: none; flex-shrink: 0;
+  width: 14px; height: 14px; margin-left: 8px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white; border-radius: 50%;
+  animation: jjs-spin 0.7s linear infinite;
+}
+#jjs-chat-panel.jjs-thinking #jjs-header-spinner { display: block; }
 
 /* Dock st.chat_input at the panel bottom when open */
 body.jjs-chat-open [data-testid="stBottom"],
@@ -140,6 +154,8 @@ window.addEventListener('load', function () {{
   }}
 
   function showTypingIndicator() {{
+    var panel = doc.getElementById('jjs-chat-panel');
+    if (panel) panel.classList.add('jjs-thinking');
     if (doc.getElementById('jjs-typing')) return;
     var box = doc.getElementById('jjs-chat-messages');
     if (!box) return;
@@ -153,6 +169,8 @@ window.addEventListener('load', function () {{
   function removeTypingIndicator() {{
     var el = doc.getElementById('jjs-typing');
     if (el) el.parentNode.removeChild(el);
+    var panel = doc.getElementById('jjs-chat-panel');
+    if (panel) panel.classList.remove('jjs-thinking');
   }}
 
   function appendMsg(role, text) {{
@@ -218,7 +236,9 @@ window.addEventListener('load', function () {{
     var clearBtn = doc.createElement('button');
     clearBtn.id = 'jjs-clear-btn'; clearBtn.title = 'Clear chat history';
     clearBtn.textContent = '🗑';
-    header.appendChild(title); header.appendChild(clearBtn);
+    var headerSpinner = doc.createElement('div');
+    headerSpinner.id = 'jjs-header-spinner';
+    header.appendChild(title); header.appendChild(headerSpinner); header.appendChild(clearBtn);
 
     var messages = doc.createElement('div');
     messages.id = 'jjs-chat-messages';
@@ -239,18 +259,10 @@ window.addEventListener('load', function () {{
     overlay.appendChild(box);
     doc.body.appendChild(overlay);
 
-    // Persistent submit listener — fires before Streamlit's rerun so we can
-    // show the user message + typing indicator immediately.
-    doc.addEventListener('submit', function (e) {{
-      var el = e.target;
-      while (el) {{
-        if (el.getAttribute && el.getAttribute('data-testid') === 'stChatInput') break;
-        el = el.parentElement;
-      }}
-      if (!el) return;
-      var input = e.target.querySelector('input, textarea');
-      if (!input || !input.value.trim()) return;
-      var text = input.value.trim();
+    // Capture-phase keydown fires before React — intercept Enter in the chat textarea
+    // to show the user message + typing indicator before Streamlit reruns.
+    function handleChatSubmit(text) {{
+      if (!text) return;
       var msgBox = doc.getElementById('jjs-chat-messages');
       var alreadyShown = false;
       if (msgBox) {{
@@ -267,11 +279,54 @@ window.addEventListener('load', function () {{
         saveHistory(h);
       }}
       showTypingIndicator();
-    }});
+    }}
+
+    doc.addEventListener('keydown', function (e) {{
+      if (e.key !== 'Enter' || e.shiftKey) return;
+      var t = e.target;
+      var inChat = false;
+      while (t) {{
+        if (t.getAttribute && (
+          t.getAttribute('data-testid') === 'stChatInput' ||
+          t.getAttribute('data-testid') === 'stBottom'
+        )) {{ inChat = true; break; }}
+        t = t.parentElement;
+      }}
+      if (!inChat) return;
+      var text = e.target.value ? e.target.value.trim() : '';
+      handleChatSubmit(text);
+    }}, true); // capture phase — fires before React
+
+    // Also handle send-button click
+    doc.addEventListener('click', function (e) {{
+      var t = e.target;
+      while (t) {{
+        if (t.tagName === 'BUTTON' && (t.type === 'submit' || t.getAttribute('aria-label'))) {{
+          var p = t;
+          var inChat = false;
+          while (p) {{
+            if (p.getAttribute && (
+              p.getAttribute('data-testid') === 'stChatInput' ||
+              p.getAttribute('data-testid') === 'stBottom'
+            )) {{ inChat = true; break; }}
+            p = p.parentElement;
+          }}
+          if (inChat) {{
+            var form = t.closest ? t.closest('form') : null;
+            var input = form ? form.querySelector('textarea, input') : null;
+            var text = input && input.value ? input.value.trim() : '';
+            handleChatSubmit(text);
+          }}
+          break;
+        }}
+        t = t.parentElement;
+      }}
+    }}, true);
   }}
 
   var PENDING_REPLY = {pending_reply_js};
   var PENDING_USER_MSG = {pending_user_msg_js};
+  var IS_LOADING = {is_loading_js};
 
   function init() {{
     // Remove any typing indicator left from the previous submission
@@ -328,6 +383,16 @@ window.addEventListener('load', function () {{
       }});
     }}
 
+    // If Python is mid-computation (auto-ack), show thinking style and open panel
+    var panel = doc.getElementById('jjs-chat-panel');
+    if (IS_LOADING) {{
+      showTypingIndicator();
+      if (toggle && !toggle.checked) {{
+        toggle.checked = true;
+        doc.body.classList.add('jjs-chat-open');
+      }}
+    }}
+
     watchForReplies();
 
     // Clear button + confirmation modal
@@ -366,16 +431,19 @@ def render_chat_widget(
     pending_reply: str | None,
     message_counter: int,
     pending_user_msg: str | None = None,
+    is_loading: bool = False,
 ) -> None:
     import json
     st.markdown(_CSS, unsafe_allow_html=True)
 
     pending_reply_js = json.dumps(pending_reply) if pending_reply is not None else "null"
     pending_user_msg_js = json.dumps(pending_user_msg) if pending_user_msg is not None else "null"
+    is_loading_js = json.dumps(is_loading)
 
     js = _JS_TEMPLATE.format(
         pending_reply_js=pending_reply_js,
         pending_user_msg_js=pending_user_msg_js,
+        is_loading_js=is_loading_js,
         counter=message_counter,
     )
     _components.html(js, height=0)
