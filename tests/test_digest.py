@@ -124,3 +124,26 @@ def test_format_email_html_no_results_omits_table():
 
     assert "No matches today." in html
     assert "<table" not in html
+
+
+def test_send_email_logs_in_and_sends():
+    from digest import send_email
+
+    mock_server = MagicMock()
+
+    with patch("digest.smtplib.SMTP_SSL") as mock_ssl:
+        mock_ssl.return_value.__enter__ = MagicMock(return_value=mock_server)
+        mock_ssl.return_value.__exit__ = MagicMock(return_value=False)
+        send_email(
+            subject="Test digest",
+            html_body="<p>hello</p>",
+            recipient="jie@example.com",
+            gmail_user="sender@gmail.com",
+            gmail_app_password="app-password",
+        )
+
+    mock_server.login.assert_called_once_with("sender@gmail.com", "app-password")
+    mock_server.sendmail.assert_called_once()
+    call_args = mock_server.sendmail.call_args
+    assert call_args[0][0] == "sender@gmail.com"
+    assert call_args[0][1] == "jie@example.com"

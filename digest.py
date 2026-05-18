@@ -92,3 +92,21 @@ def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
         f"{table}"
         f"</body></html>"
     )
+
+
+def send_email(
+    subject: str,
+    html_body: str,
+    recipient: str,
+    gmail_user: str,
+    gmail_app_password: str,
+) -> None:
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = gmail_user
+    msg["To"] = recipient
+    msg.attach(MIMEText(html_body, "html"))
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+        server.login(gmail_user, gmail_app_password)
+        server.sendmail(gmail_user, recipient, msg.as_string())
