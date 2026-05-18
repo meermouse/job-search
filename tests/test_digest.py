@@ -147,3 +147,65 @@ def test_send_email_logs_in_and_sends():
     call_args = mock_server.sendmail.call_args
     assert call_args[0][0] == "sender@gmail.com"
     assert call_args[0][1] == "jie@example.com"
+
+
+def test_main_sends_email_when_jobs_found():
+    from digest import main
+
+    config = {
+        "search_queries": ["Data Engineer Bristol"],
+        "location": "Bristol",
+        "min_salary": 60000,
+        "recipient_email": "jie@example.com",
+    }
+    filtered_jobs = [
+        {
+            "title": "Data Engineer",
+            "company": "NHS",
+            "url": "http://example.com/1",
+            "location": "Bristol",
+            "salary": "£65,000",
+            "description": "",
+            "source": "NHS Jobs",
+            "sponsor_name": "NHS Digital",
+        }
+    ]
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.collect_jobs", return_value=filtered_jobs), \
+         patch("digest.sponsor_filter.load_sponsor_names", return_value=["NHS Digital"]), \
+         patch("digest.sponsor_filter.filter_jobs", return_value=filtered_jobs), \
+         patch("digest.analyse_results", return_value="Great match!"), \
+         patch("digest.format_email_html", return_value="<html>content</html>"), \
+         patch("digest.send_email") as mock_send, \
+         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    mock_send.assert_called_once()
+    call_kwargs = mock_send.call_args[1]
+    assert call_kwargs["recipient"] == "jie@example.com"
+    assert "1 match" in call_kwargs["subject"]
+
+
+def test_main_sends_email_when_no_jobs_found():
+    from digest import main
+
+    config = {
+        "search_queries": ["Data Engineer Bristol"],
+        "location": "Bristol",
+        "min_salary": 60000,
+        "recipient_email": "jie@example.com",
+    }
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.collect_jobs", return_value=[]), \
+         patch("digest.sponsor_filter.load_sponsor_names", return_value=[]), \
+         patch("digest.sponsor_filter.filter_jobs", return_value=[]), \
+         patch("digest.format_email_html", return_value="<html>no matches</html>"), \
+         patch("digest.send_email") as mock_send, \
+         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    mock_send.assert_called_once()
+    call_kwargs = mock_send.call_args[1]
+    assert "0 matches" in call_kwargs["subject"]

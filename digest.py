@@ -110,3 +110,32 @@ def send_email(
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(gmail_user, gmail_app_password)
         server.sendmail(gmail_user, recipient, msg.as_string())
+
+
+def main() -> None:
+    config = load_config()
+    jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
+    sponsor_names = sponsor_filter.load_sponsor_names()
+    filtered = sponsor_filter.filter_jobs(jobs, sponsor_names)
+
+    if filtered:
+        summary = analyse_results(filtered, config)
+    else:
+        summary = "No matching roles were found today from licensed UK visa sponsors."
+
+    today = date.today().strftime("%d %B %Y")
+    count = len(filtered)
+    subject = f"Job digest — {count} match{'es' if count != 1 else ''} — {today}"
+    html_body = format_email_html(filtered, summary, today)
+    send_email(
+        subject=subject,
+        html_body=html_body,
+        recipient=config["recipient_email"],
+        gmail_user=os.environ["GMAIL_USER"],
+        gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
+    )
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    main()
