@@ -60,3 +60,35 @@ def analyse_results(jobs: list[dict], config: dict) -> str:
         ],
     )
     return message.content[0].text
+
+
+def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
+    if jobs:
+        rows = "".join(
+            f"<tr>"
+            f"<td><a href='{j['url']}'>{j['title']}</a></td>"
+            f"<td>{j.get('sponsor_name') or j.get('company', '')}</td>"
+            f"<td>{j.get('location', '')}</td>"
+            f"<td>{j.get('salary', '')}</td>"
+            f"<td>{j.get('source', '')}</td>"
+            f"</tr>"
+            for j in jobs
+        )
+        table = (
+            "<table border='1' cellpadding='6' cellspacing='0' "
+            "style='border-collapse:collapse;width:100%'>"
+            "<thead><tr style='background:#f0f0f0'>"
+            "<th>Job Title</th><th>Company</th><th>Location</th><th>Salary</th><th>Source</th>"
+            "</tr></thead>"
+            f"<tbody>{rows}</tbody></table>"
+        )
+    else:
+        table = ""
+
+    return (
+        f"<html><body>"
+        f"<h2>Jie's Job Digest — {today}</h2>"
+        f"<p>{summary}</p>"
+        f"{table}"
+        f"</body></html>"
+    )

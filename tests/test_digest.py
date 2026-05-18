@@ -92,3 +92,35 @@ def test_analyse_results_calls_claude_and_returns_text():
 
     assert result == "Great match today!"
     mock_client.messages.create.assert_called_once()
+
+
+def test_format_email_html_contains_summary_and_jobs():
+    from digest import format_email_html
+
+    jobs = [
+        {
+            "title": "Data Engineer",
+            "company": "NHS Digital",
+            "location": "Bristol",
+            "salary": "£65,000",
+            "source": "NHS Jobs",
+            "url": "https://example.com/job/1",
+            "sponsor_name": "NHS Digital",
+        }
+    ]
+    html = format_email_html(jobs, "Strong match today.", "18 May 2026")
+
+    assert "Strong match today." in html
+    assert "Data Engineer" in html
+    assert "NHS Digital" in html
+    assert "https://example.com/job/1" in html
+    assert "18 May 2026" in html
+
+
+def test_format_email_html_no_results_omits_table():
+    from digest import format_email_html
+
+    html = format_email_html([], "No matches today.", "18 May 2026")
+
+    assert "No matches today." in html
+    assert "<table" not in html
