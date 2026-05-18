@@ -126,6 +126,27 @@ def test_format_email_html_no_results_omits_table():
     assert "<table" not in html
 
 
+def test_format_email_html_escapes_special_characters():
+    from digest import format_email_html
+
+    jobs = [
+        {
+            "title": "Senior & Junior Dev",
+            "company": "<Acme>",
+            "location": "Bristol",
+            "salary": "",
+            "source": "Reed",
+            "url": "https://example.com/job/1",
+            "sponsor_name": "",
+        }
+    ]
+    html_out = format_email_html(jobs, "Good results.", "18 May 2026")
+
+    assert "Senior &amp; Junior Dev" in html_out
+    assert "&lt;Acme&gt;" in html_out
+    assert "<Acme>" not in html_out
+
+
 def test_send_email_logs_in_and_sends():
     from digest import send_email
 

@@ -1,3 +1,4 @@
+import html
 import os
 import smtplib
 import ssl
@@ -66,11 +67,11 @@ def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
     if jobs:
         rows = "".join(
             f"<tr>"
-            f"<td><a href='{j['url']}'>{j['title']}</a></td>"
-            f"<td>{j.get('sponsor_name') or j.get('company', '')}</td>"
-            f"<td>{j.get('location', '')}</td>"
-            f"<td>{j.get('salary', '')}</td>"
-            f"<td>{j.get('source', '')}</td>"
+            f"<td><a href='{html.escape(j['url'])}'>{html.escape(j['title'])}</a></td>"
+            f"<td>{html.escape(j.get('sponsor_name') or j.get('company', ''))}</td>"
+            f"<td>{html.escape(j.get('location', ''))}</td>"
+            f"<td>{html.escape(j.get('salary', ''))}</td>"
+            f"<td>{html.escape(j.get('source', ''))}</td>"
             f"</tr>"
             for j in jobs
         )
@@ -87,8 +88,8 @@ def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
 
     return (
         f"<html><body>"
-        f"<h2>Jie's Job Digest — {today}</h2>"
-        f"<p>{summary}</p>"
+        f"<h2>Jie's Job Digest — {html.escape(today)}</h2>"
+        f"<p>{html.escape(summary)}</p>"
         f"{table}"
         f"</body></html>"
     )
