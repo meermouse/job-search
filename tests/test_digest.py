@@ -181,6 +181,7 @@ def test_send_email_logs_in_and_sends():
     call_args = mock_server.sendmail.call_args
     assert call_args[0][0] == "sender@gmail.com"
     assert call_args[0][1] == "jie@example.com"
+    assert "<p>hello</p>" in call_args[0][2]
 
 
 def test_main_sends_email_when_jobs_found():
