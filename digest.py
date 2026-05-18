@@ -130,7 +130,7 @@ def main() -> None:
     send_email(
         subject=subject,
         html_body=html_body,
-        recipient=config["recipient_email"],
+        recipient=os.environ["RECIPIENT_EMAIL"],
         gmail_user=os.environ["GMAIL_USER"],
         gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
     )

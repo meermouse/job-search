@@ -178,7 +178,7 @@ def test_main_sends_email_when_jobs_found():
          patch("digest.analyse_results", return_value="Great match!"), \
          patch("digest.format_email_html", return_value="<html>content</html>"), \
          patch("digest.send_email") as mock_send, \
-         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw", "RECIPIENT_EMAIL": "jie@example.com"}):
         main()
 
     mock_send.assert_called_once()
@@ -203,7 +203,7 @@ def test_main_sends_email_when_no_jobs_found():
          patch("digest.sponsor_filter.filter_jobs", return_value=[]), \
          patch("digest.format_email_html", return_value="<html>no matches</html>"), \
          patch("digest.send_email") as mock_send, \
-         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+         patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw", "RECIPIENT_EMAIL": "jie@example.com"}):
         main()
 
     mock_send.assert_called_once()

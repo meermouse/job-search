@@ -25,4 +25,5 @@ jobs:
           SPONSOR_CSV_URL: ${{ secrets.SPONSOR_CSV_URL }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
         run: python digest.py
