@@ -63,6 +63,19 @@ def test_collect_jobs_handles_platform_errors():
     assert len(result) == 1
 
 
+def test_collect_jobs_skips_jobs_with_no_url():
+    from digest import collect_jobs
+
+    def fake_streaming(queries, location, min_salary, distance=50, platforms=None):
+        yield "Reed", [_make_job(None), _make_job("http://example.com/1")], None
+
+    with patch("digest.search_all_streaming", fake_streaming):
+        result = collect_jobs(["query"], "Bristol", 60000)
+
+    assert len(result) == 1
+    assert result[0]["url"] == "http://example.com/1"
+
+
 from unittest.mock import MagicMock
 
 

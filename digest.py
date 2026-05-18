@@ -28,7 +28,10 @@ def collect_jobs(queries: list[str], location: str, min_salary: int) -> list[dic
     seen_urls: set[str] = set()
     deduped: list[dict] = []
     for job in all_jobs:
-        if job["url"] and job["url"] not in seen_urls:
+        if not job["url"]:
+            logger.debug("Skipping job with no URL: %s at %s", job.get("title"), job.get("company"))
+            continue
+        if job["url"] not in seen_urls:
             seen_urls.add(job["url"])
             deduped.append(job)
     return deduped
