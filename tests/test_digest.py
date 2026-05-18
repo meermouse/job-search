@@ -236,6 +236,7 @@ def test_main_sends_email_when_no_jobs_found():
          patch("digest.collect_jobs", return_value=[]), \
          patch("digest.sponsor_filter.load_sponsor_names", return_value=[]), \
          patch("digest.sponsor_filter.filter_jobs", return_value=[]), \
+         patch("digest.analyse_results") as mock_analyse, \
          patch("digest.format_email_html", return_value="<html>no matches</html>"), \
          patch("digest.send_email") as mock_send, \
          patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw", "RECIPIENT_EMAIL": "jie@example.com"}):
@@ -244,3 +245,4 @@ def test_main_sends_email_when_no_jobs_found():
     mock_send.assert_called_once()
     call_kwargs = mock_send.call_args[1]
     assert "0 matches" in call_kwargs["subject"]
+    mock_analyse.assert_not_called()
