@@ -61,3 +61,34 @@ def test_collect_jobs_handles_platform_errors():
         result = collect_jobs(["query"], "Bristol", 60000)
 
     assert len(result) == 1
+
+
+from unittest.mock import MagicMock
+
+
+def test_analyse_results_calls_claude_and_returns_text():
+    from digest import analyse_results
+
+    jobs = [
+        {
+            "title": "Data Engineer",
+            "company": "NHS",
+            "location": "Bristol",
+            "salary": "£65,000",
+            "source": "NHS Jobs",
+        }
+    ]
+    config = {
+        "search_queries": ["Data Engineer Bristol"],
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value.content = [MagicMock(text="Great match today!")]
+
+    with patch("digest.anthropic.Anthropic", return_value=mock_client), \
+         patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        result = analyse_results(jobs, config)
+
+    assert result == "Great match today!"
+    mock_client.messages.create.assert_called_once()
