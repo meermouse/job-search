@@ -1,5 +1,6 @@
 import html
 import os
+import markdown as md_lib
 import smtplib
 import ssl
 import logging
@@ -92,7 +93,7 @@ def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
     return (
         f"<html><body>"
         f"<h2>Jie's Job Digest — {html.escape(today)}</h2>"
-        f"<p>{html.escape(summary)}</p>"
+        f"{md_lib.markdown(summary)}"
         f"{table}"
         f"</body></html>"
     )
