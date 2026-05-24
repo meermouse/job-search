@@ -36,7 +36,7 @@ Rules:
 """
 
 _CV_SECTION = """
-The user has uploaded a CV. Here is the extracted analysis:
+The user has uploaded a CV or connected their LinkedIn profile. Here is the extracted analysis:
   Job titles: {job_titles}
   Skills: {skills}
   Suggested search queries: {search_queries}
