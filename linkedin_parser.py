@@ -26,9 +26,30 @@ Profile text:
 {profile_text}"""
 
 
+from playwright.sync_api import sync_playwright  # noqa: PLC0415
+
+
 def scrape_profile(url: str) -> str:
-    from playwright.sync_api import sync_playwright  # noqa: PLC0415
-    raise NotImplementedError
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        try:
+            page = browser.new_page()
+            try:
+                page.goto(url, wait_until="domcontentloaded", timeout=30000)
+            except Exception as exc:
+                if "timeout" in str(exc).lower() or "TimeoutError" in type(exc).__name__:
+                    raise TimeoutError(
+                        "Couldn't load the LinkedIn profile — the page took too long to respond."
+                    ) from exc
+                raise
+            if "authwall" in page.url or "login" in page.url:
+                raise ValueError(
+                    "This profile isn't publicly visible. "
+                    "Check the URL is correct and the profile is set to public."
+                )
+            return page.inner_text("body")
+        finally:
+            browser.close()
 
 
 def analyse_profile(text: str) -> dict:

@@ -39,3 +39,62 @@ def test_analyse_profile_raises_on_api_error(mocker):
 
     with pytest.raises(Exception, match="API unavailable"):
         analyse_profile("Some profile text")
+
+
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+from linkedin_parser import scrape_profile
+
+
+def _mock_playwright(mocker, *, page_url="https://www.linkedin.com/in/janedoe", goto_side_effect=None):
+    """Helper that sets up a full Playwright context manager mock."""
+    mock_page = MagicMock()
+    mock_page.url = page_url
+    if goto_side_effect:
+        mock_page.goto.side_effect = goto_side_effect
+    mock_page.inner_text.return_value = "Jane Doe\nOperations Director"
+
+    mock_browser = MagicMock()
+    mock_browser.new_page.return_value = mock_page
+
+    mock_pw = MagicMock()
+    mock_pw.chromium.launch.return_value = mock_browser
+
+    mock_cm = MagicMock()
+    mock_cm.__enter__.return_value = mock_pw
+    mock_cm.__exit__.return_value = False
+
+    mocker.patch("linkedin_parser.sync_playwright", return_value=mock_cm)
+    return mock_page, mock_browser
+
+
+def test_scrape_profile_returns_page_text(mocker):
+    _mock_playwright(mocker)
+    result = scrape_profile("https://www.linkedin.com/in/janedoe")
+    assert "Jane Doe" in result
+
+
+def test_scrape_profile_raises_on_authwall(mocker):
+    _mock_playwright(mocker, page_url="https://www.linkedin.com/authwall?trk=bf_...")
+    with pytest.raises(ValueError, match="publicly visible"):
+        scrape_profile("https://www.linkedin.com/in/janedoe")
+
+
+def test_scrape_profile_raises_on_login_redirect(mocker):
+    _mock_playwright(mocker, page_url="https://www.linkedin.com/login?session_redirect=...")
+    with pytest.raises(ValueError, match="publicly visible"):
+        scrape_profile("https://www.linkedin.com/in/janedoe")
+
+
+def test_scrape_profile_raises_on_timeout(mocker):
+    _mock_playwright(mocker, goto_side_effect=PlaywrightTimeoutError("30000ms exceeded"))
+    with pytest.raises(TimeoutError, match="took too long"):
+        scrape_profile("https://www.linkedin.com/in/janedoe")
+
+
+def test_scrape_profile_closes_browser_on_error(mocker):
+    _, mock_browser = _mock_playwright(
+        mocker, page_url="https://www.linkedin.com/authwall?trk=..."
+    )
+    with pytest.raises(ValueError):
+        scrape_profile("https://www.linkedin.com/in/janedoe")
+    mock_browser.close.assert_called_once()
