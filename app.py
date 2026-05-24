@@ -187,8 +187,10 @@ def _auto_ack_cv() -> None:
         titles  = ", ".join(analysis.get("job_titles", [])) or "various roles"
         skills  = ", ".join(analysis.get("skills", [])[:6]) or "various skills"
         queries = ", ".join(analysis.get("search_queries", [])) or "related roles"
+        source = st.session_state.get("_analysis_source", "cv")
+        source_label = "connected their LinkedIn profile" if source == "linkedin" else "uploaded their CV"
         trigger = (
-            f"[System: User just uploaded their CV. "
+            f"[System: User just {source_label}. "
             f"Extracted — job titles: {titles}; skills: {skills}; "
             f"suggested search queries: {queries}. "
             f"Acknowledge the upload, briefly summarise what you found, and suggest next steps. "
@@ -301,6 +303,7 @@ def _sync_form_from_actions(actions: list[dict]) -> None:
 
 
 import cv_parser
+import linkedin_parser
 import sponsor_filter
 from searchers import search_all_streaming
 
@@ -364,7 +367,7 @@ if st.session_state.get("_cv_ack_in_progress") or st.session_state.get("_search_
     st.rerun()
 
 # --- State 1: Input ---
-tab_cv, tab_manual = st.tabs(["📄 Upload CV", "✏️ Search manually"])
+tab_cv, tab_linkedin, tab_manual = st.tabs(["📄 Upload CV", "🔗 LinkedIn Profile", "✏️ Search manually"])
 
 with tab_cv:
     uploaded_file = st.file_uploader("Upload your CV", type=["pdf", "docx", "txt"])
@@ -376,6 +379,8 @@ with tab_cv:
             st.session_state.pop("cv_analysis", None)
             st.session_state.pop("all_jobs", None)
             st.session_state.pop("filtered_jobs", None)
+            st.session_state.pop("linkedin_url", None)
+            st.session_state.pop("_analysis_source", None)
 
         if "cv_analysis" not in st.session_state:
             with _animated_spinner("Analysing your CV"):
@@ -383,17 +388,60 @@ with tab_cv:
                     text = cv_parser.extract_text(uploaded_file.read(), uploaded_file.name)
                     st.session_state.cv_analysis = cv_parser.analyse_cv(text)
                     st.session_state["_new_cv_to_ack"] = True
+                    st.session_state["_analysis_source"] = "cv"
                 except Exception as e:
                     st.error(f"CV analysis failed: {e}")
                     st.stop()
             st.rerun()
 
-    if "cv_analysis" in st.session_state:
+    if "cv_analysis" in st.session_state and st.session_state.get("_analysis_source") == "cv":
         analysis = st.session_state.cv_analysis
         with st.expander("Extracted from CV", expanded=True):
             st.write("**Job titles:**", ", ".join(analysis.get("job_titles", [])))
             st.write("**Skills:**", ", ".join(analysis.get("skills", [])))
         _search_form("cv", analysis.get("search_queries", []))
+
+with tab_linkedin:
+    url_input = st.text_input(
+        "LinkedIn profile URL",
+        placeholder="https://www.linkedin.com/in/your-profile",
+        key="linkedin_url_input",
+    )
+    if st.button("Analyse profile", key="linkedin_analyse"):
+        new_url = url_input.strip()
+        if new_url:
+            if st.session_state.get("linkedin_url") != new_url:
+                st.session_state.linkedin_url = new_url
+                st.session_state.pop("cv_analysis", None)
+                st.session_state.pop("_analysis_source", None)
+                st.session_state.pop("all_jobs", None)
+                st.session_state.pop("filtered_jobs", None)
+            st.rerun()
+
+    if "linkedin_url" in st.session_state and "cv_analysis" not in st.session_state:
+        with _animated_spinner("Analysing LinkedIn profile"):
+            try:
+                text = linkedin_parser.scrape_profile(st.session_state.linkedin_url)
+                st.session_state.cv_analysis = linkedin_parser.analyse_profile(text)
+                st.session_state["_new_cv_to_ack"] = True
+                st.session_state["_analysis_source"] = "linkedin"
+            except ValueError as e:
+                st.error(str(e))
+                st.stop()
+            except Exception as e:
+                st.error(f"LinkedIn analysis failed: {e}")
+                st.stop()
+        st.rerun()
+
+    if "cv_analysis" in st.session_state and st.session_state.get("_analysis_source") == "linkedin":
+        analysis = st.session_state.cv_analysis
+        with st.expander("Extracted from LinkedIn profile", expanded=True):
+            st.write("**Name:**", analysis.get("name", ""))
+            st.write("**Headline:**", analysis.get("headline", ""))
+            st.write("**Current position:**", analysis.get("current_position", ""))
+            st.write("**Job titles:**", ", ".join(analysis.get("job_titles", [])))
+            st.write("**Skills:**", ", ".join(analysis.get("skills", [])))
+        _search_form("linkedin", analysis.get("search_queries", []))
 
 with tab_manual:
     _search_form("manual", [])
@@ -516,6 +564,7 @@ if "filtered_jobs" in st.session_state:
         st.info("No results match the current filters.")
 
     if st.button("New search"):
-        for key in ["cv_analysis", "all_jobs", "filtered_jobs", "search_params", "file_id"]:
+        for key in ["cv_analysis", "all_jobs", "filtered_jobs", "search_params", "file_id",
+                    "linkedin_url", "_analysis_source"]:
             st.session_state.pop(key, None)
         st.rerun()
