@@ -205,7 +205,9 @@ def _auto_ack_cv() -> None:
         try:
             reply, actions = chatbot.get_response(trigger, history, analysis, search_results)
         except Exception:
-            reply = f"I've analysed your CV! I can see experience as {titles}. Ready to search for matching roles?"
+            source = st.session_state.get("_analysis_source", "cv")
+            intro = "connected your LinkedIn profile" if source == "linkedin" else "analysed your CV"
+            reply = f"I've {intro}! I can see experience as {titles}. Ready to search for matching roles?"
             actions = []
         history.append({"role": "user", "content": trigger})
         history.append({"role": "assistant", "content": reply})
