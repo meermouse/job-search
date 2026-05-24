@@ -49,7 +49,7 @@ def _mock_playwright(mocker, *, page_url="https://www.linkedin.com/in/janedoe", 
     """Helper that sets up a full Playwright context manager mock."""
     mock_page = MagicMock()
     mock_page.url = page_url
-    if goto_side_effect:
+    if goto_side_effect is not None:
         mock_page.goto.side_effect = goto_side_effect
     mock_page.inner_text.return_value = "Jane Doe\nOperations Director"
 
@@ -98,3 +98,9 @@ def test_scrape_profile_closes_browser_on_error(mocker):
     with pytest.raises(ValueError):
         scrape_profile("https://www.linkedin.com/in/janedoe")
     mock_browser.close.assert_called_once()
+
+
+def test_scrape_profile_propagates_non_timeout_errors(mocker):
+    _mock_playwright(mocker, goto_side_effect=ConnectionError("Network unreachable"))
+    with pytest.raises(ConnectionError, match="Network unreachable"):
+        scrape_profile("https://www.linkedin.com/in/janedoe")

@@ -1,6 +1,7 @@
 import json
 import os
 import anthropic
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
 
 _SYSTEM = "You extract structured job search data from LinkedIn profiles. Return only valid JSON, no markdown."
@@ -26,9 +27,6 @@ Profile text:
 {profile_text}"""
 
 
-from playwright.sync_api import sync_playwright  # noqa: PLC0415
-
-
 def scrape_profile(url: str) -> str:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -36,12 +34,10 @@ def scrape_profile(url: str) -> str:
             page = browser.new_page()
             try:
                 page.goto(url, wait_until="domcontentloaded", timeout=30000)
-            except Exception as exc:
-                if "timeout" in str(exc).lower() or "TimeoutError" in type(exc).__name__:
-                    raise TimeoutError(
-                        "Couldn't load the LinkedIn profile — the page took too long to respond."
-                    ) from exc
-                raise
+            except PlaywrightTimeoutError as exc:
+                raise TimeoutError(
+                    "Couldn't load the LinkedIn profile — the page took too long to respond."
+                ) from exc
             if "authwall" in page.url or "login" in page.url:
                 raise ValueError(
                     "This profile isn't publicly visible. "
