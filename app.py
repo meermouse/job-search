@@ -189,11 +189,12 @@ def _auto_ack_cv() -> None:
         queries = ", ".join(analysis.get("search_queries", [])) or "related roles"
         source = st.session_state.get("_analysis_source", "cv")
         source_label = "connected their LinkedIn profile" if source == "linkedin" else "uploaded their CV"
+        ack_label = "connection" if source == "linkedin" else "upload"
         trigger = (
             f"[System: User just {source_label}. "
             f"Extracted — job titles: {titles}; skills: {skills}; "
             f"suggested search queries: {queries}. "
-            f"Acknowledge the upload, briefly summarise what you found, and suggest next steps. "
+            f"Acknowledge the {ack_label}, briefly summarise what you found, and suggest next steps. "
             f"Use set_queries to pre-populate the search with the suggested queries.]"
         )
         history = st.session_state.get("_chat_history", [])
@@ -280,16 +281,19 @@ def _sync_form_from_actions(actions: list[dict]) -> None:
             val = "\n".join(q.strip() for q in p.split("|") if q.strip())
             if val:
                 st.session_state["cv_queries"] = val
+                st.session_state["linkedin_queries"] = val
                 st.session_state["manual_queries"] = val
         elif t == "set_location":
             loc = p.strip()
             if loc:
                 st.session_state["cv_location"] = loc
+                st.session_state["linkedin_location"] = loc
                 st.session_state["manual_location"] = loc
         elif t == "set_distance":
             try:
                 dist = int(p.strip())
                 st.session_state["cv_distance"] = dist
+                st.session_state["linkedin_distance"] = dist
                 st.session_state["manual_distance"] = dist
             except ValueError:
                 pass
@@ -297,6 +301,7 @@ def _sync_form_from_actions(actions: list[dict]) -> None:
             try:
                 sal = int(p.strip())
                 st.session_state["cv_salary"] = sal
+                st.session_state["linkedin_salary"] = sal
                 st.session_state["manual_salary"] = sal
             except ValueError:
                 pass
@@ -416,7 +421,10 @@ with tab_linkedin:
                 st.session_state.pop("_analysis_source", None)
                 st.session_state.pop("all_jobs", None)
                 st.session_state.pop("filtered_jobs", None)
+                st.session_state.pop("file_id", None)
             st.rerun()
+        else:
+            st.warning("Please enter a LinkedIn profile URL.")
 
     if "linkedin_url" in st.session_state and "cv_analysis" not in st.session_state:
         with _animated_spinner("Analysing LinkedIn profile"):
