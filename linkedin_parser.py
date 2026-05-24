@@ -28,20 +28,49 @@ Profile text:
 
 
 def scrape_profile(url: str) -> str:
+    session_cookie = os.environ.get("LINKEDIN_SESSION_COOKIE")
+    if not session_cookie:
+        raise RuntimeError(
+            "LINKEDIN_SESSION_COOKIE is not set. "
+            "Copy your li_at cookie from LinkedIn (logged-in browser → DevTools → "
+            "Application → Cookies → linkedin.com) and add it to your .env file."
+        )
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(
+            headless=True,
+            args=["--disable-blink-features=AutomationControlled"],
+        )
         try:
-            page = browser.new_page()
+            context = browser.new_context(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/124.0.0.0 Safari/537.36"
+                ),
+                locale="en-US",
+                viewport={"width": 1280, "height": 800},
+            )
+            context.add_cookies([{
+                "name": "li_at",
+                "value": session_cookie,
+                "domain": ".linkedin.com",
+                "path": "/",
+            }])
+            context.add_init_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+            )
+            page = context.new_page()
             try:
                 page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                page.wait_for_timeout(2000)
             except PlaywrightTimeoutError as exc:
                 raise TimeoutError(
                     "Couldn't load the LinkedIn profile — the page took too long to respond."
                 ) from exc
             if "authwall" in page.url or "login" in page.url:
                 raise ValueError(
-                    "This profile isn't publicly visible. "
-                    "Check the URL is correct and the profile is set to public."
+                    "LinkedIn session cookie appears invalid or expired. "
+                    "Copy a fresh li_at cookie from your browser and update LINKEDIN_SESSION_COOKIE in .env."
                 )
             return page.inner_text("body")
         finally:

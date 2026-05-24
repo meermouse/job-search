@@ -47,14 +47,19 @@ from linkedin_parser import scrape_profile
 
 def _mock_playwright(mocker, *, page_url="https://www.linkedin.com/in/janedoe", goto_side_effect=None):
     """Helper that sets up a full Playwright context manager mock."""
+    mocker.patch.dict("os.environ", {"LINKEDIN_SESSION_COOKIE": "test-session-cookie"})
+
     mock_page = MagicMock()
     mock_page.url = page_url
     if goto_side_effect is not None:
         mock_page.goto.side_effect = goto_side_effect
     mock_page.inner_text.return_value = "Jane Doe\nOperations Director"
 
+    mock_context = MagicMock()
+    mock_context.new_page.return_value = mock_page
+
     mock_browser = MagicMock()
-    mock_browser.new_page.return_value = mock_page
+    mock_browser.new_context.return_value = mock_context
 
     mock_pw = MagicMock()
     mock_pw.chromium.launch.return_value = mock_browser
@@ -75,13 +80,13 @@ def test_scrape_profile_returns_page_text(mocker):
 
 def test_scrape_profile_raises_on_authwall(mocker):
     _mock_playwright(mocker, page_url="https://www.linkedin.com/authwall?trk=bf_...")
-    with pytest.raises(ValueError, match="publicly visible"):
+    with pytest.raises(ValueError, match="session cookie"):
         scrape_profile("https://www.linkedin.com/in/janedoe")
 
 
 def test_scrape_profile_raises_on_login_redirect(mocker):
     _mock_playwright(mocker, page_url="https://www.linkedin.com/login?session_redirect=...")
-    with pytest.raises(ValueError, match="publicly visible"):
+    with pytest.raises(ValueError, match="session cookie"):
         scrape_profile("https://www.linkedin.com/in/janedoe")
 
 
@@ -103,4 +108,10 @@ def test_scrape_profile_closes_browser_on_error(mocker):
 def test_scrape_profile_propagates_non_timeout_errors(mocker):
     _mock_playwright(mocker, goto_side_effect=ConnectionError("Network unreachable"))
     with pytest.raises(ConnectionError, match="Network unreachable"):
+        scrape_profile("https://www.linkedin.com/in/janedoe")
+
+
+def test_scrape_profile_raises_when_session_cookie_missing(mocker):
+    mocker.patch.dict("os.environ", {}, clear=True)
+    with pytest.raises(RuntimeError, match="LINKEDIN_SESSION_COOKIE is not set"):
         scrape_profile("https://www.linkedin.com/in/janedoe")
