@@ -386,7 +386,7 @@ with tab_cv:
             st.session_state.pop("cv_analysis", None)
             st.session_state.pop("all_jobs", None)
             st.session_state.pop("filtered_jobs", None)
-            st.session_state.pop("linkedin_url", None)
+            st.session_state.pop("linkedin_text", None)
             st.session_state.pop("_analysis_source", None)
 
         if "cv_analysis" not in st.session_state:
@@ -409,16 +409,19 @@ with tab_cv:
         _search_form("cv", analysis.get("search_queries", []))
 
 with tab_linkedin:
-    url_input = st.text_input(
-        "LinkedIn profile URL",
-        placeholder="https://www.linkedin.com/in/your-profile",
-        key="linkedin_url_input",
+    st.caption("Go to your LinkedIn profile, select all text on the page and paste it below.")
+    text_input = st.text_area(
+        "LinkedIn profile text",
+        placeholder="Paste your LinkedIn profile text here...",
+        height=200,
+        key="linkedin_text_input",
+        label_visibility="collapsed",
     )
     if st.button("Analyse profile", key="linkedin_analyse"):
-        new_url = url_input.strip()
-        if new_url:
-            if st.session_state.get("linkedin_url") != new_url:
-                st.session_state.linkedin_url = new_url
+        new_text = text_input.strip()
+        if new_text:
+            if st.session_state.get("linkedin_text") != new_text:
+                st.session_state.linkedin_text = new_text
                 st.session_state.pop("cv_analysis", None)
                 st.session_state.pop("_analysis_source", None)
                 st.session_state.pop("all_jobs", None)
@@ -426,13 +429,14 @@ with tab_linkedin:
                 st.session_state.pop("file_id", None)
             st.rerun()
         else:
-            st.warning("Please enter a LinkedIn profile URL.")
+            st.warning("Please paste your LinkedIn profile text first.")
 
-    if "linkedin_url" in st.session_state and "cv_analysis" not in st.session_state:
+    if "linkedin_text" in st.session_state and "cv_analysis" not in st.session_state:
         with _animated_spinner("Analysing LinkedIn profile"):
             try:
-                profile = linkedin_parser.fetch_profile(st.session_state.linkedin_url)
-                st.session_state.cv_analysis = linkedin_parser.analyse_profile(profile)
+                st.session_state.cv_analysis = linkedin_parser.analyse_profile(
+                    st.session_state.linkedin_text
+                )
                 st.session_state["_new_cv_to_ack"] = True
                 st.session_state["_analysis_source"] = "linkedin"
             except ValueError as e:
@@ -575,6 +579,6 @@ if "filtered_jobs" in st.session_state:
 
     if st.button("New search"):
         for key in ["cv_analysis", "all_jobs", "filtered_jobs", "search_params", "file_id",
-                    "linkedin_url", "_analysis_source"]:
+                    "linkedin_text", "_analysis_source"]:
             st.session_state.pop(key, None)
         st.rerun()
