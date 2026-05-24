@@ -1,18 +1,15 @@
 import json
 import os
+import re
 import anthropic
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
+from linkedin_api import Linkedin
 
 
 _SYSTEM = "You extract structured job search data from LinkedIn profiles. Return only valid JSON, no markdown."
 
 _PROMPT = """\
-Analyse this LinkedIn profile page text and return a JSON object with exactly these keys:
-- "name": the person's full name
-- "headline": their LinkedIn headline or tagline
-- "current_position": their most recent job title and company (e.g. "Operations Director at ACME Corp")
+Based on this LinkedIn profile, return a JSON object with exactly these keys:
 - "job_titles": list of 2-3 most suitable UK job titles based on their experience, ordered by fit
-- "skills": list of up to 8 most distinctive technical and professional skills
 - "search_queries": list of exactly 2-3 search strings for UK job boards
 
 Rules for search_queries:
@@ -23,73 +20,90 @@ Rules for search_queries:
 - Prefer shorter phrases (2-4 words) that job boards handle well
 - Order from most to least specific
 
-Profile text:
-{profile_text}"""
+Profile:
+Name: {name}
+Headline: {headline}
+Current position: {current_position}
+Skills: {skills}
+Recent experience:
+{experience}"""
 
 
-def scrape_profile(url: str) -> str:
-    session_cookie = os.environ.get("LINKEDIN_SESSION_COOKIE")
-    if not session_cookie:
+def _profile_id_from_url(url: str) -> str:
+    match = re.search(r'linkedin\.com/in/([^/?#]+)', url)
+    if not match:
+        raise ValueError(
+            "Invalid LinkedIn profile URL. Expected format: https://www.linkedin.com/in/username"
+        )
+    return match.group(1)
+
+
+def _format_experience(experience: list) -> str:
+    lines = []
+    for entry in experience[:5]:
+        title = entry.get("title", "")
+        company = entry.get("companyName", "")
+        if title or company:
+            lines.append(f"- {title} at {company}".strip(" at"))
+    return "\n".join(lines) or "No experience listed"
+
+
+def fetch_profile(url: str) -> dict:
+    email = os.environ.get("LINKEDIN_EMAIL")
+    password = os.environ.get("LINKEDIN_PASSWORD")
+    if not email or not password:
         raise RuntimeError(
-            "LINKEDIN_SESSION_COOKIE is not set. "
-            "Copy your li_at cookie from LinkedIn (logged-in browser → DevTools → "
-            "Application → Cookies → linkedin.com) and add it to your .env file."
+            "LINKEDIN_EMAIL and LINKEDIN_PASSWORD must be set in your .env file."
         )
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=True,
-            args=["--disable-blink-features=AutomationControlled"],
-        )
-        try:
-            context = browser.new_context(
-                user_agent=(
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/124.0.0.0 Safari/537.36"
-                ),
-                locale="en-US",
-                viewport={"width": 1280, "height": 800},
-            )
-            context.add_cookies([{
-                "name": "li_at",
-                "value": session_cookie,
-                "domain": ".linkedin.com",
-                "path": "/",
-            }])
-            context.add_init_script(
-                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
-            )
-            page = context.new_page()
-            try:
-                page.goto(url, wait_until="domcontentloaded", timeout=30000)
-                page.wait_for_timeout(2000)
-            except PlaywrightTimeoutError as exc:
-                raise TimeoutError(
-                    "Couldn't load the LinkedIn profile — the page took too long to respond."
-                ) from exc
-            if "authwall" in page.url or "login" in page.url:
-                raise ValueError(
-                    "LinkedIn session cookie appears invalid or expired. "
-                    "Copy a fresh li_at cookie from your browser and update LINKEDIN_SESSION_COOKIE in .env."
-                )
-            return page.inner_text("body")
-        finally:
-            browser.close()
+    profile_id = _profile_id_from_url(url)
+    api = Linkedin(email, password)
+    return api.get_profile(profile_id)
 
 
-def analyse_profile(text: str) -> dict:
+def analyse_profile(profile: dict) -> dict:
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
+
+    first = profile.get("firstName", "")
+    last = profile.get("lastName", "")
+    name = f"{first} {last}".strip()
+    headline = profile.get("headline", "")
+
+    experience = profile.get("experience", [])
+    if experience:
+        title = experience[0].get("title", "")
+        company = experience[0].get("companyName", "")
+        current_position = f"{title} at {company}".strip(" at")
+    else:
+        current_position = ""
+
+    skills = [s.get("name", "") for s in profile.get("skills", []) if s.get("name")][:8]
+
     client = anthropic.Anthropic(api_key=api_key)
     msg = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=1024,
+        max_tokens=512,
         system=_SYSTEM,
-        messages=[{"role": "user", "content": _PROMPT.format(profile_text=text)}],
+        messages=[{"role": "user", "content": _PROMPT.format(
+            name=name,
+            headline=headline,
+            current_position=current_position,
+            skills=", ".join(skills) or "None listed",
+            experience=_format_experience(experience),
+        )}],
     )
     raw = msg.content[0].text.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[-1]
         raw = raw.rsplit("```", 1)[0].strip()
-    return json.loads(raw)
+    claude_data = json.loads(raw)
+
+    return {
+        "name": name,
+        "headline": headline,
+        "current_position": current_position,
+        "skills": skills,
+        "job_titles": claude_data.get("job_titles", []),
+        "search_queries": claude_data.get("search_queries", []),
+    }

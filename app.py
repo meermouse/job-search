@@ -431,8 +431,8 @@ with tab_linkedin:
     if "linkedin_url" in st.session_state and "cv_analysis" not in st.session_state:
         with _animated_spinner("Analysing LinkedIn profile"):
             try:
-                text = linkedin_parser.scrape_profile(st.session_state.linkedin_url)
-                st.session_state.cv_analysis = linkedin_parser.analyse_profile(text)
+                profile = linkedin_parser.fetch_profile(st.session_state.linkedin_url)
+                st.session_state.cv_analysis = linkedin_parser.analyse_profile(profile)
                 st.session_state["_new_cv_to_ack"] = True
                 st.session_state["_analysis_source"] = "linkedin"
             except ValueError as e:
