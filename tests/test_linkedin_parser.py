@@ -27,8 +27,8 @@ def test_profile_id_raises_on_invalid_url():
 
 def _mock_linkedin(mocker, profile=None):
     mocker.patch.dict("os.environ", {
-        "LINKEDIN_EMAIL": "test@example.com",
-        "LINKEDIN_PASSWORD": "test-password",
+        "LINKEDIN_LI_AT": "test-li-at-cookie",
+        "LINKEDIN_JSESSIONID": "test-jsessionid-cookie",
     })
     mock_api = MagicMock()
     mock_api.get_profile.return_value = profile or {"firstName": "Jane", "lastName": "Doe"}
@@ -48,7 +48,7 @@ def test_fetch_profile_returns_profile_dict(mocker):
 
 def test_fetch_profile_raises_when_credentials_missing(mocker):
     mocker.patch.dict("os.environ", {}, clear=True)
-    with pytest.raises(RuntimeError, match="LINKEDIN_EMAIL and LINKEDIN_PASSWORD"):
+    with pytest.raises(RuntimeError, match="LINKEDIN_LI_AT and LINKEDIN_JSESSIONID"):
         fetch_profile("https://www.linkedin.com/in/jane-doe")
 
 

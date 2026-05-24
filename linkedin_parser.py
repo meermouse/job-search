@@ -49,14 +49,14 @@ def _format_experience(experience: list) -> str:
 
 
 def fetch_profile(url: str) -> dict:
-    email = os.environ.get("LINKEDIN_EMAIL")
-    password = os.environ.get("LINKEDIN_PASSWORD")
-    if not email or not password:
+    li_at = os.environ.get("LINKEDIN_LI_AT")
+    jsessionid = os.environ.get("LINKEDIN_JSESSIONID")
+    if not li_at or not jsessionid:
         raise RuntimeError(
-            "LINKEDIN_EMAIL and LINKEDIN_PASSWORD must be set in your .env file."
+            "LINKEDIN_LI_AT and LINKEDIN_JSESSIONID must be set in your .env file."
         )
     profile_id = _profile_id_from_url(url)
-    api = Linkedin(email, password)
+    api = Linkedin("", "", cookies={"li_at": li_at, "JSESSIONID": jsessionid})
     return api.get_profile(profile_id)
 
 

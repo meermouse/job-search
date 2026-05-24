@@ -1,6 +1,10 @@
 """
 Quick debug script for LinkedIn profile fetching.
 Usage: python debug_linkedin.py https://www.linkedin.com/in/some-profile
+
+Requires LINKEDIN_LI_AT and LINKEDIN_JSESSIONID in your .env file.
+Get these from your browser after logging in to LinkedIn:
+  DevTools > Application > Cookies > https://www.linkedin.com
 """
 import sys
 import json
