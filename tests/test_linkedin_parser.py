@@ -22,14 +22,7 @@ def test_analyse_profile_returns_structured_data(mocker):
 
     result = analyse_profile("Jane Doe\nOperations Director at ACME Corp\nStrategy, NHS...")
 
-    assert result["name"] == "Jane Doe"
-    assert result["headline"] == "Operations Director | Strategy"
-    assert result["current_position"] == "Operations Director at ACME Corp"
-    assert isinstance(result["job_titles"], list)
-    assert len(result["job_titles"]) == 2
-    assert isinstance(result["skills"], list)
-    assert isinstance(result["search_queries"], list)
-    assert len(result["search_queries"]) == 2
+    assert result == expected
 
 
 def test_analyse_profile_raises_when_api_key_missing(mocker):

@@ -1,7 +1,6 @@
 import json
 import os
 import anthropic
-from playwright.sync_api import sync_playwright
 
 
 _SYSTEM = "You extract structured job search data from LinkedIn profiles. Return only valid JSON, no markdown."
@@ -28,6 +27,7 @@ Profile text:
 
 
 def scrape_profile(url: str) -> str:
+    from playwright.sync_api import sync_playwright  # noqa: PLC0415
     raise NotImplementedError
 
 
