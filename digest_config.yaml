@@ -3,3 +3,7 @@ search_queries:
   - "IT Consultant stakeholder management"
 location: Bristol
 min_salary: 60000
+preamble: |
+  We owe you an apology. Recent digests have fallen short — the salary filter was not working as intended, meaning many results with salaries below your minimum were slipping through, and a large number of jobs were showing no salary information at all. This made the digest much less useful than it should have been, and we're sorry for the noise and wasted time.
+
+  We've now fixed the root causes: salary is extracted from job descriptions when structured data is missing, NHS Jobs results are now filtered against your minimum salary, and any job where no salary can be found is clearly labelled "Not stated" rather than silently left blank. Today's results reflect these improvements.

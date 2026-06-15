@@ -67,7 +67,7 @@ def analyse_results(jobs: list[dict], config: dict) -> str:
     return message.content[0].text
 
 
-def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
+def format_email_html(jobs: list[dict], summary: str, today: str, preamble: str = "") -> str:
     if jobs:
         rows = "".join(
             f"<tr>"
@@ -90,9 +90,12 @@ def format_email_html(jobs: list[dict], summary: str, today: str) -> str:
     else:
         table = ""
 
+    preamble_html = f"{md_lib.markdown(preamble)}" if preamble else ""
     return (
         f"<html><body>"
         f"<h2>Jie's Job Digest — {html.escape(today)}</h2>"
+        f"{preamble_html}"
+        f"<hr/>"
         f"{md_lib.markdown(summary)}"
         f"{table}"
         f"</body></html>"
@@ -131,7 +134,8 @@ def main() -> None:
     today = date.today().strftime("%d %B %Y")
     count = len(filtered)
     subject = f"Job digest — {count} match{'es' if count != 1 else ''} — {today}"
-    html_body = format_email_html(filtered, summary, today)
+    preamble = config.get("preamble", "")
+    html_body = format_email_html(filtered, summary, today, preamble)
     send_email(
         subject=subject,
         html_body=html_body,
