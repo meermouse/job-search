@@ -99,3 +99,62 @@ def _execute_search(
             f"({j.get('location', '')}) — {j.get('salary', 'Not stated')} [{j.get('source', '')}]"
         )
     return new_jobs, "\n".join(lines)
+
+
+def run_search_agent(
+    profile: dict, location: str, min_salary: int
+) -> tuple[list[dict], str]:
+    """Drive the agentic search loop. Returns (sponsored_jobs, strategy_note)."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
+
+    client = anthropic.Anthropic(api_key=api_key)
+    sponsor_names = sponsor_filter.load_sponsor_names()
+    system_prompt = _build_system_prompt(profile, location, min_salary)
+
+    messages: list[dict] = [
+        {"role": "user", "content": "Find the best matching jobs for this candidate."}
+    ]
+    all_sponsored: list[dict] = []
+    seen_urls: set[str] = set()
+    strategy_note = "Search complete."
+
+    for _ in range(MAX_ROUNDS):
+        response = client.messages.create(
+            model="claude-sonnet-4-6",
+            max_tokens=1024,
+            system=system_prompt,
+            tools=[SEARCH_TOOL],
+            messages=messages,
+        )
+
+        for block in response.content:
+            if block.type == "text":
+                strategy_note = block.text
+
+        tool_uses = [b for b in response.content if b.type == "tool_use"]
+        if not tool_uses:
+            break
+
+        messages.append({"role": "assistant", "content": response.content})
+
+        tool_results = []
+        for tool_use in tool_uses:
+            new_jobs, result_text = _execute_search(
+                tool_use.input,
+                default_location=location,
+                min_salary=min_salary,
+                sponsor_names=sponsor_names,
+                seen_urls=seen_urls,
+            )
+            all_sponsored.extend(new_jobs)
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": tool_use.id,
+                "content": result_text,
+            })
+
+        messages.append({"role": "user", "content": tool_results})
+
+    return all_sponsored, strategy_note
