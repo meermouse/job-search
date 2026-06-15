@@ -163,3 +163,19 @@ def run_search_agent(
         strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
 
     return all_sponsored, strategy_note
+
+
+if __name__ == "__main__":
+    import yaml
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    with open("digest_config.yaml") as f:
+        cfg = yaml.safe_load(f)
+    if "profile" not in cfg:
+        print("No profile in digest_config.yaml — nothing to test.")
+    else:
+        jobs, note = run_search_agent(cfg["profile"], cfg["location"], cfg["min_salary"])
+        print(f"\n=== Strategy note ===\n{note}")
+        print(f"\n=== Jobs found: {len(jobs)} ===")
+        for j in jobs[:5]:
+            print(f"  - {j['title']} at {j.get('company')} ({j.get('location')}) {j.get('salary')}")
