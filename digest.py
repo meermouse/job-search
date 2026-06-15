@@ -11,6 +11,7 @@ from email.mime.text import MIMEText
 import anthropic
 import yaml
 
+import search_agent
 import sponsor_filter
 from searchers import search_all_streaming
 
@@ -122,14 +123,20 @@ def send_email(
 
 def main() -> None:
     config = load_config()
-    jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
-    sponsor_names = sponsor_filter.load_sponsor_names()
-    filtered = sponsor_filter.filter_jobs(jobs, sponsor_names)
 
-    if filtered:
-        summary = analyse_results(filtered, config)
+    if "profile" in config:
+        filtered, summary = search_agent.run_search_agent(
+            config["profile"], config["location"], config["min_salary"]
+        )
     else:
-        summary = "No matching roles were found today from licensed UK visa sponsors."
+        jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
+        sponsor_names = sponsor_filter.load_sponsor_names()
+        filtered = sponsor_filter.filter_jobs(jobs, sponsor_names)
+        summary = (
+            analyse_results(filtered, config)
+            if filtered
+            else "No matching roles were found today from licensed UK visa sponsors."
+        )
 
     today = date.today().strftime("%d %B %Y")
     count = len(filtered)

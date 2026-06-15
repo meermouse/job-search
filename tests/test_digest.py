@@ -1,3 +1,4 @@
+import os
 import yaml
 import pytest
 from unittest.mock import patch
@@ -246,3 +247,64 @@ def test_main_sends_email_when_no_jobs_found():
     call_kwargs = mock_send.call_args[1]
     assert "0 matches" in call_kwargs["subject"]
     mock_analyse.assert_not_called()
+
+
+def test_main_uses_agent_when_profile_present_in_config():
+    from digest import main
+
+    config = {
+        "profile": {
+            "name": "Jie",
+            "current_role": "Operations Director",
+            "seniority": "Senior / Director",
+            "industry": "NHS",
+            "skills": ["stakeholder management"],
+            "previous_roles": ["Project Manager"],
+            "target_roles": ["Operations Director"],
+            "open_to": ["Head of Operations"],
+        },
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+    mock_job = {
+        "title": "Operations Director",
+        "company": "NHS Trust",
+        "url": "https://example.com/1",
+        "location": "Bristol",
+        "salary": "£75,000",
+        "description": "",
+        "source": "Reed",
+        "sponsor_name": "NHS Trust",
+    }
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.search_agent.run_search_agent", return_value=([mock_job], "Searched 2 angles.")) as mock_agent, \
+         patch("digest.format_email_html", return_value="<html>") as mock_html, \
+         patch("digest.send_email"), \
+         patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    mock_agent.assert_called_once_with(config["profile"], "Bristol", 60000)
+    args = mock_html.call_args[0]
+    assert args[1] == "Searched 2 angles."
+
+
+def test_main_uses_static_queries_when_no_profile_in_config():
+    from digest import main
+
+    config = {
+        "search_queries": ["Operations Director Bristol"],
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.collect_jobs", return_value=[]) as mock_collect, \
+         patch("digest.sponsor_filter.load_sponsor_names", return_value=[]), \
+         patch("digest.sponsor_filter.filter_jobs", return_value=[]), \
+         patch("digest.format_email_html", return_value="<html>"), \
+         patch("digest.send_email"), \
+         patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    mock_collect.assert_called_once_with(["Operations Director Bristol"], "Bristol", 60000)
