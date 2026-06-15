@@ -59,8 +59,13 @@ def _build_system_prompt(profile: dict, location: str, min_salary: int) -> str:
         "different angles — exact job titles, adjacent roles, transferable skills, different locations.\n\n"
         "After each round, assess whether the results are a good match for the candidate's seniority, "
         "salary expectations, and background. If not, refine your queries and search again.\n\n"
-        "When you are satisfied with the results, stop calling the tool and write a 2–3 sentence "
-        "strategy note summarising what angles you explored and what you found. Be specific.\n\n"
+        "When you are satisfied with the results, stop calling the tool and write the final summary "
+        "in this exact format — do NOT use markdown tables:\n\n"
+        "1–2 sentences describing what angles you searched and why.\n\n"
+        "**Standout roles:**\n"
+        "- [Job Title at Company](URL) — one sentence on why it's a strong match for this candidate.\n"
+        "- [Job Title at Company](URL) — one sentence on why it's a strong match.\n"
+        "(3–5 standout roles, markdown links using the URLs provided in the search results)\n\n"
         f"You have a maximum of {MAX_ROUNDS} search rounds."
     )
 
@@ -98,7 +103,8 @@ def _execute_search(
     for i, j in enumerate(new_jobs, 1):
         lines.append(
             f"{i}. {j['title']} at {j.get('company', 'Unknown')} "
-            f"({j.get('location', '')}) — {j.get('salary', 'Not stated')} [{j.get('source', '')}]"
+            f"({j.get('location', '')}) — {j.get('salary', 'Not stated')} [{j.get('source', '')}]\n"
+            f"   URL: {j.get('url', '')}"
         )
     return new_jobs, "\n".join(lines)
 
@@ -123,7 +129,10 @@ def run_search_agent(
     strategy_note = "Search complete."
     hit_cap = True
 
-    for _ in range(MAX_ROUNDS):
+    print(f"[Agent] Starting search for {profile.get('name', 'candidate')} — up to {MAX_ROUNDS} rounds")
+
+    for round_num in range(MAX_ROUNDS):
+        print(f"[Agent] Round {round_num + 1}: asking Claude what to search...")
         response = client.messages.create(
             model="claude-sonnet-4-6",
             max_tokens=1024,
@@ -139,12 +148,16 @@ def run_search_agent(
             for block in response.content:
                 if block.type == "text":
                     strategy_note = block.text
+            print(f"[Agent] Claude satisfied — stopping after {round_num + 1} round(s), {len(all_sponsored)} jobs found")
             break
 
         messages.append({"role": "assistant", "content": response.content})
 
         tool_results = []
         for tool_use in tool_uses:
+            queries = tool_use.input.get("queries", [])
+            search_location = tool_use.input.get("location", location)
+            print(f"[Agent] Round {round_num + 1}: searching {queries} in {search_location}")
             new_jobs, result_text = _execute_search(
                 tool_use.input,
                 default_location=location,
@@ -152,6 +165,7 @@ def run_search_agent(
                 sponsor_names=sponsor_names,
                 seen_urls=seen_urls,
             )
+            print(f"[Agent] Round {round_num + 1}: found {len(new_jobs)} new sponsored jobs (total: {len(all_sponsored) + len(new_jobs)})")
             all_sponsored.extend(new_jobs)
             tool_results.append({
                 "type": "tool_result",
@@ -162,6 +176,7 @@ def run_search_agent(
         messages.append({"role": "user", "content": tool_results})
 
     if hit_cap:
+        print(f"[Agent] Reached {MAX_ROUNDS}-round limit — {len(all_sponsored)} jobs found")
         strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
 
     return all_sponsored, strategy_note
