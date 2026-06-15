@@ -110,7 +110,8 @@ def test_run_search_agent_returns_empty_jobs_and_note_when_claude_stops_immediat
 
     with patch("search_agent.anthropic.Anthropic", return_value=mock_client):
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=[]):
-            jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
+            with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+                jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
 
     assert jobs == []
     assert note == "No tool calls needed — returning strategy note."
@@ -142,7 +143,8 @@ def test_run_search_agent_executes_tool_call_and_feeds_result_back():
     with patch("search_agent.anthropic.Anthropic", return_value=mock_client):
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=["NHS Trust"]):
             with patch("search_agent._execute_search", return_value=([mock_job], "Found 1 job")):
-                jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
+                with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+                    jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
 
     assert len(jobs) == 1
     assert jobs[0]["url"] == "https://example.com/job1"
@@ -167,7 +169,8 @@ def test_run_search_agent_respects_max_rounds_cap():
     with patch("search_agent.anthropic.Anthropic", return_value=mock_client):
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=[]):
             with patch("search_agent._execute_search", return_value=([], "No jobs")):
-                search_agent.run_search_agent(profile, "Bristol", 60000)
+                with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+                    search_agent.run_search_agent(profile, "Bristol", 60000)
 
     assert mock_client.messages.create.call_count == search_agent.MAX_ROUNDS
 
@@ -211,6 +214,7 @@ def test_run_search_agent_deduplicates_jobs_across_rounds():
     with patch("search_agent.anthropic.Anthropic", return_value=mock_client):
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=[]):
             with patch("search_agent._execute_search", side_effect=fake_execute):
-                jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
+                with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+                    jobs, note = search_agent.run_search_agent(profile, "Bristol", 60000)
 
     assert len(jobs) == 1
