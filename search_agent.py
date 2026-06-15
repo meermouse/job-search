@@ -47,10 +47,10 @@ def _build_system_prompt(profile: dict, location: str, min_salary: int) -> str:
         f"- Current role: {profile.get('current_role', '')}\n"
         f"- Seniority: {profile.get('seniority', '')}\n"
         f"- Industry: {profile.get('industry', '')}\n"
-        f"- Key skills: {', '.join(profile.get('skills', []))}\n"
-        f"- Previous roles: {', '.join(profile.get('previous_roles', []))}\n"
-        f"- Target roles: {', '.join(profile.get('target_roles', []))}\n"
-        f"- Open to: {', '.join(profile.get('open_to', []))}\n"
+        f"- Key skills: {', '.join(profile.get('skills') or [])}\n"
+        f"- Previous roles: {', '.join(profile.get('previous_roles') or [])}\n"
+        f"- Target roles: {', '.join(profile.get('target_roles') or [])}\n"
+        f"- Open to: {', '.join(profile.get('open_to') or [])}\n"
         f"- Preferred location: {location}\n"
         f"- Minimum salary: £{min_salary:,}\n\n"
         "Use the search_jobs tool to find matching roles. You may call it multiple times to explore "
@@ -76,7 +76,9 @@ def _execute_search(
     distance = tool_input.get("distance", 50)
 
     all_jobs: list[dict] = []
-    for _platform, jobs, _error in search_all_streaming(queries, location, min_salary, distance):
+    for _platform, jobs, error in search_all_streaming(queries, location, min_salary, distance):
+        if error:
+            logger.warning("Platform '%s' returned an error: %s", _platform, error)
         all_jobs.extend(jobs)
 
     sponsored = sponsor_filter.filter_jobs(all_jobs, sponsor_names)
