@@ -119,6 +119,7 @@ def run_search_agent(
     all_sponsored: list[dict] = []
     seen_urls: set[str] = set()
     strategy_note = "Search complete."
+    hit_cap = True
 
     for _ in range(MAX_ROUNDS):
         response = client.messages.create(
@@ -135,6 +136,7 @@ def run_search_agent(
 
         tool_uses = [b for b in response.content if b.type == "tool_use"]
         if not tool_uses:
+            hit_cap = False
             break
 
         messages.append({"role": "assistant", "content": response.content})
@@ -156,5 +158,8 @@ def run_search_agent(
             })
 
         messages.append({"role": "user", "content": tool_results})
+
+    if hit_cap and strategy_note == "Search complete.":
+        strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
 
     return all_sponsored, strategy_note
