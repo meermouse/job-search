@@ -1,25 +1,28 @@
 profile:
   name: Jie
-  current_role: Operations Director
-  seniority: Senior / Director
-  industry: NHS / Healthcare / Public Sector
+  current_role: NHS Digital Transformation
+  about: Experienced with health care project management, digital transformation and education facilities management. Technology and consulting acumen. Works closely with practitioners and IT professionals to develop new ways of working in order to improve patient access and patient experience. Works with stakeholders such as health providers, and local education and training boards to deliver value. Understands and responds to patients needs by positioning appropriate solutions and services to meet best outcomes. Sets up and leads projects that are vital to patient care being of the highest possible standard.
+  seniority: Senior
+  industry: NHS / Private Sector / Business
   skills:
-    - stakeholder management
+    - Analytical Skills
     - digital transformation
-    - budget control
-    - programme delivery
+    - Digital Marketing
+	  - Project Initiation and Planning
+	  - Operations and Supply Chain Decisions and Metrics
+	  - Business Strategy
   previous_roles:
-    - Business Manager
-    - Project Manager
-    - Service Improvement Lead
+	- Executive Secretary to the General Manager
+    - Business Manager of Research Centre
+    - Instructor of Clinical Skills 
+    - Workforce and Governance Manager for Digital Services
   target_roles:
-    - Operations Director
-    - Programme Director
-    - Digital Transformation Lead
+    - Business Manager
+    - Digital Transformation
+    - Senior Management
   open_to:
     - Strategy Consultant
-    - Head of Operations
-    - Deputy Director
+    - Project Planning
 
 location: Bristol
 min_salary: 60000
@@ -29,4 +32,4 @@ min_salary: 60000
 #   - "Project Manager digital transformation"
 #   - "IT Consultant stakeholder management"
 
-preamble: ""
+preamble: "Hey Jie, its your mule here. I am giving this new agentic approach a try. I could still do with some target roles. I hope you are doing well, do you read these bits? anyway..."
