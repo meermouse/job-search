@@ -30,7 +30,14 @@ def search(queries: list[str], location: str, min_salary: int, distance: int = 5
             for r in response.json().get("results", []):
                 min_s = r.get("minimumSalary")
                 max_s = r.get("maximumSalary")
-                salary = f"£{min_s:,.0f}–£{max_s:,.0f}" if min_s is not None and max_s is not None else ""
+                if min_s is not None and max_s is not None:
+                    salary = f"£{min_s:,.0f}–£{max_s:,.0f}"
+                elif min_s is not None:
+                    salary = f"From £{min_s:,.0f}"
+                elif max_s is not None:
+                    salary = f"Up to £{max_s:,.0f}"
+                else:
+                    salary = "Not stated"
                 jobs.append({
                     "title": r.get("jobTitle", ""),
                     "company": r.get("employerName", ""),

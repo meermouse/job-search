@@ -50,7 +50,7 @@ def test_search_handles_empty_results(mocker):
     assert results == []
 
 
-def test_search_formats_salary_correctly(mocker):
+def test_search_formats_salary_not_stated(mocker):
     mocker.patch.dict("os.environ", {"REED_API_KEY": "test-key"})
     mock_response = mocker.MagicMock()
     mock_response.json.return_value = {
@@ -68,4 +68,25 @@ def test_search_formats_salary_correctly(mocker):
     mocker.patch("searchers.reed.requests.get", return_value=mock_response)
 
     results = search(["Engineer"], "Bristol", 60000)
-    assert results[0]["salary"] == ""
+    assert results[0]["salary"] == "Not stated"
+
+
+def test_search_formats_partial_salary(mocker):
+    mocker.patch.dict("os.environ", {"REED_API_KEY": "test-key"})
+    mock_response = mocker.MagicMock()
+    mock_response.json.return_value = {
+        "results": [{
+            "jobTitle": "Engineer",
+            "employerName": "Corp",
+            "locationName": "Bristol",
+            "minimumSalary": 65000,
+            "maximumSalary": None,
+            "jobDescription": "",
+            "jobUrl": "https://www.reed.co.uk/jobs/2",
+        }]
+    }
+    mock_response.raise_for_status = mocker.MagicMock()
+    mocker.patch("searchers.reed.requests.get", return_value=mock_response)
+
+    results = search(["Engineer"], "Bristol", 60000)
+    assert results[0]["salary"] == "From £65,000"

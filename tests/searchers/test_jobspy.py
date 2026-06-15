@@ -78,4 +78,45 @@ def test_search_handles_missing_salary_fields(mocker):
 
     results = search(["Engineer"], "Bristol", 60000)
     assert len(results) == 1
-    assert results[0]["salary"] == ""
+    assert results[0]["salary"] == "Not stated"
+
+
+def test_search_extracts_salary_from_description(mocker):
+    mock_df = _make_df([
+        {
+            "title": "Senior PM",
+            "company": "Corp",
+            "location": "Bristol",
+            "description": "Great role. Salary: £65,000–£75,000 per annum.",
+            "job_url": "https://linkedin.com/jobs/999",
+            "site": "linkedin",
+            "min_amount": None,
+            "max_amount": None,
+            "interval": None,
+        }
+    ])
+    mocker.patch("searchers.jobspy_searcher.scrape_jobs", return_value=mock_df)
+
+    results = search(["Senior PM"], "Bristol", 60000)
+    assert len(results) == 1
+    assert "£65,000" in results[0]["salary"]
+
+
+def test_search_filters_below_threshold_from_description(mocker):
+    mock_df = _make_df([
+        {
+            "title": "Junior PM",
+            "company": "Corp",
+            "location": "Bristol",
+            "description": "Entry level role. Salary: £35,000 per annum.",
+            "job_url": "https://linkedin.com/jobs/888",
+            "site": "linkedin",
+            "min_amount": None,
+            "max_amount": None,
+            "interval": None,
+        }
+    ])
+    mocker.patch("searchers.jobspy_searcher.scrape_jobs", return_value=mock_df)
+
+    results = search(["Junior PM"], "Bristol", 60000)
+    assert results == []
