@@ -52,7 +52,9 @@ def _build_system_prompt(profile: dict, location: str, min_salary: int) -> str:
         f"- Target roles: {', '.join(profile.get('target_roles') or [])}\n"
         f"- Open to: {', '.join(profile.get('open_to') or [])}\n"
         f"- Preferred location: {location}\n"
-        f"- Minimum salary: £{min_salary:,}\n\n"
+        f"- Minimum salary: £{min_salary:,}\n"
+        + (f"\nAbout the candidate:\n{profile['about']}\n" if profile.get('about') else "")
+        + "\n"
         "Use the search_jobs tool to find matching roles. You may call it multiple times to explore "
         "different angles — exact job titles, adjacent roles, transferable skills, different locations.\n\n"
         "After each round, assess whether the results are a good match for the candidate's seniority, "
