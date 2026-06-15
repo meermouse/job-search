@@ -130,13 +130,13 @@ def run_search_agent(
             messages=messages,
         )
 
-        for block in response.content:
-            if block.type == "text":
-                strategy_note = block.text
-
         tool_uses = [b for b in response.content if b.type == "tool_use"]
+
         if not tool_uses:
             hit_cap = False
+            for block in response.content:
+                if block.type == "text":
+                    strategy_note = block.text
             break
 
         messages.append({"role": "assistant", "content": response.content})
@@ -159,7 +159,7 @@ def run_search_agent(
 
         messages.append({"role": "user", "content": tool_results})
 
-    if hit_cap and strategy_note == "Search complete.":
+    if hit_cap:
         strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
 
     return all_sponsored, strategy_note
@@ -167,7 +167,6 @@ def run_search_agent(
 
 if __name__ == "__main__":
     import yaml
-    import logging
     logging.basicConfig(level=logging.INFO)
     with open("digest_config.yaml") as f:
         cfg = yaml.safe_load(f)

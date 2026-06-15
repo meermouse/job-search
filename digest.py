@@ -55,7 +55,7 @@ def analyse_results(jobs: list[dict], config: dict) -> str:
                     f"You are helping Jie, a job seeker in {config['location']} looking for roles "
                     f"with UK Skilled Worker visa sponsorship.\n\n"
                     f"Search criteria:\n"
-                    f"- Queries: {', '.join(config['search_queries'])}\n"
+                    f"- Queries: {', '.join(config.get('search_queries', []))}\n"
                     f"- Location: {config['location']}\n"
                     f"- Minimum salary: £{config['min_salary']:,}\n\n"
                     f"Today's matching jobs from licensed UK visa sponsors:\n{jobs_text}\n\n"
