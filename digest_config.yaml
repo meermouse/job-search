@@ -1,9 +1,35 @@
-search_queries:
-  - "Project Manager digital transformation"
-  - "IT Consultant stakeholder management"
+profile:
+  name: Jie
+  current_role: NHS Digital Transformation
+  about: Experienced with health care project management, digital transformation and education facilities management. Technology and consulting acumen. Works closely with practitioners and IT professionals to develop new ways of working in order to improve patient access and patient experience. Works with stakeholders such as health providers, and local education and training boards to deliver value. Understands and responds to patients needs by positioning appropriate solutions and services to meet best outcomes. Sets up and leads projects that are vital to patient care being of the highest possible standard.
+  seniority: Senior
+  industry: NHS / Private Sector / Business
+  skills:
+    - Analytical Skills
+    - digital transformation
+    - Digital Marketing
+	  - Project Initiation and Planning
+	  - Operations and Supply Chain Decisions and Metrics
+	  - Business Strategy
+  previous_roles:
+	- Executive Secretary to the General Manager
+    - Business Manager of Research Centre
+    - Instructor of Clinical Skills 
+    - Workforce and Governance Manager for Digital Services
+  target_roles:
+    - Business Manager
+    - Digital Transformation
+    - Senior Management
+  open_to:
+    - Strategy Consultant
+    - Project Planning
+
 location: Bristol
 min_salary: 60000
-preamble: |
-  We owe you an apology. Recent digests have fallen short — the salary filter was not working as intended, meaning many results with salaries below your minimum were slipping through, and a large number of jobs were showing no salary information at all. This made the digest much less useful than it should have been, and we're sorry for the noise and wasted time.
 
-  We've now fixed the root causes: salary is extracted from job descriptions when structured data is missing, NHS Jobs results are now filtered against your minimum salary, and any job where no salary can be found is clearly labelled "Not stated" rather than silently left blank. Today's results reflect these improvements.
+# Uncomment to fall back to static queries (removes agent behaviour):
+# search_queries:
+#   - "Project Manager digital transformation"
+#   - "IT Consultant stakeholder management"
+
+preamble: "Hey Jie, its your mule here. I am giving this new agentic approach a try. I could still do with some target roles. I hope you are doing well, do you read these bits? anyway..."
