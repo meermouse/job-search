@@ -11,6 +11,8 @@ from email.mime.text import MIMEText
 import anthropic
 import yaml
 
+import job_evaluator
+import job_planner
 import search_agent
 import sponsor_filter
 from searchers import search_all_streaming
@@ -68,37 +70,58 @@ def analyse_results(jobs: list[dict], config: dict) -> str:
     return message.content[0].text
 
 
-def format_email_html(jobs: list[dict], summary: str, today: str, preamble: str = "") -> str:
-    if jobs:
-        rows = "".join(
+def _make_table(jobs: list[dict], include_reasoning: bool = False) -> str:
+    if not jobs:
+        return ""
+    headers = ["Job Title", "Company", "Location", "Salary", "Source"]
+    if include_reasoning:
+        headers.append("Why")
+    header_html = "".join(f"<th>{h}</th>" for h in headers)
+    rows = ""
+    for j in jobs:
+        reasoning_cell = (
+            f"<td>{html.escape(j.get('reasoning', ''))}</td>" if include_reasoning else ""
+        )
+        rows += (
             f"<tr>"
             f"<td><a href='{html.escape(j['url'])}'>{html.escape(j['title'])}</a></td>"
             f"<td>{html.escape(j.get('sponsor_name') or j.get('company', ''))}</td>"
             f"<td>{html.escape(j.get('location', ''))}</td>"
             f"<td>{html.escape(j.get('salary', ''))}</td>"
             f"<td>{html.escape(j.get('source', ''))}</td>"
+            f"{reasoning_cell}"
             f"</tr>"
-            for j in jobs
         )
-        table = (
-            "<table border='1' cellpadding='6' cellspacing='0' "
-            "style='border-collapse:collapse;width:100%'>"
-            "<thead><tr style='background:#f0f0f0'>"
-            "<th>Job Title</th><th>Company</th><th>Location</th><th>Salary</th><th>Source</th>"
-            "</tr></thead>"
-            f"<tbody>{rows}</tbody></table>"
-        )
-    else:
-        table = ""
+    return (
+        "<table border='1' cellpadding='6' cellspacing='0' "
+        "style='border-collapse:collapse;width:100%'>"
+        f"<thead><tr style='background:#f0f0f0'>{header_html}</tr></thead>"
+        f"<tbody>{rows}</tbody></table>"
+    )
 
-    preamble_html = f"{md_lib.markdown(preamble)}" if preamble else ""
+
+def format_email_html(
+    strong_jobs: list[dict],
+    summary: str,
+    today: str,
+    preamble: str = "",
+    worth_a_look: list[dict] | None = None,
+) -> str:
+    preamble_html = md_lib.markdown(preamble) if preamble else ""
+    strong_table = _make_table(strong_jobs, include_reasoning=True)
+    worth_table = _make_table(worth_a_look or [], include_reasoning=True)
+
+    strong_section = f"<h3>Strong matches</h3>{strong_table}" if strong_table else ""
+    worth_section = f"<h3>Worth a look</h3>{worth_table}" if worth_table else ""
+
     return (
         f"<html><body>"
         f"<h2>Jie's Job Digest — {html.escape(today)}</h2>"
         f"{preamble_html}"
         f"<hr/>"
         f"{md_lib.markdown(summary)}"
-        f"{table}"
+        f"{strong_section}"
+        f"{worth_section}"
         f"</body></html>"
     )
 
@@ -125,9 +148,19 @@ def main() -> None:
     config = load_config()
 
     if "profile" in config:
-        filtered, summary = search_agent.run_search_agent(
+        plan = job_planner.create_plan(
             config["profile"], config["location"], config["min_salary"]
         )
+        raw_jobs, strategy_note = search_agent.run_search_agent(
+            config["profile"], plan, config["location"], config["min_salary"]
+        )
+        scored_jobs = job_evaluator.evaluate(
+            raw_jobs, plan, config["profile"], config["min_salary"]
+        )
+        strong = [j for j in scored_jobs if j.get("score", 0) >= 4]
+        worth_a_look = [j for j in scored_jobs if j.get("score", 0) == 3]
+        summary = strategy_note
+        count = len(strong)
     else:
         jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
         sponsor_names = sponsor_filter.load_sponsor_names()
@@ -137,12 +170,14 @@ def main() -> None:
             if filtered
             else "No matching roles were found today from licensed UK visa sponsors."
         )
+        strong = filtered
+        worth_a_look = []
+        count = len(strong)
 
     today = date.today().strftime("%d %B %Y")
-    count = len(filtered)
     subject = f"Job digest — {count} match{'es' if count != 1 else ''} — {today}"
     preamble = config.get("preamble", "")
-    html_body = format_email_html(filtered, summary, today, preamble)
+    html_body = format_email_html(strong, summary, today, preamble, worth_a_look=worth_a_look)
     send_email(
         subject=subject,
         html_body=html_body,
