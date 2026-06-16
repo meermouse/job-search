@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 
 import anthropic
 
@@ -38,11 +39,66 @@ SEARCH_TOOL = {
     },
 }
 
+_BAND_PATTERN = re.compile(r'\b(?:afc\s+)?band\s+(6|7|8a|8b|8c|8d|9)\b', re.IGNORECASE)
+_BAND_RANK = {"6": 0, "7": 1, "8a": 2, "8b": 3, "8c": 4, "8d": 5, "9": 6}
+
+
+def _is_clinical(job: dict, exclusion_keywords: list[str]) -> bool:
+    """Return True if job title contains a clinical exclusion keyword."""
+    title = job.get("title", "").lower()
+    return any(kw.lower() in title for kw in exclusion_keywords)
+
+
+def _is_excluded_employment_type(job: dict, exclusion_keywords: list[str]) -> bool:
+    """Return True if job title or description indicates an excluded employment type."""
+    if not exclusion_keywords:
+        return False
+    text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+    return any(kw.lower() in text for kw in exclusion_keywords)
+
+
+def _band_below_floor(job: dict, plan: dict) -> bool:
+    """Return True if job mentions a NHS band below the plan's applicable floor."""
+    floor_config = plan.get("nhs_band_floor", {})
+    default_floor = floor_config.get("default", "8a")
+    exception_floor = floor_config.get("london_remote_exception", "7")
+
+    location = job.get("location", "").lower()
+    text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+    description = job.get("description", "").lower()
+
+    is_london = "london" in location
+    is_remote = any(w in description for w in ["remote", "hybrid", "work from home"])
+
+    applicable_floor = exception_floor if (is_london and is_remote) else default_floor
+    floor_rank = _BAND_RANK.get(applicable_floor, 2)
+
+    for band_str in _BAND_PATTERN.findall(text):
+        rank = _BAND_RANK.get(band_str.lower(), 99)
+        if rank < floor_rank:
+            return True
+    return False
+
+
+def _quality_signal(new_jobs: list[dict], round_num: int, max_rounds: int) -> str:
+    remaining = max_rounds - round_num - 1
+    count = len(new_jobs)
+    if count == 0:
+        level = "No new jobs found"
+    elif count < 4:
+        level = f"{count} new job(s) — low yield"
+    elif count < 10:
+        level = f"{count} new job(s) — moderate yield"
+    else:
+        level = f"{count} new job(s) — high yield"
+    return f"Round quality: {level}. Remaining rounds: {remaining}."
+
 
 def _build_system_prompt(profile: dict, location: str, min_salary: int) -> str:
     return (
         f"You are an autonomous job search agent for {profile.get('name', 'the candidate')}. "
-        "Your goal is to find the best-matching jobs from employers licensed to sponsor UK Skilled Worker visas.\n\n"
+        "Your goal is to collect as many relevant job listings as possible from employers licensed "
+        "to sponsor UK Skilled Worker visas.\n\n"
         "Candidate profile:\n"
         f"- Current role: {profile.get('current_role', '')}\n"
         f"- Seniority: {profile.get('seniority', '')}\n"
@@ -52,20 +108,14 @@ def _build_system_prompt(profile: dict, location: str, min_salary: int) -> str:
         f"- Target roles: {', '.join(profile.get('target_roles') or [])}\n"
         f"- Open to: {', '.join(profile.get('open_to') or [])}\n"
         f"- Preferred location: {location}\n"
-        f"- Minimum salary: £{min_salary:,}\n"
-        + (f"\nAbout the candidate:\n{profile['about']}\n" if profile.get('about') else "")
-        + "\n"
-        "Use the search_jobs tool to find matching roles. You may call it multiple times to explore "
-        "different angles — exact job titles, adjacent roles, transferable skills, different locations.\n\n"
-        "After each round, assess whether the results are a good match for the candidate's seniority, "
-        "salary expectations, and background. If not, refine your queries and search again.\n\n"
-        "When you are satisfied with the results, stop calling the tool and write the final summary "
-        "in this exact format — do NOT use markdown tables:\n\n"
-        "1–2 sentences describing what angles you searched and why.\n\n"
-        "**Standout roles:**\n"
-        "- [Job Title at Company](URL) — one sentence on why it's a strong match for this candidate.\n"
-        "- [Job Title at Company](URL) — one sentence on why it's a strong match.\n"
-        "(3–5 standout roles, markdown links using the URLs provided in the search results)\n\n"
+        f"- Minimum salary: £{min_salary:,}\n\n"
+        "You have been given suggested queries to start with. Use the search_jobs tool to execute searches. "
+        "You may adapt the queries, try different locations, or explore adjacent role titles.\n\n"
+        "After each round you will receive a quality signal — use it to decide whether to refine your "
+        "approach or stop early.\n\n"
+        "When satisfied you have collected a good set of results, stop calling the tool. "
+        "Write only a brief strategy note (2–3 sentences) describing what angles you searched and why. "
+        "Do NOT list or summarise individual jobs — a separate evaluator will handle that.\n\n"
         f"You have a maximum of {MAX_ROUNDS} search rounds."
     )
 
@@ -76,11 +126,15 @@ def _execute_search(
     min_salary: int,
     sponsor_names: list[str],
     seen_urls: set[str],
+    plan: dict,
 ) -> tuple[list[dict], str]:
     """Run one search round. Returns (new_sponsored_jobs, result_text_for_claude)."""
     queries = tool_input["queries"]
     location = tool_input.get("location", default_location)
     distance = tool_input.get("distance", 50)
+
+    exclusion_keywords = plan.get("exclusion_keywords", [])
+    employment_type_exclusions = plan.get("employment_type_exclusions", [])
 
     all_jobs: list[dict] = []
     for _platform, jobs, error in search_all_streaming(queries, location, min_salary, distance):
@@ -88,7 +142,17 @@ def _execute_search(
             logger.warning("Platform '%s' returned an error: %s", _platform, error)
         all_jobs.extend(jobs)
 
-    sponsored = sponsor_filter.filter_jobs(all_jobs, sponsor_names)
+    filtered_jobs = []
+    for job in all_jobs:
+        if _is_clinical(job, exclusion_keywords):
+            continue
+        if _is_excluded_employment_type(job, employment_type_exclusions):
+            continue
+        if _band_below_floor(job, plan):
+            continue
+        filtered_jobs.append(job)
+
+    sponsored = sponsor_filter.filter_jobs(filtered_jobs, sponsor_names)
 
     new_jobs = []
     for job in sponsored:
@@ -110,9 +174,9 @@ def _execute_search(
 
 
 def run_search_agent(
-    profile: dict, location: str, min_salary: int
+    profile: dict, plan: dict, location: str, min_salary: int
 ) -> tuple[list[dict], str]:
-    """Drive the agentic search loop. Returns (sponsored_jobs, strategy_note)."""
+    """Phase 1: drive the agentic search loop. Returns (sponsored_jobs, strategy_note)."""
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
@@ -121,8 +185,16 @@ def run_search_agent(
     sponsor_names = sponsor_filter.load_sponsor_names()
     system_prompt = _build_system_prompt(profile, location, min_salary)
 
+    initial_queries = plan.get("queries", [])
     messages: list[dict] = [
-        {"role": "user", "content": "Find the best matching jobs for this candidate."}
+        {
+            "role": "user",
+            "content": (
+                f"Find the best matching jobs for this candidate. "
+                f"Suggested queries from the search plan: {initial_queries}. "
+                f"Adapt these as needed."
+            ),
+        }
     ]
     all_sponsored: list[dict] = []
     seen_urls: set[str] = set()
@@ -164,13 +236,15 @@ def run_search_agent(
                 min_salary=min_salary,
                 sponsor_names=sponsor_names,
                 seen_urls=seen_urls,
+                plan=plan,
             )
+            quality = _quality_signal(new_jobs, round_num, MAX_ROUNDS)
             print(f"[Agent] Round {round_num + 1}: found {len(new_jobs)} new sponsored jobs (total: {len(all_sponsored) + len(new_jobs)})")
             all_sponsored.extend(new_jobs)
             tool_results.append({
                 "type": "tool_result",
                 "tool_use_id": tool_use.id,
-                "content": result_text,
+                "content": f"{result_text}\n\n{quality}",
             })
 
         messages.append({"role": "user", "content": tool_results})
@@ -190,7 +264,9 @@ if __name__ == "__main__":
     if "profile" not in cfg:
         print("No profile in digest_config.yaml — nothing to test.")
     else:
-        jobs, note = run_search_agent(cfg["profile"], cfg["location"], cfg["min_salary"])
+        import job_planner
+        plan = job_planner.create_plan(cfg["profile"], cfg["location"], cfg["min_salary"])
+        jobs, note = run_search_agent(cfg["profile"], plan, cfg["location"], cfg["min_salary"])
         print(f"\n=== Strategy note ===\n{note}")
         print(f"\n=== Jobs found: {len(jobs)} ===")
         for j in jobs[:5]:

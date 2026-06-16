@@ -249,22 +249,33 @@ def test_main_sends_email_when_no_jobs_found():
     mock_analyse.assert_not_called()
 
 
-def test_main_uses_agent_when_profile_present_in_config():
+def test_main_uses_three_phase_pipeline_when_profile_present():
     from digest import main
 
     config = {
         "profile": {
             "name": "Jie",
             "current_role": "Operations Director",
-            "seniority": "Senior / Director",
+            "seniority": "Senior",
             "industry": "NHS",
             "skills": ["stakeholder management"],
             "previous_roles": ["Project Manager"],
             "target_roles": ["Operations Director"],
             "open_to": ["Head of Operations"],
+            "qualifications": [],
+            "employment_type": ["full-time"],
         },
         "location": "Bristol",
         "min_salary": 60000,
+    }
+    mock_plan = {
+        "queries": ["Operations Director Bristol"],
+        "locations": ["Bristol"],
+        "exclusion_keywords": [],
+        "employment_type_exclusions": [],
+        "nhs_band_floor": {"default": "8a", "london_remote_exception": "7"},
+        "candidate_qualifications": [],
+        "evaluator_notes": "",
     }
     mock_job = {
         "title": "Operations Director",
@@ -275,18 +286,28 @@ def test_main_uses_agent_when_profile_present_in_config():
         "description": "",
         "source": "Reed",
         "sponsor_name": "NHS Trust",
+        "score": 4,
+        "score_breakdown": {},
+        "reasoning": "Strong match.",
     }
 
     with patch("digest.load_config", return_value=config), \
+         patch("digest.job_planner.create_plan", return_value=mock_plan) as mock_planner, \
          patch("digest.search_agent.run_search_agent", return_value=([mock_job], "Searched 2 angles.")) as mock_agent, \
+         patch("digest.job_evaluator.evaluate", return_value=[mock_job]) as mock_eval, \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
-         patch("digest.send_email"), \
+         patch("digest.send_email") as mock_send, \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
-    mock_agent.assert_called_once_with(config["profile"], "Bristol", 60000)
-    args = mock_html.call_args[0]
-    assert args[1] == "Searched 2 angles."
+    mock_planner.assert_called_once_with(config["profile"], "Bristol", 60000)
+    mock_agent.assert_called_once_with(config["profile"], mock_plan, "Bristol", 60000)
+    mock_eval.assert_called_once_with([mock_job], mock_plan, config["profile"], 60000)
+    html_call_args = mock_html.call_args
+    assert html_call_args[0][0] == [mock_job]       # strong_jobs: score 4 lands here
+    assert html_call_args[0][1] == "Searched 2 angles."
+    assert html_call_args[1]["worth_a_look"] == []   # no score-3 jobs
+    assert "1 match" in mock_send.call_args[1]["subject"]
 
 
 def test_main_uses_static_queries_when_no_profile_in_config():
