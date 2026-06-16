@@ -1,6 +1,9 @@
 import json
+import logging
 import os
 import anthropic
+
+logger = logging.getLogger(__name__)
 
 _NHS_BANDING = """
 NHS Pay Bands:
@@ -96,6 +99,7 @@ def create_plan(profile: dict, location: str, min_salary: int) -> dict:
         raise RuntimeError(f"Planner returned invalid JSON: {exc}") from exc
 
     _validate_plan(plan)
+    logger.info("SearchPlan created: %d queries", len(plan.get("queries", [])))
     return plan
 
 

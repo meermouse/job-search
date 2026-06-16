@@ -119,7 +119,7 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
             entry = score_map[idx]
             result.append({
                 **job,
-                "score": entry.get("score", 0),
+                "score": entry.get("score"),
                 "score_breakdown": entry.get("score_breakdown", {}),
                 "reasoning": entry.get("reasoning", ""),
             })

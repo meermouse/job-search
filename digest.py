@@ -159,11 +159,14 @@ def main() -> None:
         )
         strong = [j for j in scored_jobs if j.get("score", 0) >= 4]
         worth_a_look = [j for j in scored_jobs if j.get("score", 0) == 3]
-        unscored = [j for j in scored_jobs if "score" not in j]
+        unscored = [j for j in scored_jobs if j.get("score") is None]
         if unscored:
             logger.warning("%d job(s) returned unscored and excluded from email", len(unscored))
-        summary = strategy_note
-        count = len(strong)
+        if not strong and not worth_a_look:
+            summary = "No roles met the scoring threshold today. " + strategy_note
+        else:
+            summary = strategy_note
+        count = len(strong) + len(worth_a_look)
     else:
         jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
         sponsor_names = sponsor_filter.load_sponsor_names()
