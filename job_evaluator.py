@@ -106,7 +106,14 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
             system=_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
         )
-        scores = json.loads(message.content[0].text)
+        text_blocks = [b for b in message.content if hasattr(b, "text")]
+        raw = text_blocks[0].text.strip() if text_blocks else ""
+        if raw.startswith("```"):
+            raw = raw.split("```", 2)[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+            raw = raw.strip()
+        scores = json.loads(raw)
     except Exception as exc:
         logger.warning("Evaluator failed: %s — returning jobs unscored", exc)
         return jobs

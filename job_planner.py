@@ -94,7 +94,17 @@ def create_plan(profile: dict, location: str, min_salary: int) -> dict:
     )
 
     try:
-        plan = json.loads(message.content[0].text)
+        text_blocks = [b for b in message.content if hasattr(b, "text")]
+        if not text_blocks:
+            raise RuntimeError("Planner returned no text content")
+        raw = text_blocks[0].text.strip()
+        # Strip markdown code fences if the model wrapped the JSON
+        if raw.startswith("```"):
+            raw = raw.split("```", 2)[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+            raw = raw.strip()
+        plan = json.loads(raw)
     except (json.JSONDecodeError, IndexError, AttributeError) as exc:
         raise RuntimeError(f"Planner returned invalid JSON: {exc}") from exc
 
