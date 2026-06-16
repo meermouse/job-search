@@ -62,7 +62,10 @@ strengths, nuances"""
 
 def create_plan(profile: dict, location: str, min_salary: int) -> dict:
     """Phase 0: produce a SearchPlan dict from the candidate profile."""
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
+    client = anthropic.Anthropic(api_key=api_key)
 
     prompt = _PROMPT.format(
         name=profile.get("name", ""),
@@ -82,7 +85,7 @@ def create_plan(profile: dict, location: str, min_salary: int) -> dict:
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=1024,
+        max_tokens=4096,
         system=_SYSTEM,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -106,3 +109,6 @@ def _validate_plan(plan: dict) -> None:
         raise RuntimeError(f"SearchPlan missing required keys: {missing}")
     if not plan.get("queries"):
         raise RuntimeError("SearchPlan has no queries")
+    band_floor = plan.get("nhs_band_floor")
+    if not isinstance(band_floor, dict) or "default" not in band_floor or "london_remote_exception" not in band_floor:
+        raise RuntimeError("SearchPlan nhs_band_floor must be a dict with 'default' and 'london_remote_exception' keys")
