@@ -30,6 +30,9 @@ profile:
   open_to:
     - Strategy Consultant
     - Project Planning
+  qualifications: []                   # fill in Jie's actual qualifications later
+  employment_type:
+    - full-time
 
 location: Bristol
 min_salary: 60000
