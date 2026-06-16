@@ -106,13 +106,21 @@ def format_email_html(
     today: str,
     preamble: str = "",
     worth_a_look: list[dict] | None = None,
+    near_misses: list[dict] | None = None,
 ) -> str:
     preamble_html = md_lib.markdown(preamble) if preamble else ""
     strong_table = _make_table(strong_jobs, include_reasoning=True)
     worth_table = _make_table(worth_a_look or [], include_reasoning=True)
+    near_misses_table = _make_table(near_misses or [], include_reasoning=True)
 
     strong_section = f"<h3>Strong matches</h3>{strong_table}" if strong_table else ""
     worth_section = f"<h3>Worth a look</h3>{worth_table}" if worth_table else ""
+    near_misses_section = (
+        f"<h3>Near misses — why today's closest results didn't make it</h3>"
+        f"<p style='color:#666;font-size:0.9em'>These scored too low to recommend, "
+        f"but are shown so you can see what came up and why it was filtered out.</p>"
+        f"{near_misses_table}"
+    ) if near_misses_table else ""
 
     return (
         f"<html><body>"
@@ -122,6 +130,7 @@ def format_email_html(
         f"{md_lib.markdown(summary)}"
         f"{strong_section}"
         f"{worth_section}"
+        f"{near_misses_section}"
         f"</body></html>"
     )
 
@@ -163,8 +172,14 @@ def main() -> None:
         if unscored:
             logger.warning("%d job(s) returned unscored and excluded from email", len(unscored))
         if not strong and not worth_a_look:
+            near_misses = sorted(
+                [j for j in scored_jobs if j.get("score") in (1, 2)],
+                key=lambda j: j["score"],
+                reverse=True,
+            )[:5]
             summary = "No roles met the scoring threshold today. " + strategy_note
         else:
+            near_misses = []
             summary = strategy_note
         count = len(strong) + len(worth_a_look)
     else:
@@ -178,12 +193,15 @@ def main() -> None:
         )
         strong = filtered
         worth_a_look = []
+        near_misses = []
         count = len(strong)
 
     today = date.today().strftime("%d %B %Y")
     subject = f"Job digest — {count} match{'es' if count != 1 else ''} — {today}"
     preamble = config.get("preamble", "")
-    html_body = format_email_html(strong, summary, today, preamble, worth_a_look=worth_a_look)
+    html_body = format_email_html(
+        strong, summary, today, preamble, worth_a_look=worth_a_look, near_misses=near_misses
+    )
     send_email(
         subject=subject,
         html_body=html_body,

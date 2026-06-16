@@ -310,6 +310,123 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
     assert "1 match" in mock_send.call_args[1]["subject"]
 
 
+def test_main_shows_near_misses_when_no_results_pass_threshold():
+    from digest import main
+
+    config = {
+        "profile": {
+            "name": "Jie",
+            "current_role": "Operations Director",
+            "seniority": "Senior",
+            "industry": "NHS",
+            "skills": [],
+            "previous_roles": [],
+            "target_roles": [],
+            "open_to": [],
+            "qualifications": [],
+            "employment_type": ["full-time"],
+        },
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+    mock_plan = {
+        "queries": [],
+        "locations": ["Bristol"],
+        "exclusion_keywords": [],
+        "employment_type_exclusions": [],
+        "nhs_band_floor": {"default": "8a", "london_remote_exception": "7"},
+        "candidate_qualifications": [],
+        "evaluator_notes": "",
+    }
+
+    def _make_scored(score):
+        return {
+            "title": "Some Role",
+            "company": "NHS Trust",
+            "url": f"https://example.com/{score}",
+            "location": "Bristol",
+            "salary": "",
+            "source": "Reed",
+            "sponsor_name": "NHS Trust",
+            "score": score,
+            "score_breakdown": {},
+            "reasoning": f"Scored {score} because of poor fit.",
+        }
+
+    # All jobs score 1 or 2 — nothing passes threshold
+    scored_jobs = [_make_scored(2), _make_scored(1), _make_scored(2)]
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.job_planner.create_plan", return_value=mock_plan), \
+         patch("digest.search_agent.run_search_agent", return_value=(scored_jobs, "Searched 1 angle.")), \
+         patch("digest.job_evaluator.evaluate", return_value=scored_jobs), \
+         patch("digest.format_email_html", return_value="<html>") as mock_html, \
+         patch("digest.send_email"), \
+         patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    html_kwargs = mock_html.call_args[1]
+    near_misses = html_kwargs["near_misses"]
+    assert len(near_misses) <= 5
+    assert near_misses[0]["score"] == 2   # score-2 jobs appear before score-1
+    assert near_misses[-1]["score"] >= 1
+    assert html_kwargs["worth_a_look"] == []
+
+
+def test_main_does_not_show_near_misses_when_results_exist():
+    from digest import main
+
+    config = {
+        "profile": {
+            "name": "Jie",
+            "current_role": "Operations Director",
+            "seniority": "Senior",
+            "industry": "NHS",
+            "skills": [],
+            "previous_roles": [],
+            "target_roles": [],
+            "open_to": [],
+            "qualifications": [],
+            "employment_type": ["full-time"],
+        },
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+    mock_plan = {
+        "queries": [],
+        "locations": ["Bristol"],
+        "exclusion_keywords": [],
+        "employment_type_exclusions": [],
+        "nhs_band_floor": {"default": "8a", "london_remote_exception": "7"},
+        "candidate_qualifications": [],
+        "evaluator_notes": "",
+    }
+    strong_job = {
+        "title": "Senior Manager",
+        "company": "NHS Trust",
+        "url": "https://example.com/1",
+        "location": "Bristol",
+        "salary": "£70,000",
+        "source": "Reed",
+        "sponsor_name": "NHS Trust",
+        "score": 4,
+        "score_breakdown": {},
+        "reasoning": "Strong fit.",
+    }
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.job_planner.create_plan", return_value=mock_plan), \
+         patch("digest.search_agent.run_search_agent", return_value=([strong_job], "Searched.")), \
+         patch("digest.job_evaluator.evaluate", return_value=[strong_job]), \
+         patch("digest.format_email_html", return_value="<html>") as mock_html, \
+         patch("digest.send_email"), \
+         patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
+        main()
+
+    html_kwargs = mock_html.call_args[1]
+    assert html_kwargs["near_misses"] == []
+
+
 def test_main_uses_static_queries_when_no_profile_in_config():
     from digest import main
 
