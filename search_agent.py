@@ -65,9 +65,10 @@ def _band_below_floor(job: dict, plan: dict) -> bool:
 
     location = job.get("location", "").lower()
     text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+    description = job.get("description", "").lower()
 
     is_london = "london" in location
-    is_remote = any(w in text for w in ["remote", "hybrid", "work from home"])
+    is_remote = any(w in description for w in ["remote", "hybrid", "work from home"])
 
     applicable_floor = exception_floor if (is_london and is_remote) else default_floor
     floor_rank = _BAND_RANK.get(applicable_floor, 2)
