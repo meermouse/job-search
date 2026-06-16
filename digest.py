@@ -159,6 +159,9 @@ def main() -> None:
         )
         strong = [j for j in scored_jobs if j.get("score", 0) >= 4]
         worth_a_look = [j for j in scored_jobs if j.get("score", 0) == 3]
+        unscored = [j for j in scored_jobs if "score" not in j]
+        if unscored:
+            logger.warning("%d job(s) returned unscored and excluded from email", len(unscored))
         summary = strategy_note
         count = len(strong)
     else:

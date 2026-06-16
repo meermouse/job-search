@@ -296,7 +296,7 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
          patch("digest.search_agent.run_search_agent", return_value=([mock_job], "Searched 2 angles.")) as mock_agent, \
          patch("digest.job_evaluator.evaluate", return_value=[mock_job]) as mock_eval, \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
-         patch("digest.send_email"), \
+         patch("digest.send_email") as mock_send, \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
@@ -304,7 +304,10 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
     mock_agent.assert_called_once_with(config["profile"], mock_plan, "Bristol", 60000)
     mock_eval.assert_called_once_with([mock_job], mock_plan, config["profile"], 60000)
     html_call_args = mock_html.call_args
+    assert html_call_args[0][0] == [mock_job]       # strong_jobs: score 4 lands here
     assert html_call_args[0][1] == "Searched 2 angles."
+    assert html_call_args[1]["worth_a_look"] == []   # no score-3 jobs
+    assert "1 match" in mock_send.call_args[1]["subject"]
 
 
 def test_main_uses_static_queries_when_no_profile_in_config():
