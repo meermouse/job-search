@@ -69,6 +69,8 @@ profile:
 
 Both fields are optional. If `qualifications` is absent, the evaluator skips the qualification-match dimension. If `employment_type` is absent, the evaluator treats any employment type as acceptable.
 
+For Jie's current configuration, `employment_type` is set to `full-time` only — this is a **hard filter**. Part-time, contract, and fixed-term roles score 1 and are dropped from the email regardless of other scores.
+
 ---
 
 ## NHS Domain Knowledge
@@ -119,6 +121,10 @@ Full profile dict from `digest_config.yaml` (name, current_role, skills, target_
     "nurse", "clinical", "ward", "doctor",
     "therapist", "midwife", "physiotherapist"
   ],
+  "employment_type_exclusions": [          # job types to drop pre-filter if employment_type set
+    "part-time", "part time", "contract",
+    "fixed term", "fixed-term", "temporary"
+  ],
   "nhs_band_floor": {
     "default": "8a",                       # 8a+ for all non-exception roles
     "london_remote_exception": "7"         # 7+ if London-based AND remote/hybrid confirmed
@@ -156,9 +162,12 @@ Enhanced version of the existing agentic loop. Takes a `SearchPlan` as input; Cl
 Claude is given the `SearchPlan.queries` list as a starting point. It may refine, reorder, or combine them, but cannot invent strategy from scratch.
 
 **2. Exclusion pre-filter (in `_execute_search`)**
-Before returning results to Claude, any job whose title matches an exclusion keyword from the plan is silently dropped. Clinical roles never enter Claude's context.
+Before returning results to Claude, any job whose title matches a clinical exclusion keyword from the plan is silently dropped. Clinical roles never enter Claude's context.
 
-**3. NHS band pre-filter (in `_execute_search`)**
+**3. Employment type pre-filter (in `_execute_search`)**
+If `employment_type` is set in the profile, any job whose title or description matches an `employment_type_exclusions` keyword (e.g. "part-time", "contract", "fixed term") is dropped before Claude sees it.
+
+**4. NHS band pre-filter (in `_execute_search`)**
 If a job description or title references an NHS band below the plan's band floor (accounting for the London/remote exception), it is dropped before Claude sees it.
 
 **4. Quality signal per round**
@@ -188,7 +197,7 @@ A dedicated module that scores every collected job 1–5 across five dimensions.
 | **Role type** | Management/admin/digital vs clinical. Clinical → 1 (disqualifier) | High |
 | **Seniority** | Does the level match "Senior"? Junior/entry → 1–2 | Medium |
 | **Salary / band** | NHS: band ≥ floor (with London/remote exception)? Private: salary ≥ min? Unclear → 3 | Medium |
-| **Employment type** | Matches full-time/contract preference? Opposite type → 2. Absent from profile → ignored | Medium |
+| **Employment type** | **Hard filter.** If `employment_type` is set, any role that doesn't match (part-time, contract, fixed-term) → 1, automatic disqualifier. Absent from profile → ignored | High |
 | **Qualification match** | JD requires quals candidate holds → 4–5. Requires quals they lack → 1–2. No requirements stated → 3 | High |
 
 **Overall score** = weighted average, rounded to the nearest integer (1–5). Role type and qualification match carry higher weight — a mismatch on either cannot be compensated by strong scores elsewhere.
