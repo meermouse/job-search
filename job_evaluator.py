@@ -43,6 +43,8 @@ _SYSTEM = (
     "Return only valid JSON array, no markdown."
 )
 
+_BATCH_WARN_THRESHOLD = 50
+
 
 def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> list[dict]:
     """Phase 2: score every job 1–5. Returns jobs with score/score_breakdown/reasoning added.
@@ -50,7 +52,18 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
     if not jobs:
         return []
 
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
+
+    if len(jobs) > _BATCH_WARN_THRESHOLD:
+        logger.warning(
+            "Evaluator received %d jobs — large batches risk response truncation (limit ~%d)",
+            len(jobs),
+            _BATCH_WARN_THRESHOLD,
+        )
+
+    client = anthropic.Anthropic(api_key=api_key)
 
     employment_type_required = ", ".join(profile.get("employment_type") or []) or "not specified"
     candidate_qualifications = (
@@ -98,17 +111,23 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
         logger.warning("Evaluator failed: %s — returning jobs unscored", exc)
         return jobs
 
-    scored = []
-    for entry in scores:
-        idx = entry.get("job_index", -1)
-        if 0 <= idx < len(jobs):
-            scored.append(
-                {
-                    **jobs[idx],
-                    "score": entry.get("score", 0),
-                    "score_breakdown": entry.get("score_breakdown", {}),
-                    "reasoning": entry.get("reasoning", ""),
-                }
-            )
+    score_map = {entry.get("job_index"): entry for entry in scores}
+    result = []
+    missing = 0
+    for idx, job in enumerate(jobs):
+        if idx in score_map:
+            entry = score_map[idx]
+            result.append({
+                **job,
+                "score": entry.get("score", 0),
+                "score_breakdown": entry.get("score_breakdown", {}),
+                "reasoning": entry.get("reasoning", ""),
+            })
+        else:
+            missing += 1
+            result.append(job)
 
-    return scored
+    if missing:
+        logger.warning("Evaluator omitted %d job(s) from response — included unscored", missing)
+
+    return result
