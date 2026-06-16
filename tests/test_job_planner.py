@@ -67,3 +67,48 @@ def test_validate_plan_raises_on_empty_queries():
 def test_validate_plan_passes_with_valid_plan():
     from job_planner import _validate_plan
     _validate_plan(SAMPLE_PLAN)  # should not raise
+
+
+def test_create_plan_handles_markdown_fenced_json(mocker):
+    fenced = f"```json\n{json.dumps(SAMPLE_PLAN)}\n```"
+    mock_message = MagicMock()
+    mock_message.content = [MagicMock(text=fenced)]
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = mock_message
+    mocker.patch("job_planner.anthropic.Anthropic", return_value=mock_client)
+
+    from job_planner import create_plan
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        plan = create_plan(
+            {"name": "Jie", "target_roles": [], "skills": [], "current_role": "",
+             "about": "", "seniority": "", "industry": "", "previous_roles": [],
+             "open_to": [], "qualifications": [], "employment_type": ["full-time"]},
+            "Bristol",
+            60000,
+        )
+
+    assert plan["queries"] == SAMPLE_PLAN["queries"]
+
+
+def test_create_plan_handles_non_text_content_block(mocker):
+    text_block = MagicMock()
+    text_block.text = json.dumps(SAMPLE_PLAN)
+    non_text_block = MagicMock(spec=[])  # no .text attribute
+
+    mock_message = MagicMock()
+    mock_message.content = [non_text_block, text_block]
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = mock_message
+    mocker.patch("job_planner.anthropic.Anthropic", return_value=mock_client)
+
+    from job_planner import create_plan
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        plan = create_plan(
+            {"name": "Jie", "target_roles": [], "skills": [], "current_role": "",
+             "about": "", "seniority": "", "industry": "", "previous_roles": [],
+             "open_to": [], "qualifications": [], "employment_type": ["full-time"]},
+            "Bristol",
+            60000,
+        )
+
+    assert plan["queries"] == SAMPLE_PLAN["queries"]

@@ -123,3 +123,22 @@ def test_evaluate_returns_jobs_unscored_on_invalid_json(mocker):
 
     assert len(result) == 1
     assert "score" not in result[0]
+
+
+def test_evaluate_handles_markdown_fenced_json(mocker):
+    jobs = [_make_job(0)]
+    response_data = _make_scored_response(jobs)
+    fenced = f"```json\n{json.dumps(response_data)}\n```"
+
+    mock_message = MagicMock()
+    mock_message.content = [MagicMock(text=fenced)]
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = mock_message
+    mocker.patch("job_evaluator.anthropic.Anthropic", return_value=mock_client)
+
+    from job_evaluator import evaluate
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        result = evaluate(jobs, _make_plan(), _make_profile(), 60000)
+
+    assert len(result) == 1
+    assert result[0]["score"] == 4
