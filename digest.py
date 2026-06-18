@@ -135,6 +135,40 @@ def format_email_html(
     )
 
 
+def format_log_email_html(filter_log: list[dict], today: str) -> str:
+    rows = ""
+    for entry in filter_log:
+        rows += (
+            f"<tr>"
+            f"<td style='white-space:nowrap'>{html.escape(entry.get('stage', ''))}</td>"
+            f"<td>{html.escape(entry.get('title', ''))}</td>"
+            f"<td>{html.escape(entry.get('company', ''))}</td>"
+            f"<td>{html.escape(entry.get('reason', ''))}</td>"
+            f"</tr>"
+        )
+    if not rows:
+        rows = (
+            "<tr><td colspan='4' style='color:#666;font-style:italic'>"
+            "No jobs were filtered today.</td></tr>"
+        )
+    table = (
+        "<table border='1' cellpadding='6' cellspacing='0' "
+        "style='border-collapse:collapse;width:100%;font-size:0.9em'>"
+        "<thead><tr style='background:#f0f0f0'>"
+        "<th>Stage</th><th>Job Title</th><th>Company</th><th>Reason</th>"
+        "</tr></thead>"
+        f"<tbody>{rows}</tbody>"
+        "</table>"
+    )
+    return (
+        f"<html><body>"
+        f"<h2>Filter Decision Log — {html.escape(today)}</h2>"
+        f"<p>{len(filter_log)} job(s) filtered across all stages.</p>"
+        f"{table}"
+        f"</body></html>"
+    )
+
+
 def send_email(
     subject: str,
     html_body: str,
@@ -160,7 +194,7 @@ def main() -> None:
         plan = job_planner.create_plan(
             config["profile"], config["location"], config["min_salary"]
         )
-        raw_jobs, strategy_note = search_agent.run_search_agent(
+        raw_jobs, strategy_note, filter_log = search_agent.run_search_agent(
             config["profile"], plan, config["location"], config["min_salary"]
         )
         scored_jobs = job_evaluator.evaluate(
@@ -171,6 +205,24 @@ def main() -> None:
         unscored = [j for j in scored_jobs if j.get("score") is None]
         if unscored:
             logger.warning("%d job(s) returned unscored and excluded from email", len(unscored))
+        for j in scored_jobs:
+            score = j.get("score")
+            if score is None:
+                filter_log.append({
+                    "stage": "Evaluator",
+                    "title": j.get("title", ""),
+                    "company": j.get("company", ""),
+                    "reason": "Not scored by evaluator",
+                })
+            elif score in (1, 2):
+                reasoning = j.get("reasoning", "")
+                short = reasoning.split(".")[0] if reasoning else ""
+                filter_log.append({
+                    "stage": "Evaluator",
+                    "title": j.get("title", ""),
+                    "company": j.get("company", ""),
+                    "reason": f"Score {score}/5 — {short}" if short else f"Score {score}/5",
+                })
         if not strong and not worth_a_look:
             near_misses = sorted(
                 [j for j in scored_jobs if j.get("score") in (1, 2)],
@@ -183,6 +235,7 @@ def main() -> None:
             summary = strategy_note
         count = len(strong) + len(worth_a_look)
     else:
+        filter_log = None
         jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
         sponsor_names = sponsor_filter.load_sponsor_names()
         filtered = sponsor_filter.filter_jobs(jobs, sponsor_names)
@@ -209,6 +262,16 @@ def main() -> None:
         gmail_user=os.environ["GMAIL_USER"],
         gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
     )
+
+    if filter_log is not None:
+        log_html = format_log_email_html(filter_log, today)
+        send_email(
+            subject=f"Filter log — {len(filter_log)} decisions — {today}",
+            html_body=log_html,
+            recipient=os.environ["GMAIL_USER"],
+            gmail_user=os.environ["GMAIL_USER"],
+            gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
+        )
 
 
 if __name__ == "__main__":

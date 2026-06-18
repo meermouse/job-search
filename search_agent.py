@@ -127,6 +127,7 @@ def _execute_search(
     sponsor_names: list[str],
     seen_urls: set[str],
     plan: dict,
+    filter_log: list,
 ) -> tuple[list[dict], str]:
     """Run one search round. Returns (new_sponsored_jobs, result_text_for_claude)."""
     queries = tool_input["queries"]
@@ -145,14 +146,47 @@ def _execute_search(
     filtered_jobs = []
     for job in all_jobs:
         if _is_clinical(job, exclusion_keywords):
+            matched = next((kw for kw in exclusion_keywords if kw.lower() in job.get("title", "").lower()), "?")
+            filter_log.append({
+                "stage": "Clinical keyword",
+                "title": job.get("title", ""),
+                "company": job.get("company", ""),
+                "reason": f"Title contains '{matched}'",
+            })
             continue
         if _is_excluded_employment_type(job, employment_type_exclusions):
+            text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+            matched = next((kw for kw in employment_type_exclusions if kw.lower() in text), "?")
+            filter_log.append({
+                "stage": "Employment type",
+                "title": job.get("title", ""),
+                "company": job.get("company", ""),
+                "reason": f"Contains '{matched}'",
+            })
             continue
         if _band_below_floor(job, plan):
+            text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+            bands = _BAND_PATTERN.findall(text) or ["?"]
+            floor = plan.get("nhs_band_floor", {}).get("default", "8a")
+            filter_log.append({
+                "stage": "NHS band floor",
+                "title": job.get("title", ""),
+                "company": job.get("company", ""),
+                "reason": f"Band {', '.join(bands)} below floor ({floor})",
+            })
             continue
         filtered_jobs.append(job)
 
     sponsored = sponsor_filter.filter_jobs(filtered_jobs, sponsor_names)
+    sponsored_urls = {j.get("url") for j in sponsored}
+    for job in filtered_jobs:
+        if job.get("url") not in sponsored_urls:
+            filter_log.append({
+                "stage": "Sponsor register",
+                "title": job.get("title", ""),
+                "company": job.get("company", ""),
+                "reason": f"'{job.get('company', '')}' not on UK visa sponsor register",
+            })
 
     new_jobs = []
     for job in sponsored:
@@ -175,8 +209,8 @@ def _execute_search(
 
 def run_search_agent(
     profile: dict, plan: dict, location: str, min_salary: int
-) -> tuple[list[dict], str]:
-    """Phase 1: drive the agentic search loop. Returns (sponsored_jobs, strategy_note)."""
+) -> tuple[list[dict], str, list]:
+    """Phase 1: drive the agentic search loop. Returns (sponsored_jobs, strategy_note, filter_log)."""
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
@@ -198,6 +232,7 @@ def run_search_agent(
     ]
     all_sponsored: list[dict] = []
     seen_urls: set[str] = set()
+    filter_log: list[dict] = []
     strategy_note = "Search complete."
     hit_cap = True
 
@@ -237,6 +272,7 @@ def run_search_agent(
                 sponsor_names=sponsor_names,
                 seen_urls=seen_urls,
                 plan=plan,
+                filter_log=filter_log,
             )
             quality = _quality_signal(new_jobs, round_num, MAX_ROUNDS)
             print(f"[Agent] Round {round_num + 1}: found {len(new_jobs)} new sponsored jobs (total: {len(all_sponsored) + len(new_jobs)})")
@@ -253,7 +289,7 @@ def run_search_agent(
         print(f"[Agent] Reached {MAX_ROUNDS}-round limit — {len(all_sponsored)} jobs found")
         strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
 
-    return all_sponsored, strategy_note
+    return all_sponsored, strategy_note, filter_log
 
 
 if __name__ == "__main__":
@@ -266,7 +302,7 @@ if __name__ == "__main__":
     else:
         import job_planner
         plan = job_planner.create_plan(cfg["profile"], cfg["location"], cfg["min_salary"])
-        jobs, note = run_search_agent(cfg["profile"], plan, cfg["location"], cfg["min_salary"])
+        jobs, note, _log = run_search_agent(cfg["profile"], plan, cfg["location"], cfg["min_salary"])
         print(f"\n=== Strategy note ===\n{note}")
         print(f"\n=== Jobs found: {len(jobs)} ===")
         for j in jobs[:5]:

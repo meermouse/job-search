@@ -293,7 +293,7 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
 
     with patch("digest.load_config", return_value=config), \
          patch("digest.job_planner.create_plan", return_value=mock_plan) as mock_planner, \
-         patch("digest.search_agent.run_search_agent", return_value=([mock_job], "Searched 2 angles.")) as mock_agent, \
+         patch("digest.search_agent.run_search_agent", return_value=([mock_job], "Searched 2 angles.", [])) as mock_agent, \
          patch("digest.job_evaluator.evaluate", return_value=[mock_job]) as mock_eval, \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email") as mock_send, \
@@ -307,7 +307,10 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
     assert html_call_args[0][0] == [mock_job]       # strong_jobs: score 4 lands here
     assert html_call_args[0][1] == "Searched 2 angles."
     assert html_call_args[1]["worth_a_look"] == []   # no score-3 jobs
-    assert "1 match" in mock_send.call_args[1]["subject"]
+    # digest is the first send_email call; second is the filter log
+    assert mock_send.call_count == 2
+    digest_call = mock_send.call_args_list[0]
+    assert "1 match" in digest_call[1]["subject"]
 
 
 def test_main_shows_near_misses_when_no_results_pass_threshold():
@@ -358,7 +361,7 @@ def test_main_shows_near_misses_when_no_results_pass_threshold():
 
     with patch("digest.load_config", return_value=config), \
          patch("digest.job_planner.create_plan", return_value=mock_plan), \
-         patch("digest.search_agent.run_search_agent", return_value=(scored_jobs, "Searched 1 angle.")), \
+         patch("digest.search_agent.run_search_agent", return_value=(scored_jobs, "Searched 1 angle.", [])), \
          patch("digest.job_evaluator.evaluate", return_value=scored_jobs), \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email"), \
@@ -416,7 +419,7 @@ def test_main_does_not_show_near_misses_when_results_exist():
 
     with patch("digest.load_config", return_value=config), \
          patch("digest.job_planner.create_plan", return_value=mock_plan), \
-         patch("digest.search_agent.run_search_agent", return_value=([strong_job], "Searched.")), \
+         patch("digest.search_agent.run_search_agent", return_value=([strong_job], "Searched.", [])), \
          patch("digest.job_evaluator.evaluate", return_value=[strong_job]), \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email"), \

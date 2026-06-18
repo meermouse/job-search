@@ -148,6 +148,7 @@ def test_execute_search_returns_sponsored_jobs_and_text():
                 sponsor_names=["NHS Trust"],
                 seen_urls=seen,
                 plan=_make_plan(),
+                filter_log=[],
             )
     assert len(jobs) == 1
     assert jobs[0]["url"] == "https://example.com/1"
@@ -167,6 +168,7 @@ def test_execute_search_deduplicates_seen_urls():
                 sponsor_names=["NHS Trust"],
                 seen_urls=seen,
                 plan=_make_plan(),
+                filter_log=[],
             )
     assert jobs == []
     assert text == "No sponsored jobs found for these queries."
@@ -182,6 +184,7 @@ def test_execute_search_defaults_location_and_distance():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=[],
             )
     mock_search.assert_called_once_with(["Director"], "Bristol", 60000, 50)
 
@@ -196,6 +199,7 @@ def test_execute_search_uses_location_and_distance_from_tool_input():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=[],
             )
     mock_search.assert_called_once_with(["Director"], "London", 60000, 25)
 
@@ -210,6 +214,7 @@ def test_execute_search_no_results_returns_empty_and_message():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=[],
             )
     assert jobs == []
     assert text == "No sponsored jobs found for these queries."
@@ -217,6 +222,7 @@ def test_execute_search_no_results_returns_empty_and_message():
 
 def test_execute_search_drops_clinical_jobs():
     clinical_job = _make_job("https://example.com/1", title="Senior Ward Nurse Manager")
+    log: list = []
     with patch("search_agent.search_all_streaming", return_value=[("NHS Jobs", [clinical_job], None)]):
         with patch("search_agent.sponsor_filter.filter_jobs", side_effect=lambda jobs, names: jobs):
             jobs, _ = search_agent._execute_search(
@@ -226,12 +232,15 @@ def test_execute_search_drops_clinical_jobs():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=log,
             )
     assert jobs == []
+    assert any(e["stage"] == "Clinical keyword" for e in log)
 
 
 def test_execute_search_drops_part_time_jobs():
     pt_job = _make_job("https://example.com/1", title="Part-Time Operations Director")
+    log: list = []
     with patch("search_agent.search_all_streaming", return_value=[("Reed", [pt_job], None)]):
         with patch("search_agent.sponsor_filter.filter_jobs", side_effect=lambda jobs, names: jobs):
             jobs, _ = search_agent._execute_search(
@@ -241,12 +250,15 @@ def test_execute_search_drops_part_time_jobs():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=log,
             )
     assert jobs == []
+    assert any(e["stage"] == "Employment type" for e in log)
 
 
 def test_execute_search_drops_below_band_floor_jobs():
     band7_job = _make_job("https://example.com/1", title="Programme Manager Band 7", location="Bristol")
+    log: list = []
     with patch("search_agent.search_all_streaming", return_value=[("NHS Jobs", [band7_job], None)]):
         with patch("search_agent.sponsor_filter.filter_jobs", side_effect=lambda jobs, names: jobs):
             jobs, _ = search_agent._execute_search(
@@ -256,8 +268,10 @@ def test_execute_search_drops_below_band_floor_jobs():
                 sponsor_names=[],
                 seen_urls=set(),
                 plan=_make_plan(),
+                filter_log=log,
             )
     assert jobs == []
+    assert any(e["stage"] == "NHS band floor" for e in log)
 
 
 # --- run_search_agent (updated signature: takes plan) ---
@@ -284,7 +298,7 @@ def test_run_search_agent_returns_empty_jobs_and_note_when_claude_stops_immediat
     with patch("search_agent.anthropic.Anthropic", return_value=mock_client):
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=[]):
             with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
-                jobs, note = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
+                jobs, note, _log = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
 
     assert jobs == []
     assert note == "No tool calls needed — returning strategy note."
@@ -317,7 +331,7 @@ def test_run_search_agent_executes_tool_call_and_feeds_result_back():
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=["NHS Trust"]):
             with patch("search_agent._execute_search", return_value=([mock_job], "Found 1 job")):
                 with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
-                    jobs, note = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
+                    jobs, note, _log = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
 
     assert len(jobs) == 1
     assert jobs[0]["url"] == "https://example.com/job1"
@@ -377,7 +391,7 @@ def test_run_search_agent_deduplicates_jobs_across_rounds():
 
     profile = {"name": "Jie", "skills": [], "previous_roles": [], "target_roles": [], "open_to": []}
 
-    def fake_execute(tool_input, default_location, min_salary, sponsor_names, seen_urls, plan):
+    def fake_execute(tool_input, default_location, min_salary, sponsor_names, seen_urls, plan, filter_log):
         url = "https://example.com/same-url"
         if url in seen_urls:
             return [], "No new jobs."
@@ -388,6 +402,6 @@ def test_run_search_agent_deduplicates_jobs_across_rounds():
         with patch("search_agent.sponsor_filter.load_sponsor_names", return_value=[]):
             with patch("search_agent._execute_search", side_effect=fake_execute):
                 with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
-                    jobs, note = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
+                    jobs, note, _log = search_agent.run_search_agent(profile, _make_plan(), "Bristol", 60000)
 
     assert len(jobs) == 1
