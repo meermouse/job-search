@@ -80,7 +80,7 @@ def filter_jobs(jobs: list[dict], sponsor_names: list[str], threshold: int = 85)
         match = process.extractOne(
             company,
             sponsor_names,
-            scorer=fuzz.token_sort_ratio,
+            scorer=fuzz.token_set_ratio,
         )
         if match and match[1] >= threshold:
             result.append({**job, "sponsor_name": match[0]})

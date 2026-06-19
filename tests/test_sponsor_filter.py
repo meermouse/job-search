@@ -1,6 +1,8 @@
 import os
 import pytest
-from sponsor_filter import load_sponsor_names
+from sponsor_filter import load_sponsor_names, filter_jobs
+
+REAL_CACHE = os.path.join(os.path.dirname(__file__), "..", "sponsor_cache.csv")
 
 FIXTURE_CSV = os.path.join(os.path.dirname(__file__), "fixtures", "sponsors.csv")
 
@@ -165,3 +167,35 @@ def test_filter_jobs_non_nhs_still_requires_fuzzy_match():
     job = _make_nhs_job("https://example.com/priv1", "Priory Group")
     result = filter_jobs([job], sponsor_names=[], threshold=85)
     assert result == []
+
+
+# --- integration tests against the real sponsor_cache.csv ---
+
+def _make_job_for(company, url="https://example.com/x"):
+    return {
+        "title": "Project Manager",
+        "company": company,
+        "location": "London",
+        "salary": "£70,000",
+        "description": "",
+        "url": url,
+        "source": "LinkedIn",
+    }
+
+
+@pytest.mark.skipif(not os.path.exists(REAL_CACHE), reason="sponsor_cache.csv not present")
+def test_aecom_passes_sponsor_filter(mocker):
+    """AECOM is on the register as 'AECOM LIMITED' — short name vs suffixed name must still match."""
+    mocker.patch("sponsor_filter.requests.get", side_effect=Exception("force cache"))
+    names = load_sponsor_names(cache_path=REAL_CACHE)
+    result = filter_jobs([_make_job_for("AECOM")], names)
+    assert len(result) == 1, "AECOM should pass the sponsor filter"
+
+
+@pytest.mark.skipif(not os.path.exists(REAL_CACHE), reason="sponsor_cache.csv not present")
+def test_equans_fails_sponsor_filter(mocker):
+    """Equans is not on the register and should be filtered out."""
+    mocker.patch("sponsor_filter.requests.get", side_effect=Exception("force cache"))
+    names = load_sponsor_names(cache_path=REAL_CACHE)
+    result = filter_jobs([_make_job_for("Equans")], names)
+    assert len(result) == 0, "Equans is not a registered sponsor and should be rejected"
