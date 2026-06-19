@@ -26,8 +26,17 @@ _SYSTEM = (
     "is explicitly mentioned in the description\n\n"
     "Scoring dimensions (apply weighted judgment — role_type, employment_type, and qualifications "
     "carry higher weight):\n"
-    "- role_type: Is this a management/admin/digital/transformation role? "
-    "Clinical roles (nurse, ward, doctor, therapist etc.) → 1 (automatic disqualifier)\n"
+    "- role_type: Does the PRIMARY FUNCTION of this role match the candidate's background in "
+    "management, leadership, operations, programme delivery, or digital transformation?\n"
+    "  Score 1 (automatic disqualifier) for any specialist individual-contributor role, regardless of sector:\n"
+    "  - Clinical: nurse, doctor, therapist, surgeon, paramedic, ward manager, pharmacist, etc.\n"
+    "  - Legal: lawyer, solicitor, barrister, legal counsel, legal advisor\n"
+    "  - Technical/engineering: software developer, engineer, data scientist, architect (technical)\n"
+    "  - Finance/accounting: accountant, auditor, finance business partner\n"
+    "  - Any other specialist role whose primary duty is professional practice, not managing people or programmes\n"
+    "  Score 4–5 for clear management, leadership, or transformation roles with meaningful scope.\n"
+    "  Score 2–3 for hybrid or ambiguous roles — e.g. a 'Digital Transformation Lead' that is partly hands-on.\n"
+    "  Use the job title AND the primary duties described. A lawyer who manages a team is still a lawyer role.\n"
     "- seniority: Does the level match the candidate's stated seniority?\n"
     "- salary_band: Does it meet the min salary and band floor? Unclear/unstated → 3\n"
     "- employment_type: HARD FILTER. If employment_type_required is set, any role that is "
@@ -88,9 +97,12 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
         indent=2,
     )
 
+    target_roles = ", ".join(profile.get("target_roles") or []) or "not specified"
     prompt = (
         f"Evaluate these jobs for the following candidate.\n\n"
         f"Candidate:\n"
+        f"- Current role: {profile.get('current_role', '')}\n"
+        f"- Target roles: {target_roles}\n"
         f"- Seniority: {profile.get('seniority', '')}\n"
         f"- Required employment type: {employment_type_required}\n"
         f"- Qualifications: {', '.join(candidate_qualifications) or 'not specified'}\n"
