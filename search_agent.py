@@ -43,10 +43,23 @@ _BAND_PATTERN = re.compile(r'\b(?:afc\s+)?band\s+(6|7|8a|8b|8c|8d|9)\b', re.IGNO
 _BAND_RANK = {"6": 0, "7": 1, "8a": 2, "8b": 3, "8c": 4, "8d": 5, "9": 6}
 
 
+_TITLE_SEPARATORS = (",", " - ", " · ", " | ", " — ", " at ")
+
+
 def _is_clinical(job: dict, exclusion_keywords: list[str]) -> bool:
-    """Return True if job title contains a clinical exclusion keyword."""
-    title = job.get("title", "").lower()
-    return any(kw.lower() in title for kw in exclusion_keywords)
+    """Return True if the primary role function in the job title contains a clinical keyword.
+
+    Only the part of the title before the first separator is checked, so company or department
+    context appended by scrapers (e.g. 'Manager, Royal College of Surgeons') does not trigger
+    a false positive.
+    """
+    full_title = job.get("title", "").lower()
+    role_title = full_title
+    for sep in _TITLE_SEPARATORS:
+        if sep in full_title:
+            role_title = full_title.split(sep)[0]
+            break
+    return any(kw.lower() in role_title for kw in exclusion_keywords)
 
 
 def _is_excluded_employment_type(job: dict, exclusion_keywords: list[str]) -> bool:

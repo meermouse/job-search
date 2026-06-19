@@ -50,6 +50,30 @@ def test_is_clinical_empty_keywords():
     assert search_agent._is_clinical(job, []) is False
 
 
+def test_is_clinical_ignores_keyword_after_comma_separator():
+    # Scrapers sometimes append the company name to the title field.
+    # "surgeon" here is in the organisation name, not the role function.
+    job = _make_job(
+        "https://example.com/1",
+        title="Senior Business Development Manager (UK), THE ROYAL COLLEGE OF SURGEONS OF ENGLAND",
+    )
+    assert search_agent._is_clinical(job, ["surgeon", "nurse"]) is False
+
+
+def test_is_clinical_ignores_keyword_after_dash_separator():
+    job = _make_job(
+        "https://example.com/1",
+        title="Head of Operations - Aneurin Bevan Physiotherapy Services",
+    )
+    assert search_agent._is_clinical(job, ["physiotherap"]) is False
+
+
+def test_is_clinical_still_catches_keyword_in_primary_role():
+    # "Surgeon" is the role itself here, not a context word
+    job = _make_job("https://example.com/1", title="Consultant Surgeon — Bristol NHS Trust")
+    assert search_agent._is_clinical(job, ["surgeon"]) is True
+
+
 # --- _is_excluded_employment_type ---
 
 def test_is_excluded_employment_type_matches_part_time_in_title():
