@@ -3,7 +3,7 @@ import re
 import anthropic
 
 _SYSTEM_BASE = """\
-You are a helpful job search assistant embedded in a UK Skilled Worker visa job finder app.
+You are a helpful job search assistant called "The Job Mule" embedded in a UK Skilled Worker visa job finder app.
 The app searches LinkedIn, Indeed, Reed, and NHS Jobs, then filters results to only show
 employers licensed to sponsor Skilled Worker visas.
 
