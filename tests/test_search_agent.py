@@ -34,6 +34,12 @@ def test_is_clinical_matches_keyword_in_title():
     assert search_agent._is_clinical(job, ["nurse", "clinical"]) is True
 
 
+def test_is_clinical_matches_legal_role_in_title():
+    # Lawyer, solicitor etc. are outside Jie's background and should be caught by title exclusions
+    job = _make_job("https://example.com/1", title="NHS Lawyer (Employment Law)")
+    assert search_agent._is_clinical(job, ["nurse", "clinical", "lawyer", "solicitor"]) is True
+
+
 def test_is_clinical_no_match():
     job = _make_job("https://example.com/1", title="Operations Director")
     assert search_agent._is_clinical(job, ["nurse", "clinical"]) is False
@@ -261,7 +267,7 @@ def test_execute_search_drops_clinical_jobs():
                 filter_log=log,
             )
     assert jobs == []
-    assert any(e["stage"] == "Clinical keyword" for e in log)
+    assert any(e["stage"] == "Role type" for e in log)
 
 
 def test_execute_search_drops_part_time_jobs():

@@ -23,9 +23,16 @@ _SYSTEM = (
     "- Default: Band 8a+ (below 8a is below threshold regardless of salary text)\n"
     "- Exception: Band 7+ is acceptable ONLY if the role is London-based AND remote or hybrid working "
     "is explicitly mentioned in the job description\n\n"
-    "The candidate is in management, administration, and digital transformation — NOT clinical practice. "
-    "Clinical roles (nurse, doctor, ward manager, therapist, midwife, physiotherapist, clinical practitioner, "
-    "surgeon, radiographer, paramedic, pharmacist, dentist) must be excluded.\n\n"
+    "The candidate is in management, administration, and digital transformation — NOT clinical practice "
+    "and NOT other specialist professions.\n"
+    "Two categories of roles must be excluded from job titles:\n"
+    "1. Clinical roles: nurse, doctor, ward manager, therapist, midwife, physiotherapist, clinical practitioner, "
+    "surgeon, radiographer, paramedic, pharmacist, dentist, psychologist, dietitian, optometrist.\n"
+    "2. Non-clinical specialist roles outside the candidate's background: lawyer, solicitor, barrister, "
+    "legal counsel, legal advisor, engineer, developer, software engineer, architect (technical), "
+    "accountant, finance business partner, auditor, scientist, researcher, analyst (data/research).\n"
+    "A role is only relevant if its primary function is management, leadership, operations, programme delivery, "
+    "or digital transformation — not if it is a specialist professional role that happens to be in the NHS.\n\n"
     "Return only valid JSON, no markdown."
 )
 
@@ -52,7 +59,11 @@ Return a JSON object with exactly these keys:
 generate queries from the intersection of that direction with skills, background, and qualifications. \
 Include adjacent titles a recruiter would use (e.g. "Deputy Director Digital", "Senior Programme Manager NHS").
 - "locations": list of locations to cover
-- "exclusion_keywords": comprehensive list of clinical role keywords to exclude from job titles
+- "exclusion_keywords": comprehensive list of keywords to exclude from job titles — include both \
+clinical role keywords (nurse, doctor, therapist, etc.) AND specialist professional roles outside the \
+candidate's background (lawyer, solicitor, engineer, developer, accountant, scientist, etc.). \
+These are title-level signals: if a job title contains any of these words, the role is a specialist \
+individual-contributor post, not a management or leadership role relevant to this candidate
 - "employment_type_exclusions": list of phrases that signal non-permanent or non-full-time employment. \
 Use specific multi-word phrases — do NOT include bare "contract" because it appears in all employment \
 descriptions ("contract of employment", "AfC contract", "permanent contract", "NHS contract") and will \

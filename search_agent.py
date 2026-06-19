@@ -153,7 +153,7 @@ def _execute_search(
         if _is_clinical(job, exclusion_keywords):
             matched = next((kw for kw in exclusion_keywords if kw.lower() in job.get("title", "").lower()), "?")
             filter_log.append({
-                "stage": "Clinical keyword",
+                "stage": "Role type",
                 "title": job.get("title", ""),
                 "company": job.get("company", ""),
                 "url": job.get("url", ""),
