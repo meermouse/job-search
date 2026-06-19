@@ -50,12 +50,35 @@ def load_sponsor_names(csv_url: str = _DEFAULT_URL, cache_path: str = _CACHE_PAT
     return names
 
 
+# Substrings that identify UK NHS and public health bodies. These are legally controlled terms —
+# only recognised NHS/public health organisations can use them — so no fuzzy match is needed.
+_NHS_BYPASS_PATTERNS: frozenset[str] = frozenset([
+    "nhs",
+    "foundation trust",
+    "health board",          # Scottish and Welsh NHS boards
+    "public health wales",
+    "public health scotland",
+    "uk health security agency",
+    "health education england",
+])
+
+
+def _is_nhs_or_public_health_body(company: str) -> bool:
+    lower = company.lower()
+    return any(pattern in lower for pattern in _NHS_BYPASS_PATTERNS)
+
+
 def filter_jobs(jobs: list[dict], sponsor_names: list[str], threshold: int = 85) -> list[dict]:
-    """Return jobs whose company fuzzy-matches a Worker-route sponsor, adding sponsor_name field."""
+    """Return jobs whose company is a known NHS/public-health body or fuzzy-matches a Worker-route sponsor."""
     result = []
     for job in jobs:
+        company = job.get("company", "")
+        if _is_nhs_or_public_health_body(company):
+            logger.debug("Sponsor bypass (NHS/public health): %s", company)
+            result.append({**job, "sponsor_name": company})
+            continue
         match = process.extractOne(
-            job["company"],
+            company,
             sponsor_names,
             scorer=fuzz.token_sort_ratio,
         )

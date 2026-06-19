@@ -119,3 +119,49 @@ def test_filter_jobs_respects_threshold():
         "source": "Reed",
     }]
     assert filter_jobs(jobs, SPONSOR_NAMES, threshold=85) == []
+
+
+def _make_nhs_job(url, company):
+    return {
+        "title": "Director",
+        "company": company,
+        "location": "Wales",
+        "salary": "£75,000",
+        "description": "",
+        "url": url,
+        "source": "NHS Jobs",
+    }
+
+
+def test_filter_jobs_bypasses_fuzzy_match_for_nhs_in_name():
+    # "NHS" in the company name should pass without needing to be in the sponsor list
+    job = _make_nhs_job("https://example.com/nhs1", "Cwm Taf Morgannwg University NHS Trust")
+    result = filter_jobs([job], sponsor_names=[], threshold=85)
+    assert len(result) == 1
+    assert result[0]["sponsor_name"] == "Cwm Taf Morgannwg University NHS Trust"
+
+
+def test_filter_jobs_bypasses_fuzzy_match_for_public_health_wales():
+    job = _make_nhs_job("https://example.com/phw1", "Public Health Wales")
+    result = filter_jobs([job], sponsor_names=[], threshold=85)
+    assert len(result) == 1
+
+
+def test_filter_jobs_bypasses_fuzzy_match_for_health_board():
+    # Welsh and Scottish NHS bodies use "Health Board" rather than "NHS Trust"
+    job = _make_nhs_job("https://example.com/hb1", "Aneurin Bevan University Health Board")
+    result = filter_jobs([job], sponsor_names=[], threshold=85)
+    assert len(result) == 1
+
+
+def test_filter_jobs_bypasses_fuzzy_match_for_foundation_trust():
+    job = _make_nhs_job("https://example.com/ft1", "Bristol Royal Infirmary Foundation Trust")
+    result = filter_jobs([job], sponsor_names=[], threshold=85)
+    assert len(result) == 1
+
+
+def test_filter_jobs_non_nhs_still_requires_fuzzy_match():
+    # A private company without NHS terms must still match the register
+    job = _make_nhs_job("https://example.com/priv1", "Priory Group")
+    result = filter_jobs([job], sponsor_names=[], threshold=85)
+    assert result == []
