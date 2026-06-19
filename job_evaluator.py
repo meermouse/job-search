@@ -55,34 +55,26 @@ _SYSTEM = (
     "Return only valid JSON array, no markdown."
 )
 
-_BATCH_WARN_THRESHOLD = 50
+_CHUNK_SIZE = 10
 
 
-def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> list[dict]:
-    """Phase 2: score every job 1–5. Returns jobs with score/score_breakdown/reasoning added.
-    Falls back to returning unscored jobs if the evaluator call fails."""
-    if not jobs:
-        return []
-
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
-
-    if len(jobs) > _BATCH_WARN_THRESHOLD:
-        logger.warning(
-            "Evaluator received %d jobs — large batches risk response truncation (limit ~%d)",
-            len(jobs),
-            _BATCH_WARN_THRESHOLD,
-        )
-
-    client = anthropic.Anthropic(api_key=api_key)
-
+def _evaluate_chunk(
+    jobs: list[dict],
+    client,
+    plan: dict,
+    profile: dict,
+    min_salary: int,
+    chunk_num: int,
+    total_chunks: int,
+) -> list[dict]:
+    """Evaluate one batch of jobs. Returns scored jobs; returns unscored on any failure."""
     employment_type_required = ", ".join(profile.get("employment_type") or []) or "not specified"
     candidate_qualifications = (
         plan.get("candidate_qualifications")
         or profile.get("qualifications")
         or []
     )
+    target_roles = ", ".join(profile.get("target_roles") or []) or "not specified"
 
     jobs_text = json.dumps(
         [
@@ -100,7 +92,6 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
         indent=2,
     )
 
-    target_roles = ", ".join(profile.get("target_roles") or []) or "not specified"
     prompt = (
         f"Evaluate these jobs for the following candidate.\n\n"
         f"Candidate:\n"
@@ -130,8 +121,11 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
             raw = raw.strip()
         scores = json.loads(raw)
     except Exception as exc:
-        logger.warning("Evaluator failed: %s — returning jobs unscored", exc)
-        return jobs
+        logger.warning(
+            "Evaluator chunk %d/%d failed: %s — returning %d job(s) unscored",
+            chunk_num, total_chunks, exc, len(jobs),
+        )
+        return list(jobs)
 
     score_map = {entry.get("job_index"): entry for entry in scores}
     result = []
@@ -150,6 +144,33 @@ def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> li
             result.append(job)
 
     if missing:
-        logger.warning("Evaluator omitted %d job(s) from response — included unscored", missing)
+        logger.warning(
+            "Evaluator chunk %d/%d omitted %d job(s) from response — included unscored",
+            chunk_num, total_chunks, missing,
+        )
+
+    return result
+
+
+def evaluate(jobs: list[dict], plan: dict, profile: dict, min_salary: int) -> list[dict]:
+    """Phase 2: score every job 1–5. Returns jobs with score/score_breakdown/reasoning added.
+    Jobs are evaluated in chunks of up to _CHUNK_SIZE to prevent response truncation."""
+    if not jobs:
+        return []
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise RuntimeError("ANTHROPIC_API_KEY is not set. Add it to your .env file.")
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    chunks = [jobs[i:i + _CHUNK_SIZE] for i in range(0, len(jobs), _CHUNK_SIZE)]
+    total = len(chunks)
+    if total > 1:
+        logger.info("Evaluating %d job(s) in %d chunks of up to %d", len(jobs), total, _CHUNK_SIZE)
+
+    result = []
+    for idx, chunk in enumerate(chunks):
+        result.extend(_evaluate_chunk(chunk, client, plan, profile, min_salary, idx + 1, total))
 
     return result

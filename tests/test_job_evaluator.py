@@ -142,3 +142,63 @@ def test_evaluate_handles_markdown_fenced_json(mocker):
 
     assert len(result) == 1
     assert result[0]["score"] == 4
+
+
+def test_evaluate_splits_large_batch_into_chunks(mocker):
+    """Batches larger than _CHUNK_SIZE must result in one API call per chunk."""
+    from job_evaluator import evaluate, _CHUNK_SIZE
+
+    n_jobs = _CHUNK_SIZE + 2  # forces exactly 2 chunks
+    jobs = [_make_job(i) for i in range(n_jobs)]
+
+    def make_scored_message(n):
+        msg = MagicMock()
+        msg.content = [MagicMock(text=json.dumps([
+            {"job_index": i, "score": 3, "score_breakdown": {}, "reasoning": "ok"}
+            for i in range(n)
+        ]))]
+        return msg
+
+    mock_client = MagicMock()
+    mock_client.messages.create.side_effect = [
+        make_scored_message(_CHUNK_SIZE),
+        make_scored_message(2),
+    ]
+    mocker.patch("job_evaluator.anthropic.Anthropic", return_value=mock_client)
+
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        result = evaluate(jobs, _make_plan(), _make_profile(), 60000)
+
+    assert mock_client.messages.create.call_count == 2
+    assert len(result) == n_jobs
+    assert all(j.get("score") == 3 for j in result)
+
+
+def test_evaluate_chunk_failure_leaves_remaining_chunks_scored(mocker):
+    """If one chunk's API call fails, other chunks are still scored."""
+    from job_evaluator import evaluate, _CHUNK_SIZE
+
+    n_jobs = _CHUNK_SIZE + 2
+    jobs = [_make_job(i) for i in range(n_jobs)]
+
+    good_msg = MagicMock()
+    good_msg.content = [MagicMock(text=json.dumps([
+        {"job_index": i, "score": 4, "score_breakdown": {}, "reasoning": "good"}
+        for i in range(_CHUNK_SIZE)
+    ]))]
+
+    mock_client = MagicMock()
+    mock_client.messages.create.side_effect = [
+        good_msg,
+        Exception("API timeout"),
+    ]
+    mocker.patch("job_evaluator.anthropic.Anthropic", return_value=mock_client)
+
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        result = evaluate(jobs, _make_plan(), _make_profile(), 60000)
+
+    assert len(result) == n_jobs
+    # First chunk scored
+    assert all(j.get("score") == 4 for j in result[:_CHUNK_SIZE])
+    # Second chunk unscored but present
+    assert all("score" not in j for j in result[_CHUNK_SIZE:])
