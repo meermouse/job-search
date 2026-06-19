@@ -53,9 +53,13 @@ generate queries from the intersection of that direction with skills, background
 Include adjacent titles a recruiter would use (e.g. "Deputy Director Digital", "Senior Programme Manager NHS").
 - "locations": list of locations to cover
 - "exclusion_keywords": comprehensive list of clinical role keywords to exclude from job titles
-- "employment_type_exclusions": list of employment type keywords to exclude based on the candidate's \
-employment_type preference (e.g. if full-time only: ["part-time", "part time", "contract", \
-"fixed term", "fixed-term", "temporary"])
+- "employment_type_exclusions": list of phrases that signal non-permanent or non-full-time employment. \
+Use specific multi-word phrases — do NOT include bare "contract" because it appears in all employment \
+descriptions ("contract of employment", "AfC contract", "permanent contract", "NHS contract") and will \
+produce false positives. Use instead: "fixed-term contract", "fixed term", "temporary contract", \
+"contract role", "contract post", "contract basis", "locum", "bank staff", "secondment". \
+For part-time: ["part-time", "part time"]. For temporary: ["temporary", "fixed-term", "fixed term", \
+"contract role", "contract post", "contract basis", "locum", "bank staff"]
 - "nhs_band_floor": object with exactly two keys: "default" (always "8a") and \
 "london_remote_exception" (always "7")
 - "candidate_qualifications": list of candidate's qualifications phrased to match JD language

@@ -66,6 +66,32 @@ def test_is_excluded_employment_type_empty_keywords():
     assert search_agent._is_excluded_employment_type(job, []) is False
 
 
+def test_is_excluded_employment_type_permanent_in_description_overrides_contract_keyword():
+    # "contract" appears in many permanent NHS job descriptions (AfC contract, contract of employment)
+    # A posting that says "permanent" should never be filtered on employment type
+    job = _make_job(
+        "https://example.com/1",
+        title="Operations Director",
+        description="This is a permanent, full-time post. The post-holder will be employed on an AfC contract.",
+    )
+    assert search_agent._is_excluded_employment_type(job, ["contract", "fixed term"]) is False
+
+
+def test_is_excluded_employment_type_permanent_in_title_overrides():
+    job = _make_job("https://example.com/1", title="Permanent Operations Director")
+    assert search_agent._is_excluded_employment_type(job, ["contract"]) is False
+
+
+def test_is_excluded_employment_type_fixed_term_contract_still_excluded():
+    # Multi-word phrase "fixed-term contract" correctly flags a contract role even without bare "contract"
+    job = _make_job(
+        "https://example.com/1",
+        title="Operations Director",
+        description="This is a fixed-term contract position for 12 months.",
+    )
+    assert search_agent._is_excluded_employment_type(job, ["fixed-term contract", "fixed term"]) is True
+
+
 # --- _band_below_floor ---
 
 def test_band_below_floor_drops_band_7_for_bristol():

@@ -53,7 +53,12 @@ def _is_excluded_employment_type(job: dict, exclusion_keywords: list[str]) -> bo
     """Return True if job title or description indicates an excluded employment type."""
     if not exclusion_keywords:
         return False
-    text = f"{job.get('title', '')} {job.get('description', '')}".lower()
+    title = job.get("title", "").lower()
+    description = job.get("description", "").lower()
+    # A posting that explicitly states "permanent" is not a fixed-term or temporary role
+    if "permanent" in title or "permanent" in description:
+        return False
+    text = f"{title} {description}"
     return any(kw.lower() in text for kw in exclusion_keywords)
 
 

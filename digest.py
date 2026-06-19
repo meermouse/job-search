@@ -1,10 +1,13 @@
 import html
+import json
 import os
 import markdown as md_lib
 import smtplib
 import ssl
 import logging
 from datetime import date
+from email import encoders as email_encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -172,22 +175,39 @@ def format_log_email_html(filter_log: list[dict], today: str) -> str:
     )
 
 
+def build_run_jsonl(filter_log: list[dict], today: str, jobs_passed: int) -> bytes:
+    lines = [json.dumps({"type": "run", "date": today, "jobs_passed": jobs_passed, "jobs_filtered": len(filter_log)})]
+    for entry in filter_log:
+        lines.append(json.dumps({"type": "decision", "date": today, **entry}))
+    return "\n".join(lines).encode("utf-8")
+
+
 def send_email(
     subject: str,
     html_body: str,
     recipient: str,
     gmail_user: str,
     gmail_app_password: str,
+    attachment: tuple[str, bytes] | None = None,
 ) -> None:
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = gmail_user
-    msg["To"] = recipient
-    msg.attach(MIMEText(html_body, "html"))
+    outer = MIMEMultipart("mixed")
+    outer["Subject"] = subject
+    outer["From"] = gmail_user
+    outer["To"] = recipient
+    alt = MIMEMultipart("alternative")
+    alt.attach(MIMEText(html_body, "html"))
+    outer.attach(alt)
+    if attachment:
+        filename, content = attachment
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(content)
+        email_encoders.encode_base64(part)
+        part.add_header("Content-Disposition", f'attachment; filename="{filename}"')
+        outer.attach(part)
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
         server.login(gmail_user, gmail_app_password)
-        server.sendmail(gmail_user, recipient, msg.as_string())
+        server.sendmail(gmail_user, recipient, outer.as_string())
 
 
 def main() -> None:
@@ -270,12 +290,15 @@ def main() -> None:
 
     if filter_log is not None:
         log_html = format_log_email_html(filter_log, today)
+        jsonl_filename = f"filter-log-{date.today().isoformat()}.jsonl"
+        jsonl_bytes = build_run_jsonl(filter_log, today, count)
         send_email(
             subject=f"Filter log — {len(filter_log)} decisions — {today}",
             html_body=log_html,
             recipient=os.environ["GMAIL_USER"],
             gmail_user=os.environ["GMAIL_USER"],
             gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
+            attachment=(jsonl_filename, jsonl_bytes),
         )
 
 
