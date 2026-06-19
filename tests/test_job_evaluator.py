@@ -49,6 +49,42 @@ def _make_scored_response(jobs):
     ]
 
 
+def test_truncate_description_short_text_unchanged():
+    from job_evaluator import _truncate_description
+    text = "A short description."
+    assert _truncate_description(text) == text
+
+
+def test_truncate_description_caps_at_word_limit():
+    from job_evaluator import _truncate_description, _DESCRIPTION_WORD_LIMIT
+    words = ["word"] * (_DESCRIPTION_WORD_LIMIT + 50)
+    result = _truncate_description(" ".join(words))
+    assert len(result.split()) == _DESCRIPTION_WORD_LIMIT + 1  # limit words + "…"
+    assert result.endswith("…")
+
+
+def test_evaluate_truncates_description_sent_to_api(mocker):
+    from job_evaluator import evaluate, _DESCRIPTION_WORD_LIMIT
+    long_desc = " ".join(["word"] * (_DESCRIPTION_WORD_LIMIT + 100))
+    jobs = [{**_make_job(0), "description": long_desc}]
+    response_data = _make_scored_response(jobs)
+
+    mock_message = MagicMock()
+    mock_message.content = [MagicMock(text=json.dumps(response_data))]
+    mock_client = MagicMock()
+    mock_client.messages.create.return_value = mock_message
+    mocker.patch("job_evaluator.anthropic.Anthropic", return_value=mock_client)
+
+    with patch.dict("os.environ", {"ANTHROPIC_API_KEY": "test-key"}):
+        evaluate(jobs, _make_plan(), _make_profile(), 60000)
+
+    call_prompt = mock_client.messages.create.call_args[1]["messages"][0]["content"]
+    # The full description should not appear in the prompt
+    assert long_desc not in call_prompt
+    # But a truncated form should
+    assert "word word word" in call_prompt
+
+
 def test_evaluate_returns_scored_jobs(mocker):
     jobs = [_make_job(0), _make_job(1)]
     response_data = _make_scored_response(jobs)

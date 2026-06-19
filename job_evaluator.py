@@ -56,6 +56,14 @@ _SYSTEM = (
 )
 
 _CHUNK_SIZE = 10
+_DESCRIPTION_WORD_LIMIT = 400
+
+
+def _truncate_description(text: str) -> str:
+    words = text.split()
+    if len(words) <= _DESCRIPTION_WORD_LIMIT:
+        return text
+    return " ".join(words[:_DESCRIPTION_WORD_LIMIT]) + " …"
 
 
 def _evaluate_chunk(
@@ -84,7 +92,7 @@ def _evaluate_chunk(
                 "company": j.get("company", ""),
                 "location": j.get("location", ""),
                 "salary": j.get("salary", ""),
-                "description": j.get("description", ""),
+                "description": _truncate_description(j.get("description", "")),
                 "source": j.get("source", ""),
             }
             for i, j in enumerate(jobs)
