@@ -138,10 +138,13 @@ def format_email_html(
 def format_log_email_html(filter_log: list[dict], today: str) -> str:
     rows = ""
     for entry in filter_log:
+        url = entry.get("url", "")
+        title = html.escape(entry.get("title", ""))
+        title_cell = f"<a href='{html.escape(url)}'>{title}</a>" if url else title
         rows += (
             f"<tr>"
             f"<td style='white-space:nowrap'>{html.escape(entry.get('stage', ''))}</td>"
-            f"<td>{html.escape(entry.get('title', ''))}</td>"
+            f"<td>{title_cell}</td>"
             f"<td>{html.escape(entry.get('company', ''))}</td>"
             f"<td>{html.escape(entry.get('reason', ''))}</td>"
             f"</tr>"
@@ -212,6 +215,7 @@ def main() -> None:
                     "stage": "Evaluator",
                     "title": j.get("title", ""),
                     "company": j.get("company", ""),
+                    "url": j.get("url", ""),
                     "reason": "Not scored by evaluator",
                 })
             elif score in (1, 2):
@@ -221,6 +225,7 @@ def main() -> None:
                     "stage": "Evaluator",
                     "title": j.get("title", ""),
                     "company": j.get("company", ""),
+                    "url": j.get("url", ""),
                     "reason": f"Score {score}/5 — {short}" if short else f"Score {score}/5",
                 })
         if not strong and not worth_a_look:

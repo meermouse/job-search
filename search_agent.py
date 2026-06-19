@@ -151,6 +151,7 @@ def _execute_search(
                 "stage": "Clinical keyword",
                 "title": job.get("title", ""),
                 "company": job.get("company", ""),
+                "url": job.get("url", ""),
                 "reason": f"Title contains '{matched}'",
             })
             continue
@@ -161,6 +162,7 @@ def _execute_search(
                 "stage": "Employment type",
                 "title": job.get("title", ""),
                 "company": job.get("company", ""),
+                "url": job.get("url", ""),
                 "reason": f"Contains '{matched}'",
             })
             continue
@@ -172,6 +174,7 @@ def _execute_search(
                 "stage": "NHS band floor",
                 "title": job.get("title", ""),
                 "company": job.get("company", ""),
+                "url": job.get("url", ""),
                 "reason": f"Band {', '.join(bands)} below floor ({floor})",
             })
             continue
@@ -185,6 +188,7 @@ def _execute_search(
                 "stage": "Sponsor register",
                 "title": job.get("title", ""),
                 "company": job.get("company", ""),
+                "url": job.get("url", ""),
                 "reason": f"'{job.get('company', '')}' not on UK visa sponsor register",
             })
 
