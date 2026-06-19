@@ -139,8 +139,18 @@ def format_email_html(
 
 
 def format_log_email_html(filter_log: list[dict], today: str) -> str:
+    meta = next((e for e in filter_log if e.get("_meta")), {})
+    decisions = [e for e in filter_log if not e.get("_meta")]
+
+    sponsor_count = meta.get("sponsor_count")
+    sponsor_note = (
+        f"Sponsor register loaded: <strong>{sponsor_count:,} companies</strong>."
+        if sponsor_count is not None
+        else "<em>Sponsor register count unavailable.</em>"
+    )
+
     rows = ""
-    for entry in filter_log:
+    for entry in decisions:
         url = entry.get("url", "")
         title = html.escape(entry.get("title", ""))
         title_cell = f"<a href='{html.escape(url)}'>{title}</a>" if url else title
@@ -169,15 +179,23 @@ def format_log_email_html(filter_log: list[dict], today: str) -> str:
     return (
         f"<html><body>"
         f"<h2>Filter Decision Log — {html.escape(today)}</h2>"
-        f"<p>{len(filter_log)} job(s) filtered across all stages.</p>"
+        f"<p>{sponsor_note} {len(decisions)} job(s) filtered across all stages.</p>"
         f"{table}"
         f"</body></html>"
     )
 
 
 def build_run_jsonl(filter_log: list[dict], today: str, jobs_passed: int) -> bytes:
-    lines = [json.dumps({"type": "run", "date": today, "jobs_passed": jobs_passed, "jobs_filtered": len(filter_log)})]
-    for entry in filter_log:
+    meta = next((e for e in filter_log if e.get("_meta")), {})
+    decisions = [e for e in filter_log if not e.get("_meta")]
+    lines = [json.dumps({
+        "type": "run",
+        "date": today,
+        "jobs_passed": jobs_passed,
+        "jobs_filtered": len(decisions),
+        "sponsor_register_size": meta.get("sponsor_count"),
+    })]
+    for entry in decisions:
         lines.append(json.dumps({"type": "decision", "date": today, **entry}))
     return "\n".join(lines).encode("utf-8")
 

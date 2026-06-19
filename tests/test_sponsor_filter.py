@@ -1,8 +1,27 @@
 import os
 import pytest
+from rapidfuzz import fuzz
 from sponsor_filter import load_sponsor_names, filter_jobs
 
 REAL_CACHE = os.path.join(os.path.dirname(__file__), "..", "sponsor_cache.csv")
+
+
+# --- token_set_ratio assumption tests ---
+# These document and verify that the scorer we use handles the common pattern
+# of "trading name" vs "full legal name with suffix" without needing the real CSV.
+
+@pytest.mark.parametrize("query,legal_name", [
+    ("Liverpool Football Club", "The Liverpool Football Club and Athletic Grounds Limited"),
+    ("John Lewis", "John Lewis Partnership PLC"),
+    ("KPMG", "KPMG LLP"),
+    ("Deloitte", "Deloitte LLP"),
+    ("Rolls-Royce", "Rolls-Royce PLC"),
+    ("Manchester City", "Manchester City Football Club Limited"),
+    ("AECOM", "AECOM LIMITED"),
+])
+def test_token_set_ratio_passes_threshold_for_common_vs_legal_name(query, legal_name):
+    """Common trading names are a token-subset of their legal name — score must reach 85%."""
+    assert fuzz.token_set_ratio(query, legal_name) >= 85
 
 FIXTURE_CSV = os.path.join(os.path.dirname(__file__), "fixtures", "sponsors.csv")
 

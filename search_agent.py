@@ -254,7 +254,7 @@ def run_search_agent(
     ]
     all_sponsored: list[dict] = []
     seen_urls: set[str] = set()
-    filter_log: list[dict] = []
+    filter_log: list[dict] = [{"_meta": True, "sponsor_count": len(sponsor_names)}]
     strategy_note = "Search complete."
     hit_cap = True
 
