@@ -24,6 +24,7 @@ from searchers import search_all_streaming
 logger = logging.getLogger(__name__)
 
 _PLAN_CACHE_PATH = "search_plan_cache.json"
+_JOB_CACHE_PATH = "job_score_cache.json"
 
 
 def _plan_fingerprint(profile: dict, location: str, min_salary: int) -> str:
@@ -44,6 +45,42 @@ def load_or_create_plan(profile: dict, location: str, min_salary: int) -> dict:
         json.dump({"fingerprint": fingerprint, "plan": plan}, f, indent=2)
     logger.info("Generated and cached new search plan to %s", _PLAN_CACHE_PATH)
     return plan
+
+
+def load_job_cache(fingerprint: str) -> dict:
+    """Load the per-URL score cache. Returns empty dict if missing or profile has changed."""
+    if os.path.exists(_JOB_CACHE_PATH):
+        with open(_JOB_CACHE_PATH) as f:
+            data = json.load(f)
+        if data.get("_fingerprint") == fingerprint:
+            return data
+        logger.info("Job score cache invalidated (profile changed) — starting fresh")
+    return {"_fingerprint": fingerprint}
+
+
+def save_job_cache(cache: dict) -> None:
+    with open(_JOB_CACHE_PATH, "w") as f:
+        json.dump(cache, f, indent=2)
+
+
+def apply_job_cache(
+    jobs: list[dict], cache: dict
+) -> tuple[list[dict], list[dict]]:
+    """Split jobs into those already scored in the cache and those needing evaluation."""
+    from_cache, needs_eval = [], []
+    for job in jobs:
+        url = job.get("url", "")
+        entry = cache.get(url) if (url and not url.startswith("_")) else None
+        if entry and entry.get("score") is not None:
+            from_cache.append({
+                **job,
+                "score": entry["score"],
+                "reasoning": entry.get("reasoning", ""),
+                "score_breakdown": entry.get("score_breakdown", {}),
+            })
+        else:
+            needs_eval.append(job)
+    return from_cache, needs_eval
 
 
 def load_config(path: str = "digest_config.yaml") -> dict:
@@ -172,6 +209,16 @@ def format_log_email_html(filter_log: list[dict], today: str) -> str:
         else "<em>Sponsor register count unavailable.</em>"
     )
 
+    cache_size = meta.get("job_cache_size")
+    cache_hits = meta.get("job_cache_hits")
+    if cache_size is not None and cache_hits is not None:
+        cache_note = (
+            f"Job score cache: <strong>{cache_size:,} record(s) stored</strong>, "
+            f"<strong>{cache_hits}</strong> reused today (skipped re-evaluation)."
+        )
+    else:
+        cache_note = ""
+
     rows = ""
     for entry in decisions:
         url = entry.get("url", "")
@@ -199,10 +246,12 @@ def format_log_email_html(filter_log: list[dict], today: str) -> str:
         f"<tbody>{rows}</tbody>"
         "</table>"
     )
+    cache_line = f"<p>{cache_note}</p>" if cache_note else ""
     return (
         f"<html><body>"
         f"<h2>Filter Decision Log — {html.escape(today)}</h2>"
         f"<p>{sponsor_note} {len(decisions)} job(s) filtered across all stages.</p>"
+        f"{cache_line}"
         f"{table}"
         f"</body></html>"
     )
@@ -217,6 +266,8 @@ def build_run_jsonl(filter_log: list[dict], today: str, jobs_passed: int) -> byt
         "jobs_passed": jobs_passed,
         "jobs_filtered": len(decisions),
         "sponsor_register_size": meta.get("sponsor_count"),
+        "job_cache_size": meta.get("job_cache_size"),
+        "job_cache_hits": meta.get("job_cache_hits"),
     })]
     for entry in decisions:
         lines.append(json.dumps({"type": "decision", "date": today, **entry}))
@@ -255,15 +306,45 @@ def main() -> None:
     config = load_config()
 
     if "profile" in config:
+        fingerprint = _plan_fingerprint(
+            config["profile"], config["location"], config["min_salary"]
+        )
         plan = load_or_create_plan(
             config["profile"], config["location"], config["min_salary"]
         )
         raw_jobs, strategy_note, filter_log = search_agent.run_search_agent(
             config["profile"], plan, config["location"], config["min_salary"]
         )
-        scored_jobs = job_evaluator.evaluate(
-            raw_jobs, plan, config["profile"], config["min_salary"]
+
+        job_cache = load_job_cache(fingerprint)
+        cache_size_before = sum(1 for k in job_cache if not k.startswith("_"))
+        cached_scored, jobs_to_eval = apply_job_cache(raw_jobs, job_cache)
+        cache_hits = len(cached_scored)
+        logger.info(
+            "Job score cache: %d stored, %d hit(s) today, %d to evaluate",
+            cache_size_before, cache_hits, len(jobs_to_eval),
         )
+
+        newly_scored = job_evaluator.evaluate(
+            jobs_to_eval, plan, config["profile"], config["min_salary"]
+        )
+        for j in newly_scored:
+            url = j.get("url", "")
+            if url and j.get("score") is not None:
+                job_cache[url] = {
+                    "score": j["score"],
+                    "reasoning": j.get("reasoning", ""),
+                    "score_breakdown": j.get("score_breakdown", {}),
+                    "cached_at": date.today().isoformat(),
+                }
+        save_job_cache(job_cache)
+
+        scored_jobs = cached_scored + newly_scored
+
+        meta = next((e for e in filter_log if e.get("_meta")), None)
+        if meta is not None:
+            meta["job_cache_size"] = cache_size_before
+            meta["job_cache_hits"] = cache_hits
         strong = [j for j in scored_jobs if j.get("score", 0) >= 4]
         worth_a_look = [j for j in scored_jobs if j.get("score", 0) == 3]
         unscored = [j for j in scored_jobs if j.get("score") is None]
