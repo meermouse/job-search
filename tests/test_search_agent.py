@@ -27,6 +27,53 @@ def _make_plan():
     }
 
 
+# --- dedup_by_title_company ---
+
+def test_dedup_removes_same_job_from_different_platforms():
+    linkedin = _make_job("https://linkedin.com/1", title="Operations Director", company="NHS Trust")
+    indeed   = _make_job("https://indeed.com/2",   title="Operations Director", company="NHS Trust")
+    result = search_agent.dedup_by_title_company([linkedin, indeed])
+    assert len(result) == 1
+    assert result[0]["url"] == "https://linkedin.com/1"  # keeps first
+
+
+def test_dedup_keeps_same_title_different_companies():
+    a = _make_job("https://example.com/1", title="Operations Director", company="NHS Trust")
+    b = _make_job("https://example.com/2", title="Operations Director", company="Acme Ltd")
+    result = search_agent.dedup_by_title_company([a, b])
+    assert len(result) == 2
+
+
+def test_dedup_is_case_insensitive():
+    a = _make_job("https://example.com/1", title="operations director", company="nhs trust")
+    b = _make_job("https://example.com/2", title="Operations Director", company="NHS Trust")
+    result = search_agent.dedup_by_title_company([a, b])
+    assert len(result) == 1
+
+
+def test_dedup_ignores_punctuation_and_spacing():
+    a = _make_job("https://example.com/1", title="Operations Director", company="NHS Trust")
+    b = _make_job("https://example.com/2", title="Operations Director", company="NHS-Trust")
+    result = search_agent.dedup_by_title_company([a, b])
+    assert len(result) == 1
+
+
+def test_dedup_preserves_order_and_all_unique_jobs():
+    jobs = [
+        _make_job("https://example.com/1", title="Director", company="Org A"),
+        _make_job("https://example.com/2", title="Manager", company="Org B"),
+        _make_job("https://example.com/3", title="Director", company="Org A"),  # dup
+    ]
+    result = search_agent.dedup_by_title_company(jobs)
+    assert len(result) == 2
+    assert result[0]["url"] == "https://example.com/1"
+    assert result[1]["url"] == "https://example.com/2"
+
+
+def test_dedup_empty_list():
+    assert search_agent.dedup_by_title_company([]) == []
+
+
 # --- _is_clinical ---
 
 def test_is_clinical_matches_keyword_in_title():

@@ -37,18 +37,41 @@ def _make_job(url, source="Reed"):
 
 
 def test_collect_jobs_deduplicates_by_url():
+    """Same URL from two platforms → one result; genuinely different job → kept."""
     from digest import collect_jobs
 
+    job1 = _make_job("http://example.com/1")
+    job1_dup = {**job1, "source": "LinkedIn + Indeed"}  # same URL, different source
+    job2 = {**_make_job("http://example.com/2", "NHS Jobs"), "title": "Director", "company": "NHS Trust"}
+
     def fake_streaming(queries, location, min_salary, distance=50, platforms=None):
-        yield "Reed", [_make_job("http://example.com/1")], None
-        yield "LinkedIn + Indeed", [_make_job("http://example.com/1", "LinkedIn + Indeed")], None
-        yield "NHS Jobs", [_make_job("http://example.com/2", "NHS Jobs")], None
+        yield "Reed", [job1], None
+        yield "LinkedIn + Indeed", [job1_dup], None
+        yield "NHS Jobs", [job2], None
 
     with patch("digest.search_all_streaming", fake_streaming):
         result = collect_jobs(["query"], "Bristol", 60000)
 
     assert len(result) == 2
     assert {j["url"] for j in result} == {"http://example.com/1", "http://example.com/2"}
+
+
+def test_collect_jobs_deduplicates_cross_platform_by_title_company():
+    """Same title+company on different platforms with different URLs → one result."""
+    from digest import collect_jobs
+
+    linkedin_job = {**_make_job("http://linkedin.com/1"), "title": "Head of Digital", "company": "Org A"}
+    indeed_job   = {**_make_job("http://indeed.com/2"),   "title": "Head of Digital", "company": "Org A"}
+
+    def fake_streaming(queries, location, min_salary, distance=50, platforms=None):
+        yield "LinkedIn + Indeed", [linkedin_job], None
+        yield "Reed", [indeed_job], None
+
+    with patch("digest.search_all_streaming", fake_streaming):
+        result = collect_jobs(["query"], "Bristol", 60000)
+
+    assert len(result) == 1
+    assert result[0]["url"] == "http://linkedin.com/1"
 
 
 def test_collect_jobs_handles_platform_errors():

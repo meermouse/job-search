@@ -45,6 +45,28 @@ _BAND_RANK = {"6": 0, "7": 1, "8a": 2, "8b": 3, "8c": 4, "8d": 5, "9": 6}
 
 _TITLE_SEPARATORS = (",", " - ", " · ", " | ", " — ", " at ")
 
+_NON_ALNUM = re.compile(r'[^a-z0-9]')
+
+
+def _normalize_key(text: str) -> str:
+    return _NON_ALNUM.sub('', text.lower())
+
+
+def dedup_by_title_company(jobs: list[dict]) -> list[dict]:
+    """Remove jobs whose (title, company) pair has already been seen. Keeps first occurrence.
+
+    This catches the same posting appearing on multiple job boards with different URLs.
+    Normalisation strips punctuation and case so 'NHS Trust' == 'nhs-trust'.
+    """
+    seen: set[tuple[str, str]] = set()
+    result = []
+    for job in jobs:
+        key = (_normalize_key(job.get("title", "")), _normalize_key(job.get("company", "")))
+        if key not in seen:
+            seen.add(key)
+            result.append(job)
+    return result
+
 
 def _is_clinical(job: dict, exclusion_keywords: list[str]) -> bool:
     """Return True if the primary role function in the job title contains a clinical keyword.
@@ -310,6 +332,12 @@ def run_search_agent(
     if hit_cap:
         print(f"[Agent] Reached {MAX_ROUNDS}-round limit — {len(all_sponsored)} jobs found")
         strategy_note = f"Search reached the {MAX_ROUNDS}-round limit without a final summary."
+
+    before = len(all_sponsored)
+    all_sponsored = dedup_by_title_company(all_sponsored)
+    removed = before - len(all_sponsored)
+    if removed:
+        logger.info("Removed %d cross-platform duplicate job(s)", removed)
 
     return all_sponsored, strategy_note, filter_log
 

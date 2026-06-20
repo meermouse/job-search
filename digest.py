@@ -41,7 +41,7 @@ def collect_jobs(queries: list[str], location: str, min_salary: int) -> list[dic
         if job["url"] not in seen_urls:
             seen_urls.add(job["url"])
             deduped.append(job)
-    return deduped
+    return search_agent.dedup_by_title_company(deduped)
 
 
 def analyse_results(jobs: list[dict], config: dict) -> str:
