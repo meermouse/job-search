@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 sponsor_cache.csv
+search_plan_cache.json
 .superpowers/
 .claude/settings.local.json
 bash.exe.stackdump

@@ -241,14 +241,16 @@ def _execute_search(
     if not new_jobs:
         return [], "No sponsored jobs found for these queries."
 
-    lines = [f"Found {len(new_jobs)} sponsored jobs:"]
-    for i, j in enumerate(new_jobs, 1):
-        lines.append(
-            f"{i}. {j['title']} at {j.get('company', 'Unknown')} "
-            f"({j.get('location', '')}) — {j.get('salary', 'Not stated')} [{j.get('source', '')}]\n"
-            f"   URL: {j.get('url', '')}"
-        )
-    return new_jobs, "\n".join(lines)
+    employers = list(dict.fromkeys(j.get("company", "") for j in new_jobs if j.get("company")))
+    titles = list(dict.fromkeys(j.get("title", "") for j in new_jobs if j.get("title")))
+    employer_str = ", ".join(employers[:6]) + ("…" if len(employers) > 6 else "")
+    title_str = ", ".join(titles[:8]) + ("…" if len(titles) > 8 else "")
+    summary = (
+        f"Found {len(new_jobs)} new sponsored jobs. "
+        f"Employers: {employer_str}. "
+        f"Titles include: {title_str}."
+    )
+    return new_jobs, summary
 
 
 def run_search_agent(

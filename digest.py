@@ -1,3 +1,4 @@
+import hashlib
 import html
 import json
 import os
@@ -21,6 +22,28 @@ import sponsor_filter
 from searchers import search_all_streaming
 
 logger = logging.getLogger(__name__)
+
+_PLAN_CACHE_PATH = "search_plan_cache.json"
+
+
+def _plan_fingerprint(profile: dict, location: str, min_salary: int) -> str:
+    key = json.dumps({"profile": profile, "location": location, "min_salary": min_salary}, sort_keys=True)
+    return hashlib.md5(key.encode()).hexdigest()
+
+
+def load_or_create_plan(profile: dict, location: str, min_salary: int) -> dict:
+    fingerprint = _plan_fingerprint(profile, location, min_salary)
+    if os.path.exists(_PLAN_CACHE_PATH):
+        with open(_PLAN_CACHE_PATH) as f:
+            cached = json.load(f)
+        if cached.get("fingerprint") == fingerprint:
+            logger.info("Using cached search plan (profile unchanged)")
+            return cached["plan"]
+    plan = job_planner.create_plan(profile, location, min_salary)
+    with open(_PLAN_CACHE_PATH, "w") as f:
+        json.dump({"fingerprint": fingerprint, "plan": plan}, f, indent=2)
+    logger.info("Generated and cached new search plan to %s", _PLAN_CACHE_PATH)
+    return plan
 
 
 def load_config(path: str = "digest_config.yaml") -> dict:
@@ -232,7 +255,7 @@ def main() -> None:
     config = load_config()
 
     if "profile" in config:
-        plan = job_planner.create_plan(
+        plan = load_or_create_plan(
             config["profile"], config["location"], config["min_salary"]
         )
         raw_jobs, strategy_note, filter_log = search_agent.run_search_agent(
