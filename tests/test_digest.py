@@ -472,3 +472,18 @@ def test_main_uses_static_queries_when_no_profile_in_config():
         main()
 
     mock_collect.assert_called_once_with(["Operations Director Bristol"], "Bristol", 60000)
+
+
+def test_format_email_html_includes_dismiss_link_when_site_url_set():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": "https://myapp.streamlit.app"}):
+        html = format_email_html([], "Summary.", "21 June 2026")
+    assert "https://myapp.streamlit.app/Dismiss_Jobs" in html
+    assert "View and dismiss" in html
+
+
+def test_format_email_html_omits_dismiss_link_when_site_url_empty():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": ""}):
+        html = format_email_html([], "Summary.", "21 June 2026")
+    assert "Dismiss_Jobs" not in html

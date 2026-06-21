@@ -171,6 +171,13 @@ def format_email_html(
     worth_a_look: list[dict] | None = None,
     near_misses: list[dict] | None = None,
 ) -> str:
+    site_url = os.environ.get("SITE_URL", "").rstrip("/")
+    dismiss_link_html = (
+        f"<p style='margin-bottom:12px'>"
+        f"<a href='{site_url}/Dismiss_Jobs'>View and dismiss today's jobs</a>"
+        f"</p>"
+        if site_url else ""
+    )
     preamble_html = md_lib.markdown(preamble) if preamble else ""
     strong_table = _make_table(strong_jobs, include_reasoning=True)
     worth_table = _make_table(worth_a_look or [], include_reasoning=True)
@@ -188,6 +195,7 @@ def format_email_html(
     return (
         f"<html><body>"
         f"<h2>Jie's Job Digest — {html.escape(today)}</h2>"
+        f"{dismiss_link_html}"
         f"{preamble_html}"
         f"<hr/>"
         f"{md_lib.markdown(summary)}"
