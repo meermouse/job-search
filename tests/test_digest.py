@@ -237,6 +237,7 @@ def test_main_sends_email_when_jobs_found():
          patch("digest.analyse_results", return_value="Great match!"), \
          patch("digest.format_email_html", return_value="<html>content</html>"), \
          patch("digest.send_email") as mock_send, \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw", "RECIPIENT_EMAIL": "jie@example.com"}):
         main()
 
@@ -263,6 +264,7 @@ def test_main_sends_email_when_no_jobs_found():
          patch("digest.analyse_results") as mock_analyse, \
          patch("digest.format_email_html", return_value="<html>no matches</html>"), \
          patch("digest.send_email") as mock_send, \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict("os.environ", {"GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw", "RECIPIENT_EMAIL": "jie@example.com"}):
         main()
 
@@ -320,6 +322,7 @@ def test_main_uses_three_phase_pipeline_when_profile_present():
          patch("digest.job_evaluator.evaluate", return_value=[mock_job]) as mock_eval, \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email") as mock_send, \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
@@ -388,6 +391,7 @@ def test_main_shows_near_misses_when_no_results_pass_threshold():
          patch("digest.job_evaluator.evaluate", return_value=scored_jobs), \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email"), \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
@@ -446,6 +450,7 @@ def test_main_does_not_show_near_misses_when_results_exist():
          patch("digest.job_evaluator.evaluate", return_value=[strong_job]), \
          patch("digest.format_email_html", return_value="<html>") as mock_html, \
          patch("digest.send_email"), \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
@@ -468,7 +473,104 @@ def test_main_uses_static_queries_when_no_profile_in_config():
          patch("digest.sponsor_filter.filter_jobs", return_value=[]), \
          patch("digest.format_email_html", return_value="<html>"), \
          patch("digest.send_email"), \
+         patch("digest.dismiss_store.save_today_jobs"), \
          patch.dict(os.environ, {"RECIPIENT_EMAIL": "jie@example.com", "GMAIL_USER": "a@gmail.com", "GMAIL_APP_PASSWORD": "pw"}):
         main()
 
     mock_collect.assert_called_once_with(["Operations Director Bristol"], "Bristol", 60000)
+
+
+def test_format_email_html_includes_dismiss_link_when_site_url_set():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": "https://myapp.streamlit.app"}):
+        html = format_email_html([], "Summary.", "21 June 2026")
+    assert "https://myapp.streamlit.app/Dismiss_Jobs" in html
+    assert "View and dismiss" in html
+
+
+def test_format_email_html_omits_dismiss_link_when_site_url_empty():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": ""}):
+        html = format_email_html([], "Summary.", "21 June 2026")
+    assert "Dismiss_Jobs" not in html
+
+
+def test_format_email_html_escapes_site_url_in_dismiss_link():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": "https://myapp.streamlit.app?a=1&b=2"}):
+        html_out = format_email_html([], "Summary.", "21 June 2026")
+    assert "https://myapp.streamlit.app?a=1&amp;b=2/Dismiss_Jobs" in html_out
+    assert "https://myapp.streamlit.app?a=1&b=2/Dismiss_Jobs" not in html_out
+
+
+def test_main_filters_dismissed_jobs_before_evaluation():
+    from digest import main
+
+    config = {
+        "profile": {
+            "name": "Jie",
+            "current_role": "Operations Director",
+            "seniority": "Senior",
+            "industry": "NHS",
+            "skills": [],
+            "previous_roles": [],
+            "target_roles": [],
+            "open_to": [],
+            "qualifications": [],
+            "employment_type": ["full-time"],
+        },
+        "location": "Bristol",
+        "min_salary": 60000,
+    }
+    mock_plan = {
+        "queries": [],
+        "locations": ["Bristol"],
+        "exclusion_keywords": [],
+        "employment_type_exclusions": [],
+        "nhs_band_floor": {"default": "8a", "london_remote_exception": "7"},
+        "candidate_qualifications": [],
+        "evaluator_notes": "",
+    }
+    kept_job = {
+        "title": "Manager",
+        "company": "Org A",
+        "url": "https://example.com/kept",
+        "location": "Bristol",
+        "salary": "£70k",
+        "source": "Reed",
+        "score": 4,
+        "score_breakdown": {},
+        "reasoning": "Good match.",
+    }
+    dismissed_job = {
+        "title": "Admin",
+        "company": "Org B",
+        "url": "https://example.com/dismissed",
+        "location": "Bristol",
+        "salary": "£60k",
+        "source": "Reed",
+        "score": 4,
+        "score_breakdown": {},
+        "reasoning": "Also good.",
+    }
+
+    with patch("digest.load_config", return_value=config), \
+         patch("digest.job_planner.create_plan", return_value=mock_plan), \
+         patch("digest.search_agent.run_search_agent",
+               return_value=([kept_job, dismissed_job], "Searched.", [])), \
+         patch("digest.job_evaluator.evaluate", return_value=[kept_job]) as mock_eval, \
+         patch("digest.format_email_html", return_value="<html>"), \
+         patch("digest.send_email"), \
+         patch("digest.dismiss_store.load_dismissed_urls",
+               return_value={"https://example.com/dismissed"}), \
+         patch("digest.dismiss_store.save_today_jobs"), \
+         patch.dict(os.environ, {
+             "RECIPIENT_EMAIL": "jie@example.com",
+             "GMAIL_USER": "a@gmail.com",
+             "GMAIL_APP_PASSWORD": "pw",
+         }):
+        main()
+
+    eval_jobs = mock_eval.call_args[0][0]
+    assert len(eval_jobs) == 1
+    assert eval_jobs[0]["url"] == "https://example.com/kept"
