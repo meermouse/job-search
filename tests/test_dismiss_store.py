@@ -1,5 +1,4 @@
 import json
-import pytest
 
 
 def test_load_dismissed_urls_returns_empty_set_when_file_missing(tmp_path):
@@ -76,3 +75,31 @@ def test_save_today_jobs_roundtrip(tmp_path):
     result = load_today_jobs(path)
     assert result["strong"] == strong
     assert result["near_misses"] == near
+
+
+def test_save_dismissed_urls_is_atomic(tmp_path):
+    from dismiss_store import save_dismissed_urls
+    path = tmp_path / "dismissed_jobs.json"
+    # Write a sentinel file at the path first
+    path.write_text("sentinel")
+    urls = {"https://a.com/1", "https://b.com/2"}
+    save_dismissed_urls(urls, str(path))
+    # The atomic replace must have written the correct JSON (not the sentinel)
+    data = json.loads(path.read_text())
+    assert data == {"dismissed_urls": ["https://a.com/1", "https://b.com/2"]}
+
+
+def test_load_dismissed_urls_returns_empty_on_corrupt_file(tmp_path):
+    from dismiss_store import load_dismissed_urls
+    path = tmp_path / "dismissed_jobs.json"
+    path.write_bytes(b"not json")
+    result = load_dismissed_urls(str(path))
+    assert result == set()
+
+
+def test_load_today_jobs_returns_none_on_corrupt_file(tmp_path):
+    from dismiss_store import load_today_jobs
+    path = tmp_path / "today_jobs.json"
+    path.write_bytes(b"not json")
+    result = load_today_jobs(str(path))
+    assert result is None

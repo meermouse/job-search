@@ -1,3 +1,4 @@
+import html
 import streamlit as st
 import dismiss_store
 
@@ -59,19 +60,20 @@ def _render_section(section_key: str, heading: str, jobs: list[dict]) -> None:
                     st.error(f"Could not save: {e}")
                 st.rerun()
 
+        title = job.get("title", "")
         title_html = (
-            f"<a href='{url}'>{job.get('title', '')}</a>"
+            f"<a href='{html.escape(url)}'>{html.escape(title)}</a>"
             if url
-            else job.get("title", "")
+            else html.escape(title)
         )
         company = job.get("sponsor_name") or job.get("company", "")
         cells = [
             title_html,
-            company,
-            job.get("location", ""),
-            job.get("salary", ""),
-            job.get("source", ""),
-            job.get("reasoning", ""),
+            html.escape(company),
+            html.escape(job.get("location", "")),
+            html.escape(job.get("salary", "")),
+            html.escape(job.get("source", "")),
+            html.escape(job.get("reasoning", "")),
         ]
         for cell_html, col in zip(cells, row_cols[1:]):
             col.markdown(

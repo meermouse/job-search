@@ -1,25 +1,35 @@
 import json
 import os
+import tempfile
 
 
 def load_dismissed_urls(path: str = "dismissed_jobs.json") -> set[str]:
     if not os.path.exists(path):
         return set()
-    with open(path) as f:
-        data = json.load(f)
-    return set(data.get("dismissed_urls", []))
+    try:
+        with open(path) as f:
+            data = json.load(f)
+        return set(data.get("dismissed_urls", []))
+    except (json.JSONDecodeError, OSError):
+        return set()
 
 
 def save_dismissed_urls(urls: set[str], path: str = "dismissed_jobs.json") -> None:
-    with open(path, "w") as f:
+    dir_ = os.path.dirname(os.path.abspath(path))
+    with tempfile.NamedTemporaryFile("w", dir=dir_, delete=False, suffix=".tmp") as f:
         json.dump({"dismissed_urls": sorted(urls)}, f, indent=2)
+        tmp = f.name
+    os.replace(tmp, path)
 
 
 def load_today_jobs(path: str = "today_jobs.json") -> dict | None:
     if not os.path.exists(path):
         return None
-    with open(path) as f:
-        return json.load(f)
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
 
 
 def save_today_jobs(
@@ -29,7 +39,8 @@ def save_today_jobs(
     today: str,
     path: str = "today_jobs.json",
 ) -> None:
-    with open(path, "w") as f:
+    dir_ = os.path.dirname(os.path.abspath(path))
+    with tempfile.NamedTemporaryFile("w", dir=dir_, delete=False, suffix=".tmp") as f:
         json.dump(
             {
                 "date": today,
@@ -40,3 +51,5 @@ def save_today_jobs(
             f,
             indent=2,
         )
+        tmp = f.name
+    os.replace(tmp, path)
