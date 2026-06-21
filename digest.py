@@ -174,7 +174,7 @@ def format_email_html(
     site_url = os.environ.get("SITE_URL", "").rstrip("/")
     dismiss_link_html = (
         f"<p style='margin-bottom:12px'>"
-        f"<a href='{site_url}/Dismiss_Jobs'>View and dismiss today's jobs</a>"
+        f"<a href='{html.escape(site_url)}/Dismiss_Jobs'>View and dismiss today's jobs</a>"
         f"</p>"
         if site_url else ""
     )

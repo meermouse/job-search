@@ -487,3 +487,11 @@ def test_format_email_html_omits_dismiss_link_when_site_url_empty():
     with patch.dict("os.environ", {"SITE_URL": ""}):
         html = format_email_html([], "Summary.", "21 June 2026")
     assert "Dismiss_Jobs" not in html
+
+
+def test_format_email_html_escapes_site_url_in_dismiss_link():
+    from digest import format_email_html
+    with patch.dict("os.environ", {"SITE_URL": "https://myapp.streamlit.app"}):
+        html_out = format_email_html([], "Summary.", "21 June 2026")
+    assert "https://myapp.streamlit.app/Dismiss_Jobs" in html_out
+    assert "<script" not in html_out
