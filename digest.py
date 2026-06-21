@@ -15,6 +15,7 @@ from email.mime.text import MIMEText
 import anthropic
 import yaml
 
+import dismiss_store
 import job_evaluator
 import job_planner
 import search_agent
@@ -312,6 +313,7 @@ def send_email(
 
 def main() -> None:
     config = load_config()
+    dismissed_urls = dismiss_store.load_dismissed_urls()  # NEW
 
     if "profile" in config:
         fingerprint = _plan_fingerprint(
@@ -323,6 +325,7 @@ def main() -> None:
         raw_jobs, strategy_note, filter_log = search_agent.run_search_agent(
             config["profile"], plan, config["location"], config["min_salary"]
         )
+        raw_jobs = [j for j in raw_jobs if j.get("url") not in dismissed_urls]  # NEW
 
         job_cache = load_job_cache(fingerprint)
         cache_size_before = sum(1 for k in job_cache if not k.startswith("_"))
@@ -394,6 +397,7 @@ def main() -> None:
         jobs = collect_jobs(config["search_queries"], config["location"], config["min_salary"])
         sponsor_names = sponsor_filter.load_sponsor_names()
         filtered = sponsor_filter.filter_jobs(jobs, sponsor_names)
+        filtered = [j for j in filtered if j.get("url") not in dismissed_urls]  # NEW
         summary = (
             analyse_results(filtered, config)
             if filtered
@@ -417,6 +421,7 @@ def main() -> None:
         gmail_user=os.environ["GMAIL_USER"],
         gmail_app_password=os.environ["GMAIL_APP_PASSWORD"],
     )
+    dismiss_store.save_today_jobs(strong, worth_a_look, near_misses, today)  # NEW
 
     if filter_log is not None:
         log_html = format_log_email_html(filter_log, today)
