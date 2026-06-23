@@ -1,0 +1,9 @@
+{
+  "_fingerprint": "045c22aae6cf6db17af4cd6cfa448793",
+  "https://example.com/1": {
+    "score": 4,
+    "reasoning": "Strong match.",
+    "score_breakdown": {},
+    "cached_at": "2026-06-21"
+  }
+}

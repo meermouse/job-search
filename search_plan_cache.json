@@ -1,0 +1,19 @@
+{
+  "fingerprint": "045c22aae6cf6db17af4cd6cfa448793",
+  "plan": {
+    "queries": [
+      "Operations Director Bristol"
+    ],
+    "locations": [
+      "Bristol"
+    ],
+    "exclusion_keywords": [],
+    "employment_type_exclusions": [],
+    "nhs_band_floor": {
+      "default": "8a",
+      "london_remote_exception": "7"
+    },
+    "candidate_qualifications": [],
+    "evaluator_notes": ""
+  }
+}
