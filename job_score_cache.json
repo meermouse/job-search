@@ -1,9 +1,2259 @@
 {
-  "_fingerprint": "045c22aae6cf6db17af4cd6cfa448793",
-  "https://example.com/1": {
+  "_fingerprint": "0134fccffbe794d07b2b399f0b620b21",
+  "https://uk.indeed.com/viewjob?jk=307875f1ce2111b8": {
+    "score": 1,
+    "reasoning": "Mortuary Assistant is a hands-on specialist operational role with no relevance to management, digital transformation, or senior leadership. Salary is unstated and the role would fall far below the minimum threshold on all dimensions.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=071a6a193dbe0c1a": {
     "score": 4,
-    "reasoning": "Strong match.",
-    "score_breakdown": {},
-    "cached_at": "2026-06-21"
+    "reasoning": "This is a senior digital transformation leadership role at a priority target employer in Bristol, closely matching the candidate's NHS digital background and programme delivery credentials. Salary is unstated, which caps the salary band score at 3, but the role is otherwise a strong fit on all other dimensions.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=f6a1da23da871d32": {
+    "score": 4,
+    "reasoning": "Band 8c confirms a salary range of \u00a374,290\u2013\u00a385,601, comfortably exceeding the \u00a360,000 minimum, and the role aligns well with the candidate's digital transformation and complex programme leadership experience. Gloucester is not the preferred Bristol location but remains accessible in the South West.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=bdb90d4fc8522901": {
+    "score": 2,
+    "reasoning": "The rail and transport strategy consultancy focus requires specialist sector expertise and technical feasibility knowledge the candidate does not hold, making this a poor role-type and qualifications fit despite the Bristol location and senior title. The candidate's NHS digital and management background does not transfer cleanly into rail/light rail infrastructure strategy.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4b7cf8ab3b3ab802": {
+    "score": 2,
+    "reasoning": "Clinical Coding Lead requires deep specialist knowledge of ICD/OPCS coding standards and clinical data governance that the candidate does not possess, making this a poor qualifications and role-type fit despite the management layer. The candidate's digital and operational credentials do not compensate for the specialist clinical informatics requirement at the core of this post.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5baf4a5b87915e8b": {
+    "score": 1,
+    "reasoning": "Principal Mechanical Engineer is a technical engineering practice role with no alignment to the candidate's management, digital transformation, or NHS operational background. This is an automatic disqualifier on role type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a12092ade8315be9": {
+    "score": 2,
+    "reasoning": "While this is a management role, it is retail pharmacy store management at a seniority level well below the candidate's target, and salary is almost certainly far below the \u00a360,000 minimum. The role offers no meaningful alignment with digital transformation or senior NHS/health sector leadership.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428259213": {
+    "score": 3,
+    "reasoning": "The title strongly matches the candidate's digital transformation and strategy target profile, and National Grid in Bristol is a credible target employer; however, the absence of a job description and salary information prevents confident scoring on qualifications fit and salary band, holding the overall score to a moderate level.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4430455634": {
+    "score": 3,
+    "reasoning": "Head of Digital Applications Development at a Welsh NHS trust is a credible senior digital leadership role, but the applications development focus may lean more technical than the candidate's programme and transformation strengths; the lack of description and salary data limits scoring confidence, and Wales is outside the preferred Bristol geography.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4427838688": {
+    "score": 3,
+    "reasoning": "Home Office Director-level roles represent strong seniority alignment and the digital/operational governance scope could suit the candidate, but the immigration and enforcement subject matter is a significant sector mismatch, Cardiff is outside the preferred location, and the absence of a description and salary details prevents fuller assessment.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 5,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4427709593": {
+    "score": 2,
+    "reasoning": "No description is available to assess role fit in detail, and salary is unstated; the title suggests a data services management role which partially aligns with the candidate's digital background but leans technical. Located in Cardiff rather than Bristol, and insufficient information prevents a higher score.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4422975424": {
+    "score": 2,
+    "reasoning": "No description provided and salary is unstated, making meaningful evaluation impossible; the title suggests digital project delivery which aligns directionally with the candidate's profile, but Cardiff location and lack of detail limit confidence. Scored conservatively across the board.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/group-operations-manager/57030967": {
+    "score": 2,
+    "reasoning": "The role is a manufacturing/production operations manager requiring Lean Manufacturing and engineering/supply chain expertise in a physical production environment \u2014 this is a poor functional match for a candidate whose operations background is NHS digital transformation and health services. While seniority aligns and salary meets the \u00a360k minimum, the domain specialism required (manufacturing, H&S, engineering plant management) is outside the candidate's experience.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/operations-service-delivery-manager-water-hygiene/56941477": {
+    "score": 2,
+    "reasoning": "This role focuses on water hygiene compliance services operations, requiring specialist knowledge of water treatment and regulatory compliance that the candidate does not possess. Salary range meets the minimum and the hybrid working is positive, but the highly domain-specific technical operations requirements make this a poor fit for an NHS digital transformation background.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=2a83d98f82240bfa": {
+    "score": 1,
+    "reasoning": "This is a clinical/technical specialist role requiring the candidate to design, plan, and construct dental appliances \u2014 a specialist technical practice role that is an automatic disqualifier for role_type. The candidate has no dental technology qualifications or clinical practice background.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=71c3a6a30535dde3": {
+    "score": 1,
+    "reasoning": "Senior Transport Planner is a specialist technical/engineering practice role requiring transport planning qualifications and technical infrastructure expertise entirely outside the candidate's background. Role_type is an automatic disqualifier as the candidate would be performing specialist technical practice.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=dcaaad1bd9737b73": {
+    "score": 1,
+    "reasoning": "Emergency Department Tracker is an operational flow coordination role at a junior/band 4\u20135 level, well below the candidate's seniority, with no meaningful management or transformation scope. Salary is unstated but band is almost certainly well below Band 8b; this role is unsuitable on multiple dimensions.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=66f98388fa697a4a": {
+    "score": 1,
+    "reasoning": "Senior Clinical Fellow in Emergency General Surgery is a clinical practice role requiring the candidate to perform surgery and acute clinical decision-making \u2014 an automatic role_type disqualifier. The candidate has no medical qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=378f273ad68d9159": {
+    "score": 1,
+    "reasoning": "Medical Secretary is a junior administrative role well below the candidate's seniority and salary requirements, likely Band 3\u20134. While the candidate has administrative and executive secretarial experience, this role represents a significant step backward in seniority and does not match target role types.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=31ea62caa4b3fabf": {
+    "score": 1,
+    "reasoning": "Principal EIA Consultant is a specialist environmental impact assessment consultancy role requiring technical expertise in energy transmission and environmental regulation \u2014 an automatic role_type disqualifier as the candidate would be performing specialist technical practice in a domain entirely outside their background.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=031211c487690c93": {
+    "score": 3,
+    "reasoning": "Capture Manager is primarily a sales/business development role, which partially overlaps with stakeholder engagement and strategy but is not core management or digital transformation. Salary of \u00a375,800 meets the minimum, but the Farnborough/hybrid location is not Bristol and the sales-led primary function is a weaker match for the candidate's profile.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=3988497c3978079c": {
+    "score": 4,
+    "reasoning": "This is a strong role match \u2014 Senior Manager in Technology & Transformation at a major consultancy in Bristol directly aligns with the candidate's digital transformation and programme delivery background. Salary is unstated and the role is listed as Permanent/FTC which introduces some employment type ambiguity, but the Bristol location and role scope are excellent fits.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4430778802": {
+    "score": 2,
+    "reasoning": "No description is available to assess the role in detail; G4S Operations Manager in Bridgwater is outside the preferred Bristol location and the company context (security/facilities) is a weaker match for the candidate's NHS digital transformation background. Insufficient information to score confidently across most dimensions.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4402675403": {
+    "score": 2,
+    "reasoning": "No description is available, but the title 'Operations Support Manager \u2013 Secure Cloud Services' with a DV Security Clearance requirement suggests a technical IT operations role that likely demands security-cleared infrastructure or cloud expertise the candidate does not hold. The Gloucester location and probable technical primary function reduce suitability.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428834876": {
+    "score": 1,
+    "reasoning": "Senior Finance Manager \u2013 Financial Improvement is a finance practice role requiring the candidate to perform financial analysis, reporting, and improvement work; this is a specialist finance function that falls outside the candidate's management and digital transformation profile. The role_type automatic disqualifier applies as the primary function is finance practice.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429121584": {
+    "score": 3,
+    "reasoning": "AI Workplace Transformation Lead in Bristol is a strong thematic match for the candidate's digital transformation background and qualifications. However, no description is available to confirm seniority level or salary, and 'Changing Social' as a smaller organisation may not meet Band 8b equivalent salary expectations.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4408796209": {
+    "score": 3,
+    "reasoning": "Programme Manager at The Openwork Partnership (financial services) in Swindon is a reasonable role-type match given the candidate's project and programme delivery credentials. However, without a description or salary information it is unclear whether the seniority and compensation align, and Swindon is not the preferred Bristol location.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4408670510": {
+    "score": 2,
+    "reasoning": "Head of Technology Operations at Ecotricity likely requires deep technical IT infrastructure or engineering operations expertise that the candidate does not hold; the energy sector context and probable technical primary function are a poor fit. No description is available to confirm, but the title signals a technical operations specialism outside the candidate's profile.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4385135536": {
+    "score": 2,
+    "reasoning": "Supply Chain Improvement Leader at Oxford Instruments is a specialist supply chain/operations engineering role in a scientific instruments manufacturer, which is a significant sector and function mismatch for the candidate's NHS digital transformation background. Although the candidate holds supply chain qualifications, this would likely require hands-on operational supply chain practice.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4431257980": {
+    "score": 2,
+    "reasoning": "Senior Manager for Procare Services at Stryker (a medical devices company) in Cardiff is outside the preferred Bristol location and likely requires deep medical device service or clinical capital sales management experience. Without a description it is unclear, but the Stryker Procare context typically demands sector-specific technical and commercial expertise the candidate does not hold.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/senior-planning-engineer/56915256": {
+    "score": 1,
+    "reasoning": "Senior Planning Engineer is a specialist technical construction/engineering role requiring domain expertise the candidate does not possess. The candidate's management and digital transformation background has no relevance to construction planning.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/hv-engineer-flexible-generation/56934624": {
+    "score": 1,
+    "reasoning": "HV Electrical Engineer is a specialist technical engineering role entirely outside the candidate's background. Salary also falls below the \u00a360,000 minimum at the lower end, and no relevant qualifications are held.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 2,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/senior-quantity-surveyor/56926810": {
+    "score": 1,
+    "reasoning": "Senior Quantity Surveyor is a specialist finance/construction commercial practice role requiring QS professional qualifications the candidate does not hold. Despite the strong salary, it is an automatic disqualifier on role type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=e7c98c236cb53fbd": {
+    "score": 2,
+    "reasoning": "The S/4HANA Order to Cash Senior Manager role centres on deep SAP technical and functional expertise in ERP implementation, which is specialist technical practice beyond the candidate's digital transformation background. The seniority level is a reasonable match but the SAP specialism and likely requirement for SAP certifications or hands-on delivery experience are significant gaps.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=e8fa828faa86986b": {
+    "score": 2,
+    "reasoning": "SAP Financial Accounting Senior Manager requires deep hands-on SAP FI module expertise and finance transformation delivery experience that the candidate does not hold. While seniority aligns, the specialist SAP and finance systems practice makes this a poor functional fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=695cea4ac34c713f": {
+    "score": 1,
+    "reasoning": "Associate Director SAP Finance Architect is a deeply specialist technical architecture role requiring extensive SAP design and finance systems expertise. The candidate lacks both the SAP technical credentials and finance architecture background required, making this an automatic disqualifier on role type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4ea8ad75870274b6": {
+    "score": 2,
+    "reasoning": "Internal Audit and Change in FS Banking requires specialist internal audit expertise and banking sector knowledge that the candidate does not hold. The change management element is adjacent to the candidate's background but the dominant audit specialism and banking sector focus are significant mismatches.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0d92a6fc2cc33462": {
+    "score": 2,
+    "reasoning": "Junior Technology Adoption Consultant is well below the candidate's senior level, making this an automatic seniority mismatch. While the technology adoption and people transformation themes are directionally relevant, the junior grade and defence/security specialisation make it unsuitable.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 1,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5a88fb2e2626b4ae": {
+    "score": 3,
+    "reasoning": "GPS Strategy, Operations and Transformation for Central Government is the most relevant role in the set, aligning well with the candidate's NHS operations, digital transformation, and programme delivery background. The grade range spanning Consultant to Manager is slightly below the candidate's target seniority, and salary is unstated, which limits the overall score.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0f2ba9b2a26a9d69": {
+    "score": 1,
+    "reasoning": "AI Agents Lead Developer is a specialist technical software development and AI engineering role requiring hands-on coding and SAP AI development skills. This is a clear technical practice disqualifier \u2014 the candidate's background is in management and transformation, not software engineering or AI development.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=b183a5fe58c7fef8": {
+    "score": 2,
+    "reasoning": "The title suggests digital transformation consultancy which aligns directionally, but the 'Infrastructure' specialisation and SC Clearance requirement imply a technical/infrastructure-heavy role that may not suit a management-focused candidate. Salary is unstated and the role likely requires security clearance the candidate may not hold.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=d7223ef287e97207": {
+    "score": 2,
+    "reasoning": "Digital Project Controls is a technically specialised consulting role focused on project controls systems and tools, which skews more towards technical practice than the candidate's management and transformation leadership background. Salary unstated and qualifications match is weak given the technical controls specialism.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=65f117df6fcbcaff": {
+    "score": 2,
+    "reasoning": "A Director-level HR Advisory role at Deloitte GPS is senior and transformation-facing, which aligns with seniority, but the HR specialism and likely requirement for deep HR consulting or CHRO-level advisory credentials are a mismatch for the candidate's profile. The FTC employment type option and unstated salary also reduce confidence.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=eaad69653dfa116c": {
+    "score": 2,
+    "reasoning": "Similar to index 0 but without the infrastructure specialisation, this SC Cleared Digital Transformation Consultant role is more aligned in title but still requires security clearance the candidate likely lacks, and salary is unstated. The consulting framing is a moderate fit but clearance is a significant barrier.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=67a7753d68d8080b": {
+    "score": 1,
+    "reasoning": "This is an SAP S/4HANA Procurement technical consulting role requiring deep SAP expertise that the candidate does not possess; the primary function is specialist technical practice, not management or transformation leadership. Automatic disqualifier on role_type; FTC option also reduces employment type score.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=46f6dc77f358feec": {
+    "score": 1,
+    "reasoning": "Oracle HCM technical consulting requires specialist HR application implementation expertise the candidate does not have; the primary function is technical/system practice rather than management, triggering the role_type disqualifier. FTC option and junior-to-mid consultant level further reduce suitability.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=3311bc10c6c4ee97": {
+    "score": 2,
+    "reasoning": "Complex Procurement in Defence & Security has some strategy and transformation overlap, and the Manager grade aligns with seniority, but the procurement specialism and Defence/Security sector focus are a poor match for the candidate's NHS digital transformation background. FTC option and likely SC Clearance requirement further reduce fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=f6f1a15d6f624ec9": {
+    "score": 1,
+    "reasoning": "Cloud Architect is a specialist technical engineering role; the candidate would be designing and delivering cloud infrastructure, which is technical practice and an automatic disqualifier on role_type. The candidate holds no cloud architecture qualifications and the Consultant grade is below target seniority.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=19951879eaac4ee6": {
+    "score": 1,
+    "reasoning": "UX Designer is a specialist technical/design practice role with no alignment to the candidate's management, leadership, or transformation background; role_type is an automatic disqualifier. The candidate holds no UX design qualifications and the Consultant grade is below target seniority.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4431744795": {
+    "score": 3,
+    "reasoning": "Management Consultant at Mott MacDonald is the closest role_type match, aligning well with the candidate's management, strategy, and transformation credentials. However, the complete absence of a job description prevents confident scoring on seniority, salary, and qualifications, pulling the overall score to a cautious 3.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428042246": {
+    "score": 3,
+    "reasoning": "Digital advisory and strategy consulting at Manager/Principal level aligns well with the candidate's digital transformation background and seniority, and Bristol location is a positive match. Salary is unstated so scored neutrally, and SC clearance requirement is a potential barrier not reflected in the candidate's stated qualifications.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4415659254": {
+    "score": 1,
+    "reasoning": "Senior Recruitment Consultant is a specialist sales/recruitment role with no description detail, and the primary function does not align with the candidate's management, operations, or digital transformation background. Role type is an automatic low scorer given the mismatch in function.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4386850702": {
+    "score": 3,
+    "reasoning": "Digital Project Controls at Senior/Principal Consultant level partially aligns with the candidate's programme delivery and project management credentials, but 'project controls' leans more technical/specialist than pure management. Salary is unstated and the role is hybrid management-technical, making it a mid-range fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=3221eb95a0220f36": {
+    "score": 1,
+    "reasoning": "SAP Solution Architect is a deeply technical specialist role requiring SAP architecture expertise that the candidate does not hold; the primary function is technical practice (systems design/engineering), which is an automatic disqualifier for role_type. The candidate's qualifications do not support this technical specialism.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=88c1f1e76d961fb1": {
+    "score": 3,
+    "reasoning": "COO at a health CIC is a strong role_type and seniority match given the candidate's NHS operational and transformation background and board-level exposure. However, the seniority expectation for a COO at a large CIC likely exceeds the candidate's current level, and salary is unstated; the description references executive accountability that may require more extensive C-suite track record.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0f1a0d44419e6405": {
+    "score": 3,
+    "reasoning": "Associate Director for Major Programmes in Defence & Security Transformation is a strong role_type match (programme leadership, people transformation), but the Defence & Security sector focus likely requires security clearance and sector-specific experience the candidate does not evidently hold. Salary unstated; qualifications score is reduced due to the specialised defence context.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=b6d5731e0309130e": {
+    "score": 2,
+    "reasoning": "Although titled 'Programme Manager,' this is fundamentally an SAP delivery lead role requiring deep SAP implementation expertise the candidate does not possess; the primary function is technical SAP programme delivery rather than general management or transformation leadership. Qualifications mismatch is significant.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=2b7077aeb703a99b": {
+    "score": 1,
+    "reasoning": "Managing Associate \u2013 Digital at a law firm is a legal practice role where the candidate would be providing legal advice on digital and technology matters; this is a legal specialist function and an automatic role_type disqualifier. The candidate holds no legal qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5c8a3a13b0c47cbe": {
+    "score": 3,
+    "reasoning": "Sourcing & Procurement Manager in Defence aligns reasonably well with the candidate's Operations and Supply Chain qualifications and management background, and the transformation/consulting framing is a good role_type fit. However, the Defence sector focus and likely clearance requirement, combined with the Manager (not Associate Director) seniority level, reduce the overall fit.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0ac9d41c6be30619": {
+    "score": 3,
+    "reasoning": "Organisation and Workforce Transformation at Associate Director level is a strong conceptual match for the candidate's management and transformation background, and workforce governance experience is relevant. However, the Financial Services sector specialism and the Human Capital consulting context may require FS-specific expertise the candidate does not clearly evidence, reducing the qualifications score.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0091278f375627bb": {
+    "score": 3,
+    "reasoning": "The organisational workforce transformation focus aligns well with the candidate's management and transformation background, and the Bristol location is ideal. However, Director-level consulting at Deloitte typically requires a deep track record of client-facing consulting and business development in the ERI sector, which the candidate lacks; salary is unstated and the Permanent/FTC designation introduces some employment type ambiguity but does not confirm non-full-time.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=f36e56d7a92af1c9": {
+    "score": 3,
+    "reasoning": "Life Sciences and Healthcare transformation is highly relevant to the candidate's NHS digital background, and the role type aligns with management and transformation leadership. The Director-level consulting seniority and expectation of established consulting credentials and client portfolio in Life Sciences likely exceed the candidate's current profile, and salary is unstated.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4c9013a38f40362d": {
+    "score": 1,
+    "reasoning": "Digital Engineering and Product Engineering & Development is a technical practice role requiring hands-on software engineering and technology architecture expertise that the candidate does not hold; the primary duties would involve technical delivery rather than management or transformation leadership, triggering the role_type disqualifier.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=28abb5e217ade76b": {
+    "score": 2,
+    "reasoning": "The Workday Security specialism is a highly technical HR systems role requiring deep hands-on Workday configuration and security architecture expertise that the candidate does not have; while there is a management overlay, the primary function is technical specialist practice rather than management or transformation leadership.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=aa37d6efbb261c06": {
+    "score": 3,
+    "reasoning": "Technology Operating Model and Digital Transformation strategy is a strong role_type match for the candidate's background, and Bristol location aligns. Director-level consulting requires an established consulting client portfolio and technology strategy credentials that the candidate would need to evidence more strongly; salary unstated.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a8724d9d1329e051": {
+    "score": 1,
+    "reasoning": "OneStream EPM Architect is a specialist technical role requiring deep hands-on EPM platform configuration and financial systems architecture expertise; the candidate's primary function would be technical/financial systems practice rather than management or transformation leadership, triggering the role_type disqualifier.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a1228a70ab4f1f3c": {
+    "score": 1,
+    "reasoning": "ServiceNow Transformation Architect is fundamentally a technical practice role requiring deep hands-on ServiceNow platform architecture and implementation expertise that the candidate does not hold; despite the 'transformation' label, the primary function is technical specialist delivery, triggering the role_type disqualifier.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=cb5043629fbbc9be": {
+    "score": 1,
+    "reasoning": "Technology Vision, Strategy and Architecture is a specialist technical architecture role requiring deep enterprise architecture and technology strategy expertise; the primary duties centre on technical practice rather than management or transformation leadership, and the candidate lacks the requisite architecture qualifications and experience.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=77b78b68e68c92d8": {
+    "score": 3,
+    "reasoning": "SAP Delivery Lead / Programme Manager at Director level is a reasonable role_type match given the candidate's programme delivery and project management certifications, and the seniority is well aligned. The SAP-specific technical implementation expertise required and the consulting business development expectations are gaps; salary is unstated but Director-level Deloitte is likely to meet the \u00a360k minimum.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 4,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=7b72c0051c6d4f81": {
+    "score": 1,
+    "reasoning": "Optometry Territory Manager is a field sales and clinical product specialist role in eye health \u2014 neither the role type nor the sector aligns with the candidate's senior management and digital transformation background, and the seniority level is significantly below the candidate's target.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=14b966edceb9555c": {
+    "score": 2,
+    "reasoning": "Investment Manager is a specialist finance/investment role requiring capital markets or private equity expertise that the candidate does not possess; while it is a management-adjacent title, the primary function involves deploying growth capital which is outside the candidate's background. Salary is unstated and qualifications are poorly matched.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=28c7c98ebfe3e04e": {
+    "score": 1,
+    "reasoning": "This is an analyst/systems support role focused on e-rostering tools, well below the candidate's senior management level, and the salary is unstated but likely Band 5\u20136 which falls well short of the \u00a360,000 minimum. Not a suitable match for a senior digital transformation professional.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=cec3abcdf8742bf5": {
+    "score": 1,
+    "reasoning": "A frontline receptionist/clerical role is entirely misaligned with the candidate's seniority, target roles, and salary requirements; this is a Band 2\u20133 administrative position with no management or transformation scope whatsoever.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4a934f123710d869": {
+    "score": 1,
+    "reasoning": "An inpatient booking coordinator is a junior administrative/operational support role at Band 3\u20134 level, grossly misaligned with the candidate's senior management background and \u00a360,000 salary requirement.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=216047d9616c22d8": {
+    "score": 1,
+    "reasoning": "An outpatient clinic coordinator role is a junior Band 3\u20134 administrative position with no strategic or transformation remit, entirely unsuitable for a senior digital transformation candidate targeting \u00a360,000+.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=c355ee67ae1135f4": {
+    "score": 1,
+    "reasoning": "A ward clerk role is a Band 2 frontline clerical position with no alignment to the candidate's seniority, target roles, qualifications, or salary expectations.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=892250571542c6d8": {
+    "score": 1,
+    "reasoning": "A waiting list coordinator is a Band 3\u20134 administrative role with no leadership or transformation scope, completely mismatched to the candidate's senior experience and salary floor.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=1d3b1823ad8b8ca5": {
+    "score": 1,
+    "reasoning": "A maternity ward clerk is a Band 2\u20133 clerical/reception role that bears no resemblance to the candidate's senior digital transformation background or target roles.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=9b2b3025a2a5162f": {
+    "score": 1,
+    "reasoning": "Managing Consultant \u2013 Software Engineering requires a primary background in software engineering technical practice; the candidate's role would be hands-on technical delivery rather than management or transformation leadership, and they lack the required software engineering qualifications. This is a technical practice role that scores 1 on role_type as an automatic disqualifier.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5344100ee3dbd3a1": {
+    "score": 1,
+    "reasoning": "A structural engineer role requires specialist civil/structural engineering qualifications and technical practice that the candidate does not hold; this is a technical specialism role entirely outside the candidate's background and target areas.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=7f4e8e08d57a8f6d": {
+    "score": 1,
+    "reasoning": "This is a specialist Public Health Engineering role requiring plumbing/engineering technical practice \u2014 the candidate would be doing engineering work, not management or transformation. No relevant qualifications match.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=ca49fa4db76091ff": {
+    "score": 1,
+    "reasoning": "Mechanical Building Services Engineering is a specialist technical practice role with no alignment to the candidate's management, digital transformation, or operational background. Automatic disqualifier on role type.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=033871793abbd83d": {
+    "score": 1,
+    "reasoning": "Bat Ecology is a specialist scientific/ecological practice role with no conceivable alignment to the candidate's profile in NHS digital transformation or management. Complete mismatch on all substantive dimensions.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=44c977070acc99e6": {
+    "score": 1,
+    "reasoning": "Structural Engineering is a specialist technical practice role \u2014 the candidate would be performing engineering work. No alignment to management, leadership, or digital transformation credentials.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=6dde5102aae7bd78": {
+    "score": 1,
+    "reasoning": "Cloud DevOps Engineering requires hands-on technical practice (writing code, engineering cloud systems) \u2014 an automatic disqualifier on role type. The candidate's digital background is governance/transformation, not DevOps.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/commercial-operations-manager/56947521": {
+    "score": 3,
+    "reasoning": "Commercial Operations Manager is a strong management/operations role with a salary (\u00a375k\u2013\u00a385k) well above the \u00a360k minimum, and the candidate's operational, strategy, and supply chain qualifications are relevant. However, the MSP/technology services context and commercial/contract focus are somewhat outside the candidate's NHS digital transformation background, and no specific qualifications are required so that dimension is neutral.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/facilities-manager/56989451": {
+    "score": 2,
+    "reasoning": "Facilities Manager is a management role but primarily focused on physical estate/manufacturing operations, which is a poor functional match for the candidate's digital transformation and NHS programme delivery background. The salary range (\u00a355k\u2013\u00a365k) also risks falling below the \u00a360k minimum at the lower end, and there is no overlap with the candidate's sector or digital credentials.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 2,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.reed.co.uk/jobs/head-of-sales/56995303": {
+    "score": 2,
+    "reasoning": "Head of Sales carries seniority and salary (\u00a375k\u2013\u00a3100k) appropriate to the candidate, but the primary function is commercial sales leadership in food services \u2014 a significant functional mismatch with NHS digital transformation and programme management. The candidate has no sales or food industry background, making this a poor fit despite the attractive remuneration.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428495561": {
+    "score": 3,
+    "reasoning": "Principal Consultant at a health/public sector consultancy is a plausible role for the candidate's NHS digital transformation background, and the title suggests appropriate seniority. However, the blank description makes it impossible to confirm salary, exact duties, or qualification requirements, leaving salary band and seniority as uncertain.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428714487": {
+    "score": 3,
+    "reasoning": "A consultant role with local government experience at Channel 3 Consulting aligns directionally with the candidate's public sector and stakeholder management background, though the focus on local government rather than NHS digital is a partial mismatch. The empty description prevents assessment of salary, seniority fit, or qualification requirements.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4417510216": {
+    "score": 1,
+    "reasoning": "Solution Architect is a technical/engineering practice role requiring specialist architecture expertise the candidate does not hold; role_type is an automatic disqualifier. No salary or description provided to assess further dimensions.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426780064": {
+    "score": 1,
+    "reasoning": "Lead Data Consultant is a technical/specialist data practice role; the candidate would be conducting data consultancy, not managing or leading programmes, triggering the role_type disqualifier. Insufficient description to evaluate other dimensions meaningfully.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5d22e841541d1b3c": {
+    "score": 1,
+    "reasoning": "Senior Actuary is a specialist financial/actuarial practice role entirely outside the candidate's background; the candidate would be performing actuarial work they have no qualifications for, triggering both role_type and qualifications disqualifiers.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=ec161a3e978bbb89": {
+    "score": 2,
+    "reasoning": "Head of Marketing is a senior leadership role and the candidate holds a Digital Marketing certification, but marketing ownership is not their primary background and the role is heavily hands-on execution in a non-NHS commercial sector. Salary not stated and no specific quals required, but the fit is marginal.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=791456f8bb115852": {
+    "score": 2,
+    "reasoning": "Project Director - Rail requires deep rail/infrastructure technical and design leadership expertise that the candidate does not possess; while the candidate has strong programme management credentials, the primary function here is domain-specific rail engineering delivery, making this a poor fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=ecf8bc933c65fdc6": {
+    "score": 2,
+    "reasoning": "Delivery Manager in Nuclear engineering is a programme/delivery management role in concept, but the nuclear sector specialism and likely engineering background requirements are misaligned with the candidate's NHS digital transformation and management credentials. Salary not stated.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0ccf497a736fa2bb": {
+    "score": 2,
+    "reasoning": "Business Development Manager in Digital Engineering is a sales-oriented role requiring Aerospace and Defence sector expertise and active client acquisition \u2014 not a strong match for the candidate's NHS operational and transformation management background. The management element is present but the primary function is specialist sales.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=9e0c259996be6513": {
+    "score": 2,
+    "reasoning": "Regional Sales Director is a senior leadership role with commercial and team management scope, but the primary function is running a regional sales operation in building materials distribution \u2014 a sector and functional specialism far removed from the candidate's NHS digital transformation and operations management experience.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=b239efa98e23845c": {
+    "score": 1,
+    "reasoning": "SHE (Safety, Health and Environment) Manager is a specialist professional practice role requiring dedicated H&S expertise and qualifications the candidate does not hold; this triggers both role_type and qualifications disqualifiers.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=3e494007c4ef31b8": {
+    "score": 1,
+    "reasoning": "Team Leader in Defined Benefits Pensions Administration is below the candidate's seniority level and requires specialist pensions administration expertise entirely outside their background; the role represents a significant step down in both seniority and relevance.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=b51f14027a059eca": {
+    "score": 3,
+    "reasoning": "Training Manager at Babcock is a management/leadership role in Bristol with hybrid working, which aligns reasonably with the candidate's background in workforce and capability development. However, the defence/military training context is a stretch from NHS digital transformation, salary is unstated, and the seniority level is ambiguous \u2014 it may sit below the candidate's target band.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=f4f25dc465ee05bf": {
+    "score": 1,
+    "reasoning": "Senior Principal Mechanical Engineer is a specialist technical engineering role requiring nuclear engineering expertise the candidate does not hold \u2014 this is an automatic disqualifier on both role_type and qualifications grounds. The candidate's management background has no relevance here.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4ff52703e7744417": {
+    "score": 3,
+    "reasoning": "Deloitte Digital's Delivery/Commerce Manager sits in Technology & Transformation and is Bristol-based with senior scope, which has surface alignment with digital transformation. However, the role appears to require hands-on delivery of commerce technology platforms (e.g. Salesforce, Adobe Commerce), making it partly technical practice rather than pure management \u2014 and no salary is stated to confirm minimum threshold.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5236f274a7c29aaa": {
+    "score": 2,
+    "reasoning": "Senior New Business Development Manager at RAC is a commercially senior role, but its primary function is winning insurance and legal services partnerships \u2014 a sales/BD specialism the candidate has not demonstrated, and the legal/insurance sector context is distant from NHS digital transformation. Qualifications alignment is weak for this specific commercial BD remit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=b0482110660f5eb2": {
+    "score": 2,
+    "reasoning": "Product Marketing Manager at Bupa Dental Care is focused on dental treatment marketing and product growth \u2014 a specialist marketing function the candidate has not trained for or held. The Digital Marketing certification provides minimal overlap, and the role's primary duties (orthodontics/cosmetic dentistry product marketing) are outside the candidate's core management and transformation skillset.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=569d2209ed778424": {
+    "score": 1,
+    "reasoning": "Engineering Team Lead at GKN Aerospace requires specialist aerospace engineering expertise \u2014 this is a technical practice role the candidate has no qualifications or experience for. Automatic disqualifier on role_type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=aad6299e14f32cc3": {
+    "score": 3,
+    "reasoning": "AECOM Advisory Senior Consultant in Bristol could align with the candidate's strategy and programme delivery credentials, but the infrastructure consulting context and the truncated description make it unclear whether this is a management/advisory role or a specialist technical one. Salary is unstated and seniority fit is ambiguous \u2014 warrants caution.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=d4f7ff8fe5510785": {
+    "score": 2,
+    "reasoning": "Business Analyst \u2013 Nuclear at Vulcain is a confirmed/mid-level BA role focused on nuclear programme process modelling \u2014 below the candidate's senior target level and in a highly specialist sector requiring domain knowledge the candidate does not hold. The BA function is also below the management/leadership scope the candidate is targeting.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=c038336ab8af0ca5": {
+    "score": 1,
+    "reasoning": "Lead Mechanical Engineer at SPX Technologies is a specialist engineering role requiring HVAC or detection/measurement engineering expertise \u2014 an automatic disqualifier on role_type and qualifications. The candidate's background is entirely non-technical.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=278e6291ffca6973": {
+    "score": 2,
+    "reasoning": "Senior Manager/Associate Director in Cyber Security Operations at Deloitte is seniority-appropriate, but the primary function is specialist cyber security practice \u2014 strategy, risk management, and technical cyber delivery \u2014 which the candidate has no qualifications or stated experience in. Despite the management title, the role's core duties are specialist technical practice, not general transformation leadership.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a77bf25a249e0500": {
+    "score": 2,
+    "reasoning": "Supplier Assurance Manager in an insurance context is a management-adjacent role but not a strong match for digital transformation or NHS operations experience. Salary is unstated and the private insurance sector makes it unlikely to meet the \u00a360,000 minimum, dropping the overall score significantly.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=9311199f82922a75": {
+    "score": 2,
+    "reasoning": "Bid Manager is a management-oriented role and the candidate's stakeholder and programme credentials are partially relevant, but it is an infrastructure/engineering-focused firm with no NHS or digital transformation alignment. Salary is unstated and unlikely to confidently meet the \u00a360,000 floor, limiting the score.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=7de346daae48df61": {
+    "score": 1,
+    "reasoning": "Principal Mechanical Engineer is a specialist technical/engineering practice role \u2014 the candidate would be performing engineering design work, which is a direct role_type disqualifier. The candidate holds no engineering qualifications, making this unsuitable on both role type and qualifications grounds.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4402551102": {
+    "score": 3,
+    "reasoning": "Strategy Project Manager aligns well with the candidate's dual master's degrees and project management certifications, and the role type is a strong match. However, no description is available to confirm seniority level, salary, or specific qualification requirements, so mid-range scores apply across those dimensions.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4427850319": {
+    "score": 2,
+    "reasoning": "The dual title 'Business Unit Integrator / Senior Finance Analyst' suggests a finance-heavy analytical role; the Finance Analyst component leans toward specialist finance practice rather than management/leadership, and the candidate lacks formal finance/accounting qualifications beyond one business course. Insufficient description limits confidence, but the role profile is a weak fit overall.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428104349": {
+    "score": 2,
+    "reasoning": "Business Analyst at Bupa UK is below the candidate's senior target seniority and BA roles typically involve specialist analytical practice rather than the management/leadership primary function the candidate is targeting. No description available to refine further, but the title alone signals a likely seniority and role-type mismatch.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4425457756": {
+    "score": 2,
+    "reasoning": "Business Analyst at a software company is below the candidate's senior level and the primary function is likely specialist analytical or technical practice rather than management/leadership. No description is available to assess further, but the role and employer profile are a weak match.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4419685370": {
+    "score": 2,
+    "reasoning": "Finance & Business Analyst is finance-specialist in orientation and below the candidate's target seniority; the candidate lacks core finance qualifications that such a role would typically require. No description available to assess salary or specific duties, keeping most dimensions at uncertain mid-low scores.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4432218850": {
+    "score": 3,
+    "reasoning": "Digital Programme Manager is an excellent role-type and seniority match for the candidate's NHS digital transformation background and project management certifications. Score is held to 3 overall due to the Winchester location (not Bristol) and unstated salary that cannot be confirmed as meeting the \u00a360,000 minimum.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428972479": {
+    "score": 3,
+    "reasoning": "Programme Manager at an NHS Foundation Trust is a strong role-type and seniority match given the candidate's NHS digital transformation and programme delivery experience. Score is limited to 3 due to Southampton location (outside Bristol preference) and unstated salary that cannot be verified against the \u00a360,000 minimum.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4430996478": {
+    "score": 3,
+    "reasoning": "Portfolio Delivery Manager at Specsavers aligns reasonably well with the candidate's programme delivery and transformation background, and Specsavers is a large health-adjacent private employer. However, salary is unstated, location is Whiteley (not Bristol), and no description is available to confirm seniority level or band equivalent.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426354066": {
+    "score": 3,
+    "reasoning": "IBM Delivery Manager in Healthcare is a strong role-type match given the candidate's NHS digital transformation experience and stakeholder management skills, and IBM is a target-adjacent health tech/consulting employer. Salary is unstated and no description is available to verify seniority or qualification requirements, limiting confidence.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4424552782": {
+    "score": 2,
+    "reasoning": "Project Manager at Nourish Care is a lower seniority title than the candidate's target senior management level, and the company is a smaller care software provider which may not offer the salary floor or seniority the candidate requires. No description available to assess further.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4422908450": {
+    "score": 3,
+    "reasoning": "Transformation Business Partner at Somerset Council is a good role-type fit, aligning with the candidate's transformation and stakeholder partnership experience in public sector settings. Salary is unstated and Taunton is somewhat proximate to Bristol, but no description is available to confirm seniority grade or requirements.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429856397": {
+    "score": 3,
+    "reasoning": "Programme Manager \u2013 Innovation Adoption at UHS is a strong thematic match for the candidate's NHS digital transformation and programme delivery background. Salary is unstated and Southampton is outside the preferred Bristol area, and without a description seniority band cannot be confirmed.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=43e0bea2f807288c": {
+    "score": 2,
+    "reasoning": "Principal Project Manager (Capital) at UEL is focused on estates procurement and capital project delivery, which is a specialist infrastructure discipline rather than management, digital transformation, or operational leadership \u2014 a poor fit for the candidate's profile. The role likely requires estates/construction project management qualifications the candidate does not hold.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4430478244": {
+    "score": 2,
+    "reasoning": "Business Support Manager at Aneurin Bevan UHB is marked as internal-only, which is a significant practical barrier for an external candidate, and Newport, Wales is outside the candidate's preferred geography. The role title also suggests a lower seniority than the candidate's target level.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426121015": {
+    "score": 3,
+    "reasoning": "Integrated Care Systems Manager at NHS Supply Chain has reasonable role-type alignment with the candidate's ICS/stakeholder management experience in NHS settings. However, Glastonbury is an unusual location for a management role and no description or salary is available to assess seniority or band fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4421130952": {
+    "score": 2,
+    "reasoning": "Privates & Strategic Business Manager at Baxter International is in medtech/pharmaceutical private sector sales and account management, which is likely a commercially specialist role requiring sector-specific sales or clinical product knowledge the candidate does not hold. Role-type and qualifications fit are uncertain without a description, and Newbury is not a preferred location.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4417222260": {
+    "score": 2,
+    "reasoning": "Operations Planning & Delivery Manager at Helping Hands Home Care is likely below the candidate's target seniority level, and a domiciliary care provider in Alcester is outside the preferred geography and typical employer targets. No description is available to confirm salary or scope.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4432549579": {
+    "score": 3,
+    "reasoning": "General Manager at a target employer (North Bristol NHS Trust) in the preferred location is an excellent role_type and seniority match for this candidate. However, salary and band are unstated and the description is blank, preventing confident scoring on financials or qualifications requirements.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 5,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=95f3eebfeb6df0cc": {
+    "score": 2,
+    "reasoning": "Band 8c meets the salary floor and seniority aligns, but the PRIMARY function is hands-on technical infrastructure and IT operations leadership (managing digital infrastructure, user support services, advising on technical resilience), which sits closer to specialist IT technical practice than the candidate's management/transformation background. The role likely requires deep technical infrastructure credentials the candidate does not hold.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=f7ebd51e54174ef6": {
+    "score": 2,
+    "reasoning": "A Chief Data Officer role is primarily a specialist data leadership position requiring deep data architecture, governance, and analytics expertise; the candidate's background is in management and digital transformation programme delivery rather than data strategy or data science. Salary is unstated and Oxford is not a preferred location, further reducing fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=81a95446b39708f6": {
+    "score": 2,
+    "reasoning": "Band 8c meets the salary threshold and seniority is appropriate, but the role's primary function is specialist clinical systems operations (EPR, PAS, PACS, EMIS, LIMS accountability), which is a technical digital health specialism requiring deep clinical systems expertise beyond the candidate's programme management and transformation profile.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426835452": {
+    "score": 3,
+    "reasoning": "Cancer Delivery and Performance Lead is an operational delivery and performance management role that broadly aligns with the candidate's NHS operational background, but the specialised cancer pathway focus and likely mid-senior banding (rather than clearly 8b+) temper the fit. Salary, band, and full description are unstated, limiting confidence.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426409672": {
+    "score": 2,
+    "reasoning": "Deputy Operations Manager implies a step below the candidate's senior target level and is unlikely to command the \u00a360k+ salary threshold; Southampton is also outside the preferred Bristol geography. Role_type is reasonable but seniority and likely band fall short.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4427513970": {
+    "score": 3,
+    "reasoning": "Assistant Director of Operations in an integrated care context aligns well with the candidate's senior NHS operational and leadership profile. However, Wales is outside the preferred geography, the ambulance service specialism is narrow, and salary/band are unstated reducing confidence in financial fit.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4421922820": {
+    "score": 1,
+    "reasoning": "Head of SARC and Sexual Health is a specialist clinical service leadership role requiring subject-matter expertise in sexual assault referral and sexual health services; this is a clinical practice domain that falls outside the candidate's management and digital transformation background, triggering an automatic disqualifier on role_type.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4432564267": {
+    "score": 3,
+    "reasoning": "Chief Operating Officer of the Southwest NHS Genomics Medicine Service at a preferred target employer (North Bristol NHS Trust) in Bristol is a strong seniority and role_type match for this candidate's senior operational NHS profile. Salary is unstated and the genomics specialism is narrow, but this is a credible senior leadership opportunity worth pursuing.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 5,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=32efbb5b0f9ce138": {
+    "score": 2,
+    "reasoning": "Planning Manager at a medical device spin-out is a mid-level operations role that likely falls below the candidate's target seniority and \u00a360k salary floor; Oxford is outside the preferred Bristol geography and the organ technology sector is a narrow specialism. Role_type partially aligns via operations and supply chain credentials but seniority and likely salary are insufficient.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=8ed39c8a5d79ee26": {
+    "score": 1,
+    "reasoning": "The primary function is systems engineering technical leadership \u2014 a specialist technical practice role where the candidate would be doing hands-on engineering work, which is an automatic disqualifier for role_type. The candidate's management and digital transformation background does not align with the technical engineering duties required.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4a4b5b540782e878": {
+    "score": 2,
+    "reasoning": "Business Development Manager is a management-adjacent role and salary is strong, but the Defence/MoD sector specialism and likely requirement for defence sector BD experience and security clearance are significant mismatches with the candidate's NHS digital transformation background. No stated qualifications requirement but the niche sector context lowers qualifications fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4430746135": {
+    "score": 3,
+    "reasoning": "Technology Programme Manager at a local council is a reasonable role_type match for the candidate's programme delivery and digital transformation experience, but salary and band are unstated and the seniority level at a borough council may sit below the candidate's target senior level. Location (Wokingham) is also not Bristol-preferred.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429985248": {
+    "score": 3,
+    "reasoning": "Director of Major Projects and Change in Health and Life Sciences is a strong seniority and sector match for the candidate's NHS transformation background, and the management/change leadership function aligns well; however salary is unstated and the Cardiff location is outside the Bristol preference area, limiting overall fit.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 5,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4428040700": {
+    "score": 2,
+    "reasoning": "Continuous Improvement Lead is a hybrid/ambiguous role that may be partly operational and hands-on rather than senior strategic leadership, and the title and likely band suggest a level below the candidate's target seniority. Salary and qualifications are unstated, and Gloucestershire is a marginal location fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429111702": {
+    "score": 3,
+    "reasoning": "Senior AI Workplace Transformation Consultant in Bristol is locationally ideal and the transformation angle is relevant, but 'consultant' roles often require deep AI/technical specialism beyond the candidate's profile, and the role is ambiguously hybrid between advisory practice and transformation management. Salary and qualifications are unstated.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4414021437": {
+    "score": 2,
+    "reasoning": "Change Manager at a wealth management firm is below the candidate's target seniority level and the financial services sector is a poor match for the candidate's NHS and public sector background. Salary and qualifications are unstated, and Bromsgrove is outside the Bristol preference.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429461329": {
+    "score": 2,
+    "reasoning": "Project Manager at an NHS FT is a relevant sector and role_type match but the title suggests a level below the candidate's senior target seniority, and Southampton is outside the Bristol preference area. Salary and qualifications are unstated.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4411179557": {
+    "score": 2,
+    "reasoning": "Transformation Implementation Manager has a relevant role_type flavour but 'Implementation Manager' implies a mid-level operational execution role rather than senior strategic leadership, and the private sector employee benefits company (Benifex) is a weak sector fit. Salary and qualifications are unstated and Southampton is outside Bristol preference.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=1ea7ff8841cf8471": {
+    "score": 2,
+    "reasoning": "WSP's PMCM (Project and Construction Management) Associate Director role in Bristol is locationally ideal and senior enough, but the CI&U (Cities, Infrastructure & Utilities) engineering context means the primary duties would likely involve construction/infrastructure project management specialism rather than the candidate's digital transformation and NHS management background. Qualifications fit is weak for an engineering-focused PM role.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=839416a8cf2278af": {
+    "score": 2,
+    "reasoning": "The role is a strong match on title and function \u2014 digital transformation leadership at Associate Director level \u2014 but the stated actual salary of ~\u00a354,000 falls well below the candidate's \u00a360,000 minimum, making it a hard salary fail. Location in Bicester also does not align with Bristol preference.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=075d1c8848b28028": {
+    "score": 2,
+    "reasoning": "Same role as index 0 but with no salary stated, giving a neutral salary score; however the role type and seniority align well with the candidate's digital transformation background. Bicester location and lack of salary clarity are limiting factors.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=4070eb23b08599da": {
+    "score": 1,
+    "reasoning": "This is a civil engineering role in the water sector \u2014 the candidate would be performing specialist engineering practice, which is an automatic role_type disqualifier. The candidate holds no relevant engineering qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4420970691": {
+    "score": 2,
+    "reasoning": "PMCM (Project Management and Construction Management) in a build context likely requires civil/construction project management expertise rather than digital/NHS programme delivery; with no description available, it is scored cautiously. Cardiff location and construction specialism reduce suitability.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429052009": {
+    "score": 2,
+    "reasoning": "Head of Compliance and Business at an NHS FT is a plausible seniority match and the business management dimension aligns, but 'compliance' as a primary function could require specialist regulatory or legal expertise the candidate does not hold; no salary or description available to confirm. Southampton location is outside Bristol preference.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4427861237": {
+    "score": 2,
+    "reasoning": "Early Careers and Apprenticeships is a specialist HR/L&D function rather than digital transformation or senior business management, making it a weak role-type fit for the candidate's target trajectory. No salary or description is available to assess further, and Southampton is outside Bristol preference.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4399886267": {
+    "score": 1,
+    "reasoning": "Ports and Maritime Senior Project Manager is a specialist infrastructure/engineering domain role; the candidate would be managing specialist civil/maritime projects requiring sector-specific technical expertise she does not possess. Automatic disqualifier on role type.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4407895348": {
+    "score": 2,
+    "reasoning": "Bristol location is a positive, and Mott MacDonald is a management consultancy context that could suit the candidate; however, Mott MacDonald is predominantly an engineering consultancy and Senior Project Manager roles there typically require infrastructure or engineering domain expertise. With no description available the role is scored cautiously.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4426750660": {
+    "score": 2,
+    "reasoning": "Programme Manager in an NHS Health Board context is broadly aligned with the candidate's background, but 'Food Sense Wales' suggests a specialist public health/nutrition programme rather than digital transformation, reducing role-type fit. Cardiff location and no salary information are further limiting factors.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4407426902": {
+    "score": 2,
+    "reasoning": "Lexica/WSP is again an engineering consultancy context and without a description the specialism cannot be confirmed; the candidate's project management credentials are transferable in principle but the likely infrastructure/engineering focus and Oxfordshire location make this a weak match.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4394672922": {
+    "score": 1,
+    "reasoning": "Rail infrastructure project management is a specialist domain far removed from the candidate's NHS digital transformation background, and no salary is stated to confirm it meets the \u00a360k minimum. The PMCM Rail specialism would likely require civil/rail engineering credentials the candidate does not hold, making qualification fit weak.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4407173238": {
+    "score": 1,
+    "reasoning": "The role is marked as CLOSED, making it immediately unsuitable regardless of any other criteria. No salary is stated and insufficient description is available to assess further.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://www.linkedin.com/jobs/view/4429462310": {
+    "score": 2,
+    "reasoning": "A capital projects manager role within an NHS FT is plausible background-wise, but 'Capital' signals estates/infrastructure project management which diverges significantly from the candidate's digital transformation and operational management expertise. No salary stated and the Southampton location is not a preferred geography.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=425c80638516cfa1": {
+    "score": 1,
+    "reasoning": "This is a technical architecture role requiring the candidate to design and build enterprise AI solutions \u2014 a specialist technical practice that triggers the automatic role_type disqualifier. The candidate holds no software architecture or AI qualifications, making this a clear mismatch on both dimensions.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=e16e201278ae4f33": {
+    "score": 1,
+    "reasoning": "Principal Software Developer is a technical practice role where the candidate's primary duty would be writing and engineering software \u2014 an automatic role_type disqualifier. The candidate holds no software development qualifications and this role is entirely misaligned with their management and transformation background.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=499ed76fb011c605": {
+    "score": 3,
+    "reasoning": "Programme Manager in a government digital transformation consultancy is a strong role_type match for the candidate's background in NHS digital delivery and programme management. The \u00a370k salary meets the \u00a360k minimum and aligns with senior seniority; however, Swansea is not a preferred location and no NHS-specific qualifications are required, which the candidate exceeds with dual master's degrees.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=40c27d0049aa33ff": {
+    "score": 1,
+    "reasoning": "A 'Work Winning Lead' in the water sector at AECOM is a business development/bid management role in civil infrastructure \u2014 a domain with no alignment to the candidate's NHS digital transformation expertise. The sector specialism and likely requirement for water industry knowledge make this a poor fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=c9b270d6da2a821d": {
+    "score": 2,
+    "reasoning": "Project Director in Bristol is positive for location and seniority, but 'Controls Analytics' within AECOM's infrastructure consulting context suggests a specialist project controls or data analytics domain requiring civil/infrastructure credentials the candidate does not hold. The role_type scores low due to the specialist technical framing despite the director-level title.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=73f1606a95dfe044": {
+    "score": 1,
+    "reasoning": "Data Lead is a specialist technical practice role focused on data engineering and analytics delivery \u2014 the candidate would be performing hands-on data work, triggering the role_type disqualifier. The candidate holds no data architecture or engineering qualifications relevant to this specialism.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=ab682fd1b9aadd09": {
+    "score": 2,
+    "reasoning": "Senior Business Analyst on a government digital transformation programme has some alignment with the candidate's background, but the BA function is below the candidate's senior management and programme leadership seniority target. No salary is stated and Swansea is not a preferred location.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=8203c52fa91c368d": {
+    "score": 2,
+    "reasoning": "This is primarily a technical Oracle EPM architect role requiring hands-on implementation of specialist ERP/performance management tools, which sits outside Jie's management and transformation profile. The job type is listed as Permanent/FTC which creates employment type uncertainty, and the lack of stated salary alongside a requirement for deep Oracle technical expertise (which Jie does not hold) further reduces suitability.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 3,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=fdf7b7233f35d228": {
+    "score": 1,
+    "reasoning": "This is a Rail & Transit Sector Lead Director role requiring deep domain expertise in rail/transit infrastructure consulting, which is entirely outside Jie's background in NHS digital transformation and management. The role_type is a near-automatic disqualifier given the specialist sector leadership required.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=39808c526594e7f3": {
+    "score": 2,
+    "reasoning": "While this is a senior advisory/consulting director role with management scope (which partly aligns), the Local Government infrastructure consultancy specialisation at AECOM requires sector expertise Jie does not hold, and the salary is unstated. The management and leadership dimensions partially fit but domain mismatch limits the score.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=af555a72b4fffc4e": {
+    "score": 2,
+    "reasoning": "Similar to the Local Government variant, this Senior Director advisory role at AECOM involves infrastructure/engineering consultancy leadership that is misaligned with Jie's NHS digital and management background; unstated salary and unclear sector fit reduce confidence further.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=5803d683d8461c3c": {
+    "score": 1,
+    "reasoning": "The Defence sector specialism at AECOM requires domain knowledge and likely security clearance credentials that Jie does not possess, making this a poor fit regardless of seniority level. The specialist defence consultancy focus is a near-automatic disqualifier for role_type in this context.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=08083d3834d25b05": {
+    "score": 2,
+    "reasoning": "This role is centred on leading complex Microsoft D365 Finance & Operations ERP implementations as a finance and technology specialist, requiring deep ERP and finance systems expertise that Jie does not hold; the Permanent/FTC listing also introduces employment type risk. The management credentialing is insufficient to offset the strong technical finance systems requirement.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 3,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=25eb0ac390a4029a": {
+    "score": 2,
+    "reasoning": "This Oracle HCM Manager role involves delivering HR technology transformations but the primary function is hands-on Oracle HCM implementation and technical consulting, which Jie lacks the specialist credentials for; the Permanent/FTC job type also introduces an employment type concern.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 3,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=1dcbd24a9d17a834": {
+    "score": 3,
+    "reasoning": "This HR Data & AI Project Manager role at MBDA aligns reasonably well with Jie's programme delivery and digital transformation background, and the salary range (\u00a360,000\u2013\u00a372,000) meets the minimum threshold. However, the role sits at project manager rather than senior manager level, and the heavily governed multi-country IT environment with an on-premise AI/data focus may require more specialist technical HR data experience than Jie currently demonstrates.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=1043ae99bfc38468": {
+    "score": 1,
+    "reasoning": "This Customer Service Advisor role is entirely misaligned with Jie's senior management profile \u2014 it is a frontline branch-based position at a building society with no management scope, no stated salary meeting the minimum, and no seniority match whatsoever.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a6c237366f119bd6": {
+    "score": 1,
+    "reasoning": "This is a hands-on Java Developer role requiring 5+ years of software engineering experience \u2014 a technical practice role that is a clear automatic disqualifier for role_type, as Jie's background is entirely in management and transformation rather than software development.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=a06b2eb2454e271a": {
+    "score": 1,
+    "reasoning": "This is a Technical Recruiter role on a contract basis with no stated salary, failing both the employment type hard filter (contract vs. required full-time) and the salary floor. The role_type is also a poor match \u2014 recruiting is not management, digital transformation, or programme delivery.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 2,
+      "salary_band": 1,
+      "employment_type": 1,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=21f919cd7cb796b5": {
+    "score": 1,
+    "reasoning": "Salary is not stated and the role is located in Wallingford (not Bristol or South West), and this is primarily a sales/business development role rather than management or digital transformation. The salary ambiguity defaults to a poor band score and the role type is only a partial match.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=22ccc524a1ed7fa2": {
+    "score": 2,
+    "reasoning": "Product Marketing Manager is primarily a specialist marketing role requiring product marketing expertise (positioning, messaging, go-to-market for SaaS tools), which is not the candidate's background; the Digital Marketing cert is minor and insufficient. The \u00a360,000 salary meets the minimum but the role type and qualifications are a poor fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=e1fc64d28ced9fc1": {
+    "score": 1,
+    "reasoning": "Software Engineering Manager is a technical practice role requiring engineering leadership and software delivery expertise that the candidate does not possess; this is an automatic disqualifier on role_type. The candidate holds no engineering qualifications, making this a near-certain mismatch.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=0ca5201deace15ad": {
+    "score": 2,
+    "reasoning": "The Technical Delivery Manager title and \u00a375,800 salary are attractive, and the seniority maps reasonably well, but the role appears to require deep technical delivery expertise (likely software/systems in a defence/security context) that the candidate lacks. Qualifications are a significant gap given the defence/technical context.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=dad623377f4b35b7": {
+    "score": 1,
+    "reasoning": "Assistant Project Manager is junior in seniority and significantly below the candidate's experience level, and the nuclear infrastructure specialism is a poor fit for their NHS digital transformation background. Salary is unstated but the 'Assistant' level almost certainly falls below the \u00a360,000 floor.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=7694afb191263e10": {
+    "score": 3,
+    "reasoning": "Change Management Consultant (Analyst) at PA Consulting is a reasonable role_type match \u2014 change and transformation consulting aligns with the candidate's NHS digital transformation background \u2014 but 'Analyst' grade suggests a more junior level than the candidate's seniority, and no salary is stated (defaulting to a low band score given likely junior/mid-grade consulting pay). Bristol location is a positive.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
+  },
+  "https://uk.indeed.com/viewjob?jk=59747b495ed107d7": {
+    "score": 1,
+    "reasoning": "Business Change Junior Consultant is explicitly entry-level/junior and is a significant step down from the candidate's senior profile; the seniority mismatch is an automatic concern and the unstated salary at junior consulting grade almost certainly falls well below \u00a360,000.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 1,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-24"
   }
 }
