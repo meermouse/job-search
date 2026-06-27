@@ -21,6 +21,7 @@ A `JobListing` dataclass is added to `models.py`:
 | `description` | `str` | Empty string for NHS Jobs (no description available from scraper) |
 | `url` | `str` | |
 | `source` | `str` | `"linkedin"`, `"indeed"`, `"reed"`, `"nhs"` |
+| `employment_type` | `str \| None` | e.g. `"full-time"`, `"contract"`; `None` for NHS Jobs |
 
 ## File Structure
 
