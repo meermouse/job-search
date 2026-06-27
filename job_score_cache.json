@@ -4907,5 +4907,437 @@
       "qualifications": 3
     },
     "cached_at": "2026-06-26"
+  },
+  "https://www.linkedin.com/jobs/view/4433856121": {
+    "score": 2,
+    "reasoning": "Senior Technical Programme Manager aligns well with the candidate's programme delivery background, but the 'Technical' framing and Wales location (not Bristol) reduce fit; salary is unstated so band defaults to 3. No description available to confirm technical vs. management primary function, adding ambiguity.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4430625826": {
+    "score": 2,
+    "reasoning": "Agile Delivery Manager in Bristol is directionally relevant to digital transformation, but 'Agile Delivery' roles often lean heavily on hands-on product/delivery practice rather than senior strategic management; salary is unstated and seniority level is unclear from the listing alone.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4411724672": {
+    "score": 3,
+    "reasoning": "Senior Manager Corporate Strategy is a strong role-type match leveraging the candidate's Corporate Strategy and Business Strategy certifications and dual master's degrees; however, the location (Chew Magna, near Bristol) is acceptable and salary is unstated, limiting confidence in band alignment.",
+    "score_breakdown": {
+      "role_type": 5,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 4
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4398397760": {
+    "score": 1,
+    "reasoning": "Consultant \u2013 Value & Access at Costello Medical is a specialist health economics/market access consulting role requiring specific technical expertise (HEOR, reimbursement, clinical evidence) that the candidate does not hold; this is a specialist professional practice role that does not match the candidate's management and transformation background.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4433841909": {
+    "score": 3,
+    "reasoning": "Operational Improvement Manager aligns with the candidate's operational and transformation experience, but the Wales location and likely mid-band salary (Public Health Wales banding and no stated salary) make this a partial fit; seniority may be a step below the candidate's target level.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=40f0c4e5cb14d904": {
+    "score": 2,
+    "reasoning": "Director-level seniority and Bristol location are positives, but Cyber Transformation at Deloitte requires deep cybersecurity domain expertise and technical practice credentials the candidate does not hold; the primary function would involve specialist cyber strategy delivery rather than general management or digital transformation leadership.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 5,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=635918ff996106c1": {
+    "score": 2,
+    "reasoning": "Managing Consultant \u2013 Software Engineering at PA Consulting is Bristol-based and senior, but the Software Engineering specialism means the primary function centres on technical engineering practice, which the candidate lacks; the management layer does not override the specialist technical delivery requirement.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=27323f370fe2e32d": {
+    "score": 1,
+    "reasoning": "Senior AI Engineer is a technical practice role requiring hands-on AI/ML engineering skills the candidate does not possess; this is an automatic disqualifier on role_type and qualifications grounds regardless of employer or location.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=130c5e82dbe780a1": {
+    "score": 1,
+    "reasoning": "Solution Architect is a technical practice role centred on designing and engineering technical solutions; the candidate holds no solution architecture qualifications or experience, making this an automatic disqualifier on both role_type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/business-development-manager/56994707": {
+    "score": 1,
+    "reasoning": "Business Development Manager role-type is a reasonable match, but the base salary of \u00a345,000 (OTE \u00a360,000) falls well below the candidate's \u00a360,000 minimum floor and maps to Band 6/7 NHS equivalent, triggering a salary_band score of 1; the Midlands location and junior-to-mid seniority further reduce overall suitability.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 2,
+      "salary_band": 1,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/senior-business-development-manager/57037811": {
+    "score": 3,
+    "reasoning": "This is a clear business development/sales management role which aligns with Jie's management background, and the salary range (\u00a355k\u2013\u00a385k) comfortably clears the \u00a360k minimum. However, the role is primarily consultative sales-focused rather than transformation or operations management, and Jie's background does not include a strong B2B sales track record, which is likely to be a core requirement; qualifications score is moderate as no specific quals are listed but the sales-led nature is a partial mismatch.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/employee-relations-lead/57051261": {
+    "score": 2,
+    "reasoning": "Employee Relations Lead is a specialist HR/ER function requiring deep employment law and ER casework expertise that Jie does not hold; while the organisation is undergoing transformation, the primary duties are specialist HR practice rather than management or digital transformation. Salary is unstated and qualifications are misaligned with Jie's profile.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/data-engineering-manager-uk-remote/57025015": {
+    "score": 1,
+    "reasoning": "Data Engineering Manager is a technical practice role where the candidate would be leading hands-on data engineering work; this is a technical specialism Jie does not hold, triggering the automatic role_type disqualifier. Qualifications required (data engineering, technical architecture) are not in Jie's profile.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/area-director-bath-wiltshire-inspiring-vet-care/57049059": {
+    "score": 2,
+    "reasoning": "Area Director is a senior operational leadership role managing a portfolio of veterinary practices, which has some alignment with Jie's operational management experience; however, the veterinary sector specialism and lack of stated salary makes this a weak fit, and the role likely favours candidates with veterinary operations or multi-site retail/healthcare operational backgrounds Jie does not clearly demonstrate.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/area-director-west-midlands-black-country-inspiring-vet-care/57058155": {
+    "score": 2,
+    "reasoning": "Similar to index 3, this Area Director role offers a stated salary up to \u00a380,000 which clears the minimum, and seniority is appropriate; however, multi-site veterinary operations leadership is a specialist domain Jie lacks, and qualifications/sector experience are not well matched, limiting realistic suitability.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 4,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.reed.co.uk/jobs/group-health-and-safety-project-manager-inspiring-vet-care/57048471": {
+    "score": 2,
+    "reasoning": "A Health and Safety Project Manager role has partial alignment with Jie's project management certifications, but the specialist H&S domain (likely requiring NEBOSH/IOSH or equivalent) is not represented in Jie's qualifications, and the salary is unstated; the role is hybrid enough to avoid an outright disqualifier but is a poor overall fit.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=01768a7ba02f9c36": {
+    "score": 2,
+    "reasoning": "Head of Production at a semiconductor manufacturing company is primarily an operational manufacturing/engineering leadership role requiring deep production and supply chain expertise in a technical manufacturing environment that Jie does not hold; while seniority is appropriate, the role_type is a poor match and qualifications in compound semiconductor manufacturing are entirely absent.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=d2f777ad5d5de538": {
+    "score": 2,
+    "reasoning": "Principal Product Manager \u2013 Retention is a specialist digital product management role requiring hands-on product ownership, roadmap delivery, and technical product expertise in a consumer insurance/fintech context that does not align with Jie's transformation and operational management background; salary is unstated and product management specialism is not evidenced in Jie's profile.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=c6fb576cc07537c6": {
+    "score": 2,
+    "reasoning": "Same assessment as index 7 \u2014 Principal Product Manager \u2013 Growth is a specialist product management role in a consumer digital/insurance context; the primary function requires product delivery and technical product strategy expertise not evidenced in Jie's background, making this a poor role_type fit despite the senior seniority level.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=81391ce967cc7a7f": {
+    "score": 1,
+    "reasoning": "Head of Product \u2013 Dairy is a specialist food/dairy product development and category management role in FMCG; this is entirely outside Jie's sector, skills, and qualifications, triggering a role_type disqualifier as the primary duties (dairy product innovation, NPD, category strategy in food manufacturing) bear no relation to Jie's NHS digital transformation and management background.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=187bd9bb3eff4111": {
+    "score": 3,
+    "reasoning": "This is a genuine commercial leadership role (patient growth strategy, proposition development, acquisition and retention) that aligns reasonably well with the candidate's business development and digital transformation background. Salary is unstated so defaults to 3, and the role's focus on digital healthcare commercial performance is a reasonable match though it leans more heavily into marketing/growth specialism than the candidate's core NHS operational and programme delivery strengths.",
+    "score_breakdown": {
+      "role_type": 4,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=53f4df2cc7175bca": {
+    "score": 2,
+    "reasoning": "The salary (\u00a373,000) and seniority level are strong matches, and it is full-time permanent. However, the primary function is hard and soft Facilities Management operations at a nuclear infrastructure site \u2014 this is a specialist FM/estates operations role quite removed from the candidate's NHS digital transformation, programme delivery, and business management background, making the role_type a poor fit.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 5,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=05dc2a6866590055": {
+    "score": 1,
+    "reasoning": "This role is centred on specialist technical management of digital inkjet chemistry and printing technology, requiring deep domain expertise in chemical/materials engineering that the candidate does not possess. The primary duties are technical practice, not management or digital transformation leadership, making this an automatic disqualifier on role_type.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=3cfba945814fc63a": {
+    "score": 2,
+    "reasoning": "The role is a specialist market research leadership position requiring subject matter expertise in research methodologies, supporter insight, and data analytics \u2014 a domain the candidate lacks direct credentials in despite having digital marketing exposure. Salary is unstated and the research specialism is a significant mismatch with the candidate's operational and transformation background.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=6e1563a723f9b1c2": {
+    "score": 1,
+    "reasoning": "Although Bristol-based, this role requires deep compound semiconductor industry expertise as a hard prerequisite, which the candidate entirely lacks; the qualifications disqualifier alone would make this unsuitable. The business development framing is partially relevant but is inseparable from the specialist technical domain knowledge required.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=00678f3b2c1687d5": {
+    "score": 1,
+    "reasoning": "This role explicitly requires a Chartered Quantity Surveyor qualification and is centred on cost management delivery for construction commissions \u2014 a specialist professional practice role the candidate has no relevant qualifications or background for, resulting in automatic disqualifiers on both role_type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=14d4c0610fc693ec": {
+    "score": 2,
+    "reasoning": "While the candidate holds Operations and Supply Chain qualifications that provide some theoretical grounding, the Head of Supply Chain role at an electronics manufacturer requires specialist supply chain operations experience in a manufacturing context that the candidate does not demonstrably possess. Salary unstated and location (Abercynon, Wales) is also outside the candidate's preferred geography.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4414276146": {
+    "score": 2,
+    "reasoning": "No description is available to assess the role in detail, and 'Global Asset Lead' at a pharmaceutical company most likely refers to a specialist brand/product management role requiring pharma commercial expertise the candidate lacks. The combination of missing description, unclear seniority alignment, and probable specialism mismatch keeps the overall score low.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4424128235": {
+    "score": 2,
+    "reasoning": "The 'Strategic Business Manager' title has surface-level alignment with the candidate's target roles, but with no description available it is impossible to confirm the primary duties, seniority level, or qualification requirements, and the private/strategic framing at a medical device company may imply commercial sales specialism. Scored conservatively across all dimensions due to missing information.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=1ca6f3d76ed90b48": {
+    "score": 1,
+    "reasoning": "Despite being Bristol-based and full-time permanent, this Project Leader role is within a design-and-build civil/water engineering contracting business and requires specialist civil engineering or water discipline expertise as the primary function. The candidate's programme management credentials are insufficient for an engineering delivery role of this type, making it an automatic disqualifier on role_type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=669f458cb6adfc8d": {
+    "score": 1,
+    "reasoning": "This is a civil/water engineering design role requiring technical engineering practice \u2014 the candidate would be doing engineering work, not management or transformation. The candidate holds no engineering qualifications, making this a clear mismatch on both role type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=9f85571b5bc1eb5e": {
+    "score": 2,
+    "reasoning": "Although 'Senior Programme Manager' is a senior management title, the infrastructure/construction domain requires specialist civil or infrastructure engineering expertise that the candidate does not hold, and the location (Cardiff) is outside the preferred Bristol area. The role type is borderline \u2014 programme management is relevant \u2014 but the specialist construction context and missing technical qualifications drag the score down significantly.",
+    "score_breakdown": {
+      "role_type": 2,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=36041cfb0fa83cd1": {
+    "score": 1,
+    "reasoning": "Identical issue to index 0 \u2014 a civil/water engineering design role requiring specialist technical practice entirely outside the candidate's background. No relevant qualifications and no alignment with management or digital transformation targets.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 2,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=b2d70a5e42708c76": {
+    "score": 2,
+    "reasoning": "The Assistant Director level and strategic/operational leadership framing are a reasonable seniority match, and the candidate's NHS background and educational facilitation experience offer some relevance. However, the role is centred on clinical education delivery for nursing, midwifery, and AHP professionals, which requires clinical or healthcare education credentials the candidate does not hold, and the Wales location is outside preference.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 2
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://uk.indeed.com/viewjob?jk=068c6a245ecd5ba3": {
+    "score": 1,
+    "reasoning": "A Financial Reporting Controller role is a specialist finance practice position \u2014 the candidate would be preparing and controlling financial reports, not managing or leading transformation programmes. The candidate holds no accounting or financial reporting qualifications making this a clear disqualifier on both role type and qualifications.",
+    "score_breakdown": {
+      "role_type": 1,
+      "seniority": 3,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 1
+    },
+    "cached_at": "2026-06-27"
+  },
+  "https://www.linkedin.com/jobs/view/4433322526": {
+    "score": 1,
+    "reasoning": "No description is available to evaluate this role meaningfully, and the Bournemouth location is outside the candidate's preferred area. With salary also unstated and insufficient information to assess role type beyond the title, the role cannot be recommended despite the 'Director' seniority signal being broadly positive.",
+    "score_breakdown": {
+      "role_type": 3,
+      "seniority": 4,
+      "salary_band": 3,
+      "employment_type": 5,
+      "qualifications": 3
+    },
+    "cached_at": "2026-06-27"
   }
 }

@@ -1,17 +1,17 @@
 {
-  "date": "26 June 2026",
+  "date": "27 June 2026",
   "strong": [
     {
       "title": "Head of Digital Programmes",
       "company": "University Hospitals Bristol and Weston NHS Foundation Trust",
-      "location": "Bristol, ENG, GB",
+      "location": "Bristol, England, UK",
       "salary": "Not stated",
-      "description": "Join Bristol NHS Group to help shape and deliver digital transformation at scale within one of the UK\u2019s largest healthcare providers, serving over 1 million people and employing around 28,000 staff. Digital Services includes 550\\+ professionals across programmes, technology, clinical systems, informatics, and data \\& analytics.\n  \n  \n\nThis senior leadership role as Head of Digital Programmes and deputy to the Associate Director of Digital Programmes, provides oversight of a major portfolio of di",
-      "url": "https://uk.indeed.com/viewjob?jk=071a6a193dbe0c1a",
-      "source": "Indeed",
+      "description": "",
+      "url": "https://www.linkedin.com/jobs/view/4427526753",
+      "source": "Linkedin",
       "sponsor_name": "University Hospitals Bristol and Weston NHS Foundation Trust",
       "score": 4,
-      "reasoning": "This is a senior digital transformation leadership role at a priority target employer in Bristol, closely matching the candidate's NHS digital background and programme delivery credentials. Salary is unstated, which caps the salary band score at 3, but the role is otherwise a strong fit on all other dimensions.",
+      "reasoning": "This is a near-ideal role match \u2014 Head of Digital Programmes at UHBW Bristol directly aligns with the candidate's NHS digital transformation background, senior seniority, and programme delivery credentials. Salary is unstated but a Head-level NHS digital role is typically Band 8b/8c, likely meeting the \u00a360,000 threshold; scored 3 due to uncertainty.",
       "score_breakdown": {
         "role_type": 5,
         "seniority": 4,
@@ -46,7 +46,7 @@
       "company": "National Grid",
       "location": "Bristol, England, UK",
       "salary": "Not stated",
-      "description": "nan",
+      "description": "",
       "url": "https://www.linkedin.com/jobs/view/4428259213",
       "source": "Linkedin",
       "sponsor_name": "National Grid Electricity Distribution (South West) plc",
@@ -65,7 +65,7 @@
       "company": "Welsh Ambulance Services University NHS Trust",
       "location": "Cwmbr\u00e2n, Wales, UK",
       "salary": "Not stated",
-      "description": "nan",
+      "description": "",
       "url": "https://www.linkedin.com/jobs/view/4430455634",
       "source": "Linkedin",
       "sponsor_name": "Welsh Ambulance Services University NHS Trust",
@@ -80,16 +80,111 @@
       }
     },
     {
-      "title": "Director Roles x 2 - HO Digital 1) Regular Migration and Immigration & Citizenship Services. 2) Illegal Migration, Borders, Compliance and Enforcement.",
-      "company": "UK Home Office",
-      "location": "Cardiff, Wales, UK",
+      "title": "AI Workplace Transformation Lead",
+      "company": "Changing Social",
+      "location": "Bristol, England, UK",
+      "salary": "Not stated",
+      "description": "",
+      "url": "https://www.linkedin.com/jobs/view/4429121584",
+      "source": "Linkedin",
+      "sponsor_name": "Changing Social Ltd",
+      "score": 3,
+      "reasoning": "AI Workplace Transformation Lead in Bristol is a strong thematic match for the candidate's digital transformation background and qualifications. However, no description is available to confirm seniority level or salary, and 'Changing Social' as a smaller organisation may not meet Band 8b equivalent salary expectations.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 3,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 4
+      }
+    },
+    {
+      "title": "Transformation Business Partner",
+      "company": "Somerset Council",
+      "location": "Taunton, England, UK",
+      "salary": "Not stated",
+      "description": "",
+      "url": "https://www.linkedin.com/jobs/view/4422908450",
+      "source": "Linkedin",
+      "sponsor_name": "Bath and North East Somerset Council",
+      "score": 3,
+      "reasoning": "Transformation Business Partner at Somerset Council is a good role-type fit, aligning with the candidate's transformation and stakeholder partnership experience in public sector settings. Salary is unstated and Taunton is somewhat proximate to Bristol, but no description is available to confirm seniority grade or requirements.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 3,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      }
+    },
+    {
+      "title": "Principal Delivery Manager",
+      "company": "Made Tech",
+      "location": "Greater Bristol Area, United Kingdom",
       "salary": "Not stated",
       "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4427838688",
+      "url": "https://www.linkedin.com/jobs/view/4421961425",
       "source": "Linkedin",
-      "sponsor_name": "Your Office Home Office Ltd",
+      "sponsor_name": "Made Tech Ltd",
       "score": 3,
-      "reasoning": "Home Office Director-level roles represent strong seniority alignment and the digital/operational governance scope could suit the candidate, but the immigration and enforcement subject matter is a significant sector mismatch, Cardiff is outside the preferred location, and the absence of a description and salary details prevents fuller assessment.",
+      "reasoning": "Principal Delivery Manager at Made Tech (a digital public sector consultancy) is a plausible fit given the candidate's programme delivery experience, but without a description it is unclear whether the role is primarily hands-on technical delivery or management-facing. Salary is unstated; scored conservatively across all dimensions.",
+      "score_breakdown": {
+        "role_type": 3,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      }
+    },
+    {
+      "title": "SC Cleared Digital Advisory/ Strategy Consultant (Manager/ Principal) \u2013 UK Wide",
+      "company": "Turner & Townsend",
+      "location": "Bristol, England, UK",
+      "salary": "Not stated",
+      "description": "nan",
+      "url": "https://www.linkedin.com/jobs/view/4428042246",
+      "source": "Linkedin",
+      "sponsor_name": "Turner & Townsend Ltd",
+      "score": 3,
+      "reasoning": "Digital advisory and strategy consulting at Manager/Principal level aligns well with the candidate's digital transformation background and seniority, and Bristol location is a positive match. Salary is unstated so scored neutrally, and SC clearance requirement is a potential barrier not reflected in the candidate's stated qualifications.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      }
+    },
+    {
+      "title": "Capture Manager",
+      "company": "Leidos",
+      "location": "Ham, ENG, GB",
+      "salary": "\u00a375,800",
+      "description": "**Description**\n\n\n**Capture Manager**\n\n**Location:** Hyrbrid working with travel to our Farnborough office as working. We are flexible with where someone is based.\n\n**Join our UK Team who are committed to a Mission!**\n\n**Capture Manager**\n\n\nAre you a seasoned sales professional considering your next move?\n\n\nLeidos is excited to be extending our UK Growth operations and are looking for an experienced sales manager to drive high\\-value opportunities across our focus markets in UK public sector.\n\n*",
+      "url": "https://uk.indeed.com/viewjob?jk=031211c487690c93",
+      "source": "Indeed",
+      "sponsor_name": "Leidos Innovations Global, Inc.",
+      "score": 3,
+      "reasoning": "Capture Manager is primarily a sales/business development role, which partially overlaps with stakeholder engagement and strategy but is not core management or digital transformation. Salary of \u00a375,800 meets the minimum, but the Farnborough/hybrid location is not Bristol and the sales-led primary function is a weaker match for the candidate's profile.",
+      "score_breakdown": {
+        "role_type": 3,
+        "seniority": 4,
+        "salary_band": 5,
+        "employment_type": 5,
+        "qualifications": 3
+      }
+    },
+    {
+      "title": "Southwest NHS Genomics Medicine Service Chief Operating Officer",
+      "company": "North Bristol NHS Trust",
+      "location": "Bristol, England, UK",
+      "salary": "Not stated",
+      "description": "nan",
+      "url": "https://www.linkedin.com/jobs/view/4433350342",
+      "source": "Linkedin",
+      "sponsor_name": "North Bristol NHS Trust",
+      "score": 3,
+      "reasoning": "Chief Operating Officer of a regional NHS Genomics Medicine Service in Bristol is an excellent seniority and role-type match for a senior NHS operational leader, but the genomics specialism may require domain expertise the candidate lacks, and no salary or description is available to confirm band and remit.",
       "score_breakdown": {
         "role_type": 4,
         "seniority": 5,
@@ -137,35 +232,54 @@
       }
     },
     {
-      "title": "Technology Programme Manager",
-      "company": "Wokingham Borough Council",
-      "location": "Shute End, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4430746135",
-      "source": "Linkedin",
-      "sponsor_name": "Wokingham Borough Council",
-      "score": 3,
-      "reasoning": "Technology Programme Manager at a local council is a reasonable role_type match for the candidate's programme delivery and digital transformation experience, but salary and band are unstated and the seniority level at a borough council may sit below the candidate's target senior level. Location (Wokingham) is also not Bristol-preferred.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
       "title": "Chief Operating Officer",
-      "company": "Sirona care & health",
-      "location": "Iron Acton, England, UK",
+      "company": "Sirona care & health CIC",
+      "location": "Bristol, ENG, GB",
       "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4426828551",
-      "source": "Linkedin",
+      "description": "Reporting directly to the Chief Executive, this role provides executive leadership for service quality, patient safety, operational performance, and financial delivery. The COO will be accountable not only for operational grip and performance recovery, but also for the success of the transformation programme that will underpin Sirona's future.\n  \n  \n\nSirona is a large organisation, with a complex business model and a very diverse set of stakeholders, including regulators, commissioners and syste",
+      "url": "https://uk.indeed.com/viewjob?jk=88c1f1e76d961fb1",
+      "source": "Indeed",
       "sponsor_name": "Sirona care & health",
       "score": 3,
-      "reasoning": "COO at Sirona care & health (a community health provider near Bristol) is a strong sector and geography match for the candidate's NHS operational background, and the role type is pure senior leadership. However, COO may be a step above the candidate's current demonstrated seniority, and with no salary or description provided it is impossible to confirm pay band or specific requirements.",
+      "reasoning": "COO at a health CIC is a strong role_type and seniority match given the candidate's NHS operational and transformation background and board-level exposure. However, the seniority expectation for a COO at a large CIC likely exceeds the candidate's current level, and salary is unstated; the description references executive accountability that may require more extensive C-suite track record.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      }
+    },
+    {
+      "title": "Associate Director, Major Programmes, People Transformation, Defence & Security",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
+      "salary": "Not stated",
+      "description": "### **Basic information**\n\nLocation\nBristol, London\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n10\\-Jun\\-2026\nReq \\#\n23758\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the heart of some of the biggest and most ambitious digital programmes undertaken to keep our country safe?\n\n\nWe are proud of the impact we have with our Defence \\& Security clients, the strength of our relationships, and the variety of our skills and expertise",
+      "url": "https://uk.indeed.com/viewjob?jk=0f1a0d44419e6405",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
+      "score": 3,
+      "reasoning": "Associate Director for Major Programmes in Defence & Security Transformation is a strong role_type match (programme leadership, people transformation), but the Defence & Security sector focus likely requires security clearance and sector-specific experience the candidate does not evidently hold. Salary unstated; qualifications score is reduced due to the specialised defence context.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 2
+      }
+    },
+    {
+      "title": "Manager, Sourcing & Procurement (Defence), Supply Chain and Network Operations",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
+      "salary": "Not stated",
+      "description": "### **Basic information**\n\nLocation\nBristol, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n01\\-Jun\\-2026\nReq \\#\n23274\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the forefront of transforming how the next generation of Defence Procurement is designed and delivered? Are you passionate about making a tangible difference by supporting clients to make the UK a safer place?\n\n\nWe are proud of the impact we have wi",
+      "url": "https://uk.indeed.com/viewjob?jk=5c8a3a13b0c47cbe",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
+      "score": 3,
+      "reasoning": "Sourcing & Procurement Manager in Defence aligns reasonably well with the candidate's Operations and Supply Chain qualifications and management background, and the transformation/consulting framing is a good role_type fit. However, the Defence sector focus and likely clearance requirement, combined with the Manager (not Associate Director) seniority level, reduce the overall fit.",
       "score_breakdown": {
         "role_type": 4,
         "seniority": 3,
@@ -175,22 +289,98 @@
       }
     },
     {
-      "title": "AI Workplace Transformation Lead",
-      "company": "Changing Social",
-      "location": "Bristol, England, UK",
+      "title": "Associate Director, Financial Services, Organisation and Workforce Transformation, Future Organisation \u2013 Human Capital",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
       "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4429121584",
-      "source": "Linkedin",
-      "sponsor_name": "Changing Social Ltd",
+      "description": "### **Basic information**\n\nLocation\nBristol, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n01\\-Jun\\-2026\nReq \\#\n23250\n### **Job description**\n\n**Connect to your Industry**\n\n**Are you passionate about working with organisations, in the Financial Services sector, to redefine their future operating model/organisation design aligned to their strategic objectives?**\n\n\nIf so, Deloitte\u2019s Organisation and Workforce Transformation Financial Services",
+      "url": "https://uk.indeed.com/viewjob?jk=0ac9d41c6be30619",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
       "score": 3,
-      "reasoning": "AI Workplace Transformation Lead in Bristol is a strong thematic match for the candidate's digital transformation background and qualifications. However, no description is available to confirm seniority level or salary, and 'Changing Social' as a smaller organisation may not meet Band 8b equivalent salary expectations.",
+      "reasoning": "Organisation and Workforce Transformation at Associate Director level is a strong conceptual match for the candidate's management and transformation background, and workforce governance experience is relevant. However, the Financial Services sector specialism and the Human Capital consulting context may require FS-specific expertise the candidate does not clearly evidence, reducing the qualifications score.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 2
+      }
+    },
+    {
+      "title": "Director - Organisational Workforce Transformation (Energy, Resources & Industrials sector)",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
+      "salary": "Not stated",
+      "description": "### **Basic information**\n\nLocation\nBristol, Edinburgh, Glasgow, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n19\\-Jun\\-2026\nReq \\#\n23225\n### **Job description**\n\n**Connect to your Industry**\n\n\nAre you a visionary leader passionate about driving impactful transformation within the Energy, Resources, and Industrial Products (ERI) sector? Do you thrive on helping organisations navigate complex change, unlock new potential, and achieve sustain",
+      "url": "https://uk.indeed.com/viewjob?jk=0091278f375627bb",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
+      "score": 3,
+      "reasoning": "The organisational workforce transformation focus aligns well with the candidate's management and transformation background, and the Bristol location is ideal. However, Director-level consulting at Deloitte typically requires a deep track record of client-facing consulting and business development in the ERI sector, which the candidate lacks; salary is unstated and the Permanent/FTC designation introduces some employment type ambiguity but does not confirm non-full-time.",
       "score_breakdown": {
         "role_type": 4,
         "seniority": 3,
         "salary_band": 3,
+        "employment_type": 4,
+        "qualifications": 2
+      }
+    },
+    {
+      "title": "Director, Technology Operating Model, Technology Strategy and Transformation",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
+      "salary": "Not stated",
+      "description": "### **Basic information**\n\nLocation\nBristol, Edinburgh, Glasgow, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n12\\-Jun\\-2026\nReq \\#\n22467\n### **Job description**\n\n**Connect to your Industry**\n\n\nWe are looking for people to join our team to help our clients with their Digital Transformation \\- guiding clients to imagine the shape, size, and ethos of their organisation for the future, and defining an appropriate strategy in order to help them",
+      "url": "https://uk.indeed.com/viewjob?jk=aa37d6efbb261c06",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
+      "score": 3,
+      "reasoning": "Technology Operating Model and Digital Transformation strategy is a strong role_type match for the candidate's background, and Bristol location aligns. Director-level consulting requires an established consulting client portfolio and technology strategy credentials that the candidate would need to evidence more strongly; salary unstated.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 3,
+        "salary_band": 3,
+        "employment_type": 4,
+        "qualifications": 2
+      }
+    },
+    {
+      "title": "Director, SAP Delivery Lead / Programme Manager",
+      "company": "Deloitte",
+      "location": "Bristol, ENG, GB",
+      "salary": "Not stated",
+      "description": "### **Basic information**\n\nLocation\nBristol, Edinburgh, Glasgow, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n08\\-Jun\\-2026\nReq \\#\n22381\n### **Job description**\n\n**Connect to your Industry**\n\n\nDeloitte's strategy is to be the market leader in SAP enabled Transformations.\n\n\nWe are recruiting exceptional individuals with the leadership and expertise to deliver some of our large scale transformation programmes across a wide range of industrie",
+      "url": "https://uk.indeed.com/viewjob?jk=77b78b68e68c92d8",
+      "source": "Indeed",
+      "sponsor_name": "Deloitte LLP",
+      "score": 3,
+      "reasoning": "SAP Delivery Lead / Programme Manager at Director level is a reasonable role_type match given the candidate's programme delivery and project management certifications, and the seniority is well aligned. The SAP-specific technical implementation expertise required and the consulting business development expectations are gaps; salary is unstated but Director-level Deloitte is likely to meet the \u00a360k minimum.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 4,
+        "qualifications": 2
+      }
+    },
+    {
+      "title": "Director Roles x 2 - HO Digital 1) Regular Migration and Immigration & Citizenship Services. 2) Illegal Migration, Borders, Compliance and Enforcement.",
+      "company": "UK Home Office",
+      "location": "Cardiff, Wales, UK",
+      "salary": "Not stated",
+      "description": "nan",
+      "url": "https://www.linkedin.com/jobs/view/4427838688",
+      "source": "Linkedin",
+      "sponsor_name": "Your Office Home Office Ltd",
+      "score": 3,
+      "reasoning": "Home Office Director-level roles represent strong seniority alignment and the digital/operational governance scope could suit the candidate, but the immigration and enforcement subject matter is a significant sector mismatch, Cardiff is outside the preferred location, and the absence of a description and salary details prevents fuller assessment.",
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 5,
+        "salary_band": 3,
         "employment_type": 5,
-        "qualifications": 4
+        "qualifications": 3
       }
     },
     {
@@ -213,114 +403,19 @@
       }
     },
     {
-      "title": "Principal Delivery Manager",
-      "company": "Made Tech",
-      "location": "Greater Bristol Area, United Kingdom",
+      "title": "Project Director - Controls Analytics",
+      "company": "AECOM",
+      "location": "Bristol, England, UK",
       "salary": "Not stated",
       "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4421961425",
+      "url": "https://www.linkedin.com/jobs/view/4416328307",
       "source": "Linkedin",
-      "sponsor_name": "Made Tech Ltd",
+      "sponsor_name": "AECOM ENGINEERING TECHNOLOGY SERVICES LTD",
       "score": 3,
-      "reasoning": "Principal Delivery Manager at Made Tech (a digital public sector consultancy) is a plausible fit given the candidate's programme delivery experience, but without a description it is unclear whether the role is primarily hands-on technical delivery or management-facing. Salary is unstated; scored conservatively across all dimensions.",
-      "score_breakdown": {
-        "role_type": 3,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Transformation Business Partner",
-      "company": "Somerset Council",
-      "location": "Taunton, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4422908450",
-      "source": "Linkedin",
-      "sponsor_name": "Bath and North East Somerset Council",
-      "score": 3,
-      "reasoning": "Transformation Business Partner at Somerset Council is a good role-type fit, aligning with the candidate's transformation and stakeholder partnership experience in public sector settings. Salary is unstated and Taunton is somewhat proximate to Bristol, but no description is available to confirm seniority grade or requirements.",
+      "reasoning": "A Project Director title aligns well with Jie's senior programme delivery and project management credentials, and the seniority level is appropriate; however, the description is blank so salary and specific qualifications/requirements cannot be verified, limiting confidence. Scored cautiously at 3 pending further detail.",
       "score_breakdown": {
         "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Outpatient Operations Lead",
-      "company": "Great Western Hospitals NHS Foundation Trust",
-      "location": "Swindon, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4429863395",
-      "source": "Linkedin",
-      "sponsor_name": "Great Western Hospitals NHS Foundation Trust",
-      "score": 3,
-      "reasoning": "Outpatient Operations Lead is an operational NHS management role which partially aligns with the candidate's background, but the focus on outpatient clinical service operations is more service-delivery specific than digital transformation or senior programme leadership. No salary or full description is available, and Swindon is outside the candidate's preferred Bristol base.",
-      "score_breakdown": {
-        "role_type": 3,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Capture Manager",
-      "company": "Leidos",
-      "location": "Ham, ENG, GB",
-      "salary": "\u00a375,800",
-      "description": "**Description**\n\n\n**Capture Manager**\n\n**Location:** Hyrbrid working with travel to our Farnborough office as working. We are flexible with where someone is based.\n\n**Join our UK Team who are committed to a Mission!**\n\n**Capture Manager**\n\n\nAre you a seasoned sales professional considering your next move?\n\n\nLeidos is excited to be extending our UK Growth operations and are looking for an experienced sales manager to drive high\\-value opportunities across our focus markets in UK public sector.\n\n*",
-      "url": "https://uk.indeed.com/viewjob?jk=031211c487690c93",
-      "source": "Indeed",
-      "sponsor_name": "Leidos Innovations Global, Inc.",
-      "score": 3,
-      "reasoning": "Capture Manager is primarily a sales/business development role, which partially overlaps with stakeholder engagement and strategy but is not core management or digital transformation. Salary of \u00a375,800 meets the minimum, but the Farnborough/hybrid location is not Bristol and the sales-led primary function is a weaker match for the candidate's profile.",
-      "score_breakdown": {
-        "role_type": 3,
         "seniority": 4,
-        "salary_band": 5,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Change Management Consultant (Analyst) - Defence",
-      "company": "PA Consulting",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "**Company Description**\n\n\nWe believe in the power of ingenuity to build a positive human future.\n\n\nAs strategies, technologies, and innovation collide, we create opportunity from complexity.\n\n\nOur teams of interdisciplinary experts combine innovative thinking and breakthrough technologies to progress further, faster. Our clients adapt and transform, and together we achieve enduring results.\n\n\nWe are over 4,000 strategists, innovators, designers, consultants, digital experts, scientists, engineer",
-      "url": "https://uk.indeed.com/viewjob?jk=7694afb191263e10",
-      "source": "Indeed",
-      "sponsor_name": "11K Consulting Ltd ",
-      "score": 3,
-      "reasoning": "Change Management Consultant (Analyst) at PA Consulting is a reasonable role_type match \u2014 change and transformation consulting aligns with the candidate's NHS digital transformation background \u2014 but 'Analyst' grade suggests a more junior level than the candidate's seniority, and no salary is stated (defaulting to a low band score given likely junior/mid-grade consulting pay). Bristol location is a positive.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 1,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Consultant - Manager, HR Consulting, Defence & Security, Human Capital",
-      "company": "Deloitte",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "### **Basic information**\n\nLocation\nBristol, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n15\\-Jun\\-2026\nReq \\#\n22219\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the heart of some of the biggest and most ambitious programmes undertaken to keep our country safe?\n\n\nWe are proud of the impact we have with our Defence \\& Security clients, the strength of our relationships, and the variety of our skills and exper",
-      "url": "https://uk.indeed.com/viewjob?jk=a2de8f202650bba5",
-      "source": "Indeed",
-      "sponsor_name": "Deloitte LLP",
-      "score": 3,
-      "reasoning": "Consultant-Manager in HR Consulting at Deloitte Defence & Security has reasonable seniority alignment and the management/transformation angle is relevant, but the HR consulting specialism and Defence sector represent a significant domain shift from NHS digital transformation. Salary is unstated and the Permanent/FTC designation introduces employment type ambiguity.",
-      "score_breakdown": {
-        "role_type": 3,
-        "seniority": 3,
         "salary_band": 3,
         "employment_type": 5,
         "qualifications": 3
@@ -346,223 +441,33 @@
       }
     },
     {
-      "title": "Programme Manager",
-      "company": "The Openwork Partnership",
-      "location": "Swindon, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4408796209",
-      "source": "Linkedin",
-      "sponsor_name": "The EB Partnership",
-      "score": 3,
-      "reasoning": "Programme Manager at The Openwork Partnership (financial services) in Swindon is a reasonable role-type match given the candidate's project and programme delivery credentials. However, without a description or salary information it is unclear whether the seniority and compensation align, and Swindon is not the preferred Bristol location.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 4
-      }
-    },
-    {
-      "title": "Chief Operating Officer",
-      "company": "Sirona care & health CIC",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "Reporting directly to the Chief Executive, this role provides executive leadership for service quality, patient safety, operational performance, and financial delivery. The COO will be accountable not only for operational grip and performance recovery, but also for the success of the transformation programme that will underpin Sirona's future.\n  \n  \n\nSirona is a large organisation, with a complex business model and a very diverse set of stakeholders, including regulators, commissioners and syste",
-      "url": "https://uk.indeed.com/viewjob?jk=88c1f1e76d961fb1",
-      "source": "Indeed",
-      "sponsor_name": "Sirona care & health",
-      "score": 3,
-      "reasoning": "COO at a health CIC is a strong role_type and seniority match given the candidate's NHS operational and transformation background and board-level exposure. However, the seniority expectation for a COO at a large CIC likely exceeds the candidate's current level, and salary is unstated; the description references executive accountability that may require more extensive C-suite track record.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Manager, Sourcing & Procurement (Defence), Supply Chain and Network Operations",
-      "company": "Deloitte",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "### **Basic information**\n\nLocation\nBristol, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n01\\-Jun\\-2026\nReq \\#\n23274\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the forefront of transforming how the next generation of Defence Procurement is designed and delivered? Are you passionate about making a tangible difference by supporting clients to make the UK a safer place?\n\n\nWe are proud of the impact we have wi",
-      "url": "https://uk.indeed.com/viewjob?jk=5c8a3a13b0c47cbe",
-      "source": "Indeed",
-      "sponsor_name": "Deloitte LLP",
-      "score": 3,
-      "reasoning": "Sourcing & Procurement Manager in Defence aligns reasonably well with the candidate's Operations and Supply Chain qualifications and management background, and the transformation/consulting framing is a good role_type fit. However, the Defence sector focus and likely clearance requirement, combined with the Manager (not Associate Director) seniority level, reduce the overall fit.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Director, SAP Delivery Lead / Programme Manager",
-      "company": "Deloitte",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "### **Basic information**\n\nLocation\nBristol, Edinburgh, Glasgow, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n08\\-Jun\\-2026\nReq \\#\n22381\n### **Job description**\n\n**Connect to your Industry**\n\n\nDeloitte's strategy is to be the market leader in SAP enabled Transformations.\n\n\nWe are recruiting exceptional individuals with the leadership and expertise to deliver some of our large scale transformation programmes across a wide range of industrie",
-      "url": "https://uk.indeed.com/viewjob?jk=77b78b68e68c92d8",
-      "source": "Indeed",
-      "sponsor_name": "Deloitte LLP",
-      "score": 3,
-      "reasoning": "SAP Delivery Lead / Programme Manager at Director level is a reasonable role_type match given the candidate's programme delivery and project management certifications, and the seniority is well aligned. The SAP-specific technical implementation expertise required and the consulting business development expectations are gaps; salary is unstated but Director-level Deloitte is likely to meet the \u00a360k minimum.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 4,
-        "qualifications": 2
-      }
-    },
-    {
-      "title": "Strategy Project Manager",
-      "company": "Pax8",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4402551102",
-      "source": "Linkedin",
-      "sponsor_name": "Pax8 UK Limited",
-      "score": 3,
-      "reasoning": "Strategy Project Manager aligns well with the candidate's dual master's degrees and project management certifications, and the role type is a strong match. However, no description is available to confirm seniority level, salary, or specific qualification requirements, so mid-range scores apply across those dimensions.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Training Manager",
-      "company": "Babcock International",
-      "location": "Salisbury, ENG, GB",
-      "salary": "Not stated",
-      "description": "**Training Manager**\n====================\n\nLocation:\nSalisbury, GB, SP11 8HT\nOnsite or Hybrid: Hybrid\n**Job Title: Training Manager**\n\n\n**Location: Bristol or Plymouth \\+ Hybrid Working Arrangements**\n\n**Compensation: Competitive Salary \\+ Benefits**\n\n\n**Role Type: Full time / Permanent**\n\n**Role ID: SF74358**\n\n  \n\n\n\nShape the future of defence training and capability\n\n  \n\n\n\nAt Babcock, we\u2019re working to create a safe and secure world, together. If you join us, you can play your part as a Trainin",
-      "url": "https://uk.indeed.com/viewjob?jk=b51f14027a059eca",
-      "source": "Indeed",
-      "sponsor_name": "Babcock International Limited",
-      "score": 3,
-      "reasoning": "Training Manager at Babcock is a management/leadership role in Bristol with hybrid working, which aligns reasonably with the candidate's background in workforce and capability development. However, the defence/military training context is a stretch from NHS digital transformation, salary is unstated, and the seniority level is ambiguous \u2014 it may sit below the candidate's target band.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Management Consultant",
-      "company": "Mott MacDonald",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4431744795",
-      "source": "Linkedin",
-      "sponsor_name": "Mott MacDonald Ltd",
-      "score": 3,
-      "reasoning": "Management Consultant at Mott MacDonald is the closest role_type match, aligning well with the candidate's management, strategy, and transformation credentials. However, the complete absence of a job description prevents confident scoring on seniority, salary, and qualifications, pulling the overall score to a cautious 3.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 3,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "SC Cleared Digital Advisory/ Strategy Consultant (Manager/ Principal) \u2013 UK Wide",
-      "company": "Turner & Townsend",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4428042246",
-      "source": "Linkedin",
-      "sponsor_name": "Turner & Townsend Ltd",
-      "score": 3,
-      "reasoning": "Digital advisory and strategy consulting at Manager/Principal level aligns well with the candidate's digital transformation background and seniority, and Bristol location is a positive match. Salary is unstated so scored neutrally, and SC clearance requirement is a potential barrier not reflected in the candidate's stated qualifications.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
-      "title": "Senior Business Development Manager",
-      "company": "BT Group",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4423155867",
-      "source": "Linkedin",
-      "sponsor_name": "BT Group",
-      "score": 3,
-      "reasoning": "Senior Business Development Manager at BT Group is a credible management and commercial role that aligns reasonably well with the candidate's stakeholder engagement, strategy certifications, and digital marketing background. Salary is unstated so band cannot be confirmed, and the candidate's NHS-focused experience may not fully map to a large private telecoms BDM context, but the role type and seniority are a reasonable match.",
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      }
-    },
-    {
       "title": "Lead Delivery Manager",
       "company": "Public Health Wales",
       "location": "Cardiff, Wales, UK",
       "salary": "Not stated",
-      "description": "nan",
+      "description": "",
       "url": "https://www.linkedin.com/jobs/view/4432255548",
       "source": "Linkedin",
       "sponsor_name": "Public Health Wales",
       "score": 3,
+      "reasoning": "Lead Delivery Manager at a public health body is a strong role-type and seniority match for a senior NHS digital transformation professional with programme delivery credentials, but salary is unstated and the Cardiff location is outside the candidate's preferred South West geography, limiting overall appeal.",
       "score_breakdown": {
         "role_type": 4,
         "seniority": 4,
         "salary_band": 3,
         "employment_type": 5,
         "qualifications": 4
-      },
-      "reasoning": "Lead Delivery Manager at a public health body is a strong role-type and seniority match for a senior NHS digital transformation professional with programme delivery credentials, but salary is unstated and the Cardiff location is outside the candidate's preferred South West geography, limiting overall appeal."
+      }
     },
     {
-      "title": "Southwest NHS Genomics Medicine Service Chief Operating Officer",
-      "company": "North Bristol NHS Trust",
-      "location": "Bristol, England, UK",
+      "title": "Senior Manager Corporate Strategy (f/m/d)",
+      "company": "TE Connectivity",
+      "location": "Chew Magna, England, UK",
       "salary": "Not stated",
       "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4433350342",
+      "url": "https://www.linkedin.com/jobs/view/4411724672",
       "source": "Linkedin",
-      "sponsor_name": "North Bristol NHS Trust",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 5,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      },
-      "reasoning": "Chief Operating Officer of a regional NHS Genomics Medicine Service in Bristol is an excellent seniority and role-type match for a senior NHS operational leader, but the genomics specialism may require domain expertise the candidate lacks, and no salary or description is available to confirm band and remit."
-    },
-    {
-      "title": "General Manager",
-      "company": "North Bristol NHS Trust",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4432983025",
-      "source": "Linkedin",
-      "sponsor_name": "North Bristol NHS Trust",
+      "sponsor_name": "CommScope Connectivity UK Ltd ",
       "score": 3,
       "score_breakdown": {
         "role_type": 5,
@@ -571,112 +476,17 @@
         "employment_type": 5,
         "qualifications": 4
       },
-      "reasoning": "General Manager at North Bristol NHS Trust is an ideal role-type match \u2014 operational leadership in a preferred location \u2014 and aligns well with the candidate's NHS management background and dual master's degrees; the score is held back only by the absence of salary information to confirm the band meets the \u00a360,000 minimum."
+      "reasoning": "Senior Manager Corporate Strategy is a strong role-type match leveraging the candidate's Corporate Strategy and Business Strategy certifications and dual master's degrees; however, the location (Chew Magna, near Bristol) is acceptable and salary is unstated, limiting confidence in band alignment."
     },
     {
-      "title": "Manager, Supply Chain Transformation - Defence",
-      "company": "Deloitte",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "### **Basic information**\n\nLocation\nBristol, London, Manchester\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n01\\-Jun\\-2026\nReq \\#\n23540\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the forefront of transforming how the next generation of Defence Supply Chain is designed and delivered? Are you passionate about making a tangible difference by supporting clients to make the UK a safer place?\n\n\nWe are proud of the impact we have w",
-      "url": "https://uk.indeed.com/viewjob?jk=a1ae0f494fd8dea3",
-      "source": "Indeed",
-      "sponsor_name": "Deloitte LLP",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      },
-      "reasoning": "Manager-level Supply Chain Transformation at Deloitte Bristol aligns well with the candidate's transformation, operations, and management credentials including the Supply Chain Decisions qualification; however the Defence sector specialism and unstated salary introduce uncertainty about fit and band floor."
-    },
-    {
-      "title": "Consultant - Manager - Major Programmes, People Transformation, Defence & Security",
-      "company": "Deloitte",
-      "location": "Bristol, ENG, GB",
-      "salary": "Not stated",
-      "description": "### **Basic information**\n\nLocation\nBristol, London\nBusiness Line\nTechnology \\& Transformation\nJob Type\nPermanent / FTC\nDate published\n15\\-Jun\\-2026\nReq \\#\n21814\n### **Job description**\n\n**Connect to your Industry**\n\n\nDo you want to be at the heart of some of the biggest and most ambitious digital programmes undertaken to keep our country safe?\n\n\nWe are proud of the impact we have with our Defence \\& Security clients, the strength of our relationships, and the variety of our skills and expertise",
-      "url": "https://uk.indeed.com/viewjob?jk=de7967b79c3a5a78",
-      "source": "Indeed",
-      "sponsor_name": "Deloitte LLP",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      },
-      "reasoning": "Major Programmes, People Transformation at Manager/Consultant level in Deloitte's Technology & Transformation practice is a strong role_type match for the candidate's programme delivery and people/workforce transformation background; salary is unstated and Defence sector experience is not a stated strength, which tempers the score."
-    },
-    {
-      "title": "Digital Portfolio Manager - BMC",
-      "company": "EY",
-      "location": "Bristol, England, UK",
+      "title": "Operational Improvement Manager",
+      "company": "Public Health Wales",
+      "location": "Cardiff, Wales, UK",
       "salary": "Not stated",
       "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4417940846",
+      "url": "https://www.linkedin.com/jobs/view/4433841909",
       "source": "Linkedin",
-      "sponsor_name": "EY Private Client Services Limited",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 4
-      },
-      "reasoning": "Digital Portfolio Manager at EY (BMC \u2014 Business Management Consulting) aligns well with the candidate's digital transformation, programme management, and stakeholder management background; no salary or full description available to confirm band, but this is a strong role-type and seniority match worth pursuing."
-    },
-    {
-      "title": "SC Cleared  Digital Delivery Lead- Director London, Bristol or Birmingham",
-      "company": "Turner & Townsend",
-      "location": "Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4412113164",
-      "source": "Linkedin",
-      "sponsor_name": "Turner & Townsend Ltd",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      },
-      "reasoning": "Director-level Digital Delivery Lead at a major consultancy in Bristol is a strong role_type and seniority match for a senior digital transformation professional, and full-time employment is implied. However, salary is unstated so cannot be confirmed against the \u00a360k minimum, and the SC clearance requirement is a potential barrier the candidate may not currently hold."
-    },
-    {
-      "title": "Chief Strategy Officer",
-      "company": "South Gloucestershire and Stroud College",
-      "location": "City Of Bristol, England, UK",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4415381186",
-      "source": "Linkedin",
-      "sponsor_name": "Gloucestershire College",
-      "score": 3,
-      "score_breakdown": {
-        "role_type": 4,
-        "seniority": 4,
-        "salary_band": 3,
-        "employment_type": 5,
-        "qualifications": 3
-      },
-      "reasoning": "Chief Strategy Officer at a further education college is a plausible seniority and role_type match given the candidate's dual master's degrees and strategic management background, and the Bristol location aligns well. Salary is unstated so the \u00a360k minimum cannot be confirmed, and the C-suite level may be a stretch without explicit prior CSO or equivalent executive experience."
-    },
-    {
-      "title": "Business Operations Manager",
-      "company": "Framatome",
-      "location": "Greater Bristol Area, United Kingdom",
-      "salary": "Not stated",
-      "description": "nan",
-      "url": "https://www.linkedin.com/jobs/view/4423901274",
-      "source": "Linkedin",
-      "sponsor_name": "Framatome Limited",
+      "sponsor_name": "Public Health Wales",
       "score": 3,
       "score_breakdown": {
         "role_type": 4,
@@ -685,7 +495,45 @@
         "employment_type": 5,
         "qualifications": 3
       },
-      "reasoning": "Business Operations Manager is a good role_type match for the candidate's operational management and programme delivery background, and Framatome is Bristol-based. However, no description or salary is available to confirm seniority level alignment or whether the \u00a360k minimum is met, and the nuclear energy sector context may introduce technical specialism requirements not evident from the title alone."
+      "reasoning": "Operational Improvement Manager aligns with the candidate's operational and transformation experience, but the Wales location and likely mid-band salary (Public Health Wales banding and no stated salary) make this a partial fit; seniority may be a step below the candidate's target level."
+    },
+    {
+      "title": "Senior Business Development Manager",
+      "company": "MP Recruitment",
+      "location": "OX117DT",
+      "salary": "\u00a355,000\u2013\u00a385,000",
+      "description": "Location: Oxfordshire (Hybrid) Type: Full-Time The Opportunity An exciting opportunity has arisen for an experienced Senior Business Development Manager to join a growing organisation delivering workforce development, learning solutions, consultancy, and professional services to employers across the public and private sectors.&nbsp;This is a consultative, solutions-led sales role focused on generating new business, developing long-term client re... ",
+      "url": "https://www.reed.co.uk/jobs/senior-business-development-manager/57037811",
+      "source": "Reed",
+      "sponsor_name": "M4 Recruitment",
+      "score": 3,
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      },
+      "reasoning": "This is a clear business development/sales management role which aligns with Jie's management background, and the salary range (\u00a355k\u2013\u00a385k) comfortably clears the \u00a360k minimum. However, the role is primarily consultative sales-focused rather than transformation or operations management, and Jie's background does not include a strong B2B sales track record, which is likely to be a core requirement; qualifications score is moderate as no specific quals are listed but the sales-led nature is a partial mismatch."
+    },
+    {
+      "title": "Head of Commercial",
+      "company": "Pharmacy2U Ltd",
+      "location": "Hill, ENG, GB",
+      "salary": "Not stated",
+      "description": "The Head of of Online Doctor, Patient Growth \\& Proposition will lead the commercial performance and patient growth strategy of the Online Doctor service within Pharmacy2U. This role is accountable for driving sustainable patient acquisition, engagement, retention and lifetime value, while shaping a compelling, market\\-leading digital healthcare proposition across a portfolio of online treatment pathways.\n\n\nWorking in close partnership with Clinical and Product Management teams, the role will he",
+      "url": "https://uk.indeed.com/viewjob?jk=187bd9bb3eff4111",
+      "source": "Indeed",
+      "sponsor_name": "Pharmacy2U",
+      "score": 3,
+      "score_breakdown": {
+        "role_type": 4,
+        "seniority": 4,
+        "salary_band": 3,
+        "employment_type": 5,
+        "qualifications": 3
+      },
+      "reasoning": "This is a genuine commercial leadership role (patient growth strategy, proposition development, acquisition and retention) that aligns reasonably well with the candidate's business development and digital transformation background. Salary is unstated so defaults to 3, and the role's focus on digital healthcare commercial performance is a reasonable match though it leans more heavily into marketing/growth specialism than the candidate's core NHS operational and programme delivery strengths."
     }
   ],
   "near_misses": []
