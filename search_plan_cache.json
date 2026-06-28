@@ -1,19 +1,95 @@
 {
-  "fingerprint": "045c22aae6cf6db17af4cd6cfa448793",
+  "fingerprint": "0134fccffbe794d07b2b399f0b620b21",
   "plan": {
     "queries": [
-      "Operations Director Bristol"
+      "Senior Business Manager Digital Transformation NHS Bristol",
+      "Deputy Director Digital Services NHS",
+      "Senior Programme Manager Digital Health NHS",
+      "Head of Digital Transformation NHS Bristol",
+      "Senior Project Manager Digital NHS South West",
+      "Business Manager NHS Digital Services Bristol",
+      "Strategy Consultant Digital Health NHS",
+      "Senior Operations Manager Digital Transformation Healthcare"
     ],
     "locations": [
-      "Bristol"
+      "Bristol",
+      "South West England",
+      "Bath",
+      "Swindon",
+      "Gloucester",
+      "Remote / Hybrid with Bristol base"
     ],
-    "exclusion_keywords": [],
-    "employment_type_exclusions": [],
+    "exclusion_keywords": [
+      "nurse",
+      "doctor",
+      "ward manager",
+      "therapist",
+      "midwife",
+      "physiotherapist",
+      "clinical practitioner",
+      "surgeon",
+      "radiographer",
+      "paramedic",
+      "pharmacist",
+      "dentist",
+      "clinical lead",
+      "GP",
+      "consultant physician",
+      "occupational therapist",
+      "speech therapist",
+      "dietitian",
+      "podiatrist",
+      "optometrist",
+      "anaesthetist",
+      "registrar",
+      "clinical specialist",
+      "advanced nurse practitioner",
+      "mental health nurse",
+      "community nurse",
+      "district nurse",
+      "scrub nurse",
+      "theatre practitioner",
+      "clinical educator",
+      "clinical skills",
+      "clinical coordinator",
+      "clinical manager",
+      "clinical director"
+    ],
+    "employment_type_exclusions": [
+      "fixed-term contract",
+      "fixed term",
+      "temporary contract",
+      "contract role",
+      "contract post",
+      "contract basis",
+      "locum",
+      "bank staff",
+      "secondment",
+      "part-time",
+      "part time",
+      "temporary",
+      "zero hours",
+      "casual",
+      "interim",
+      "freelance"
+    ],
     "nhs_band_floor": {
       "default": "8a",
       "london_remote_exception": "7"
     },
-    "candidate_qualifications": [],
-    "evaluator_notes": ""
+    "candidate_qualifications": [
+      "Master's degree in Strategic Management of Projects",
+      "Master's degree in Management",
+      "Bachelor of Arts in English Language and Literature",
+      "Project Initiation and Planning certification",
+      "Project Execution and Control certification",
+      "Leading Teams: Developing as a Leader",
+      "Managerial Accounting: Cost Behaviours, Systems, and Analysis (with Honors)",
+      "Operations and Supply Chain Decisions and Metrics",
+      "Business Strategy certification",
+      "Corporate Strategy certification",
+      "Digital Marketing (DMS4all)"
+    ],
+    "evaluator_notes": "Jie is a non-clinical senior professional with a strong blend of NHS operational experience and business/digital transformation credentials. Key strengths include stakeholder management across health providers and education training boards, direct experience in workforce and governance for digital services, and dual master's degrees (Strategic Project Management and Management). The Project Initiation and Planning plus Project Execution and Control certifications directly support senior programme manager and project director roles. The Managerial Accounting and Operations and Supply Chain qualifications add commercial credibility relevant to Business Manager and strategy-facing roles. Previous role as Executive Secretary to a General Manager signals board-level exposure and executive communications experience \u2014 this should be weighted positively for roles requiring upward stakeholder engagement. The Instructor of Clinical Skills role is the closest clinical adjacency but was educational/facilitation in nature, not clinical practice, so it is acceptable background context. Target salary is \u00a360,000 minimum, which maps to Band 8b floor in NHS terms (\u00a362,215); roles at 8a should only be recommended if the salary ceiling of that band meets or exceeds \u00a360,000, which it does not (8a tops at \u00a360,504 and only marginally), so preference should be given to Band 8b and above. Bristol is the primary location preference; South West ICB, NHSE regional offices, University Hospitals Bristol and Weston NHS FT, North Bristol NHS Trust, and Bristol City Council health partnerships are all relevant target employers. Private sector targets include health tech consultancies, digital health startups, and management consulting firms with NHS/public sector practices based in or near Bristol."
   }
 }
