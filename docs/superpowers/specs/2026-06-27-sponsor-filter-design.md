@@ -41,7 +41,7 @@ The result is a single `frozenset[str]`, constructed once at startup and reused 
 | CSV name | Normalized | Also adds prefix |
 |---|---|---|
 | `" Bossmans Retail Abergavenny Ltd"` | `"bossmans retail abergavenny"` | `"bossmans retail"` |
-| `" F-Secure (UK) Limited"` | `"fsecure uk"` | — (2 words, 8 chars — qualifies, adds `"fsecure"` only if ≥8 chars) |
+| `" F-Secure (UK) Limited"` | `"fsecure uk"` | — (only 2 words total; no shorter prefix to add) |
 | `" NHS Foundation Trust"` | `"nhs foundation trust"` | `"nhs foundation"` |
 
 ---

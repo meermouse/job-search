@@ -144,7 +144,7 @@ _check_employment_type(job) -> FilteredResult | None
 _check_role_suitability(job, exclusion_roles) -> FilteredResult | None
 ```
 
-Filters run in order: employment type first, then role suitability. A job rejected by the first filter is not passed to the second.
+Each private helper returns a `FilteredResult` if it reaches a decision (reject or flag), or `None` if it cannot determine anything (pass through to the next filter). `filter_jobs` returns a flat list of all jobs as `FilteredResult`; `main.py` splits this into kept and rejected when writing the output file. Filters run in order: employment type first, then role suitability. A job rejected by the first filter is not passed to the second.
 
 ### Modified: `src/job_search_email/models.py`
 
